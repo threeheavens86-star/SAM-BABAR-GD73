@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alexander the Great — Chronicle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --marble:#EDE6D8;
+    --marble-dark:#E1D6BE;
+    --ink:#211C18;
+    --ink-soft:#3A3229;
+    --bronze:#8C6A34;
+    --bronze-bright:#B08A3F;
+    --verdigris:#5B7568;
+    --clay:#8B3A2B;
+    --parchment:#DCCFA9;
+    --line: rgba(33,28,24,0.14);
+    --max: 760px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--marble);
+    color:var(--ink);
+    font-family:'Source Serif 4', serif;
+    font-size:17px;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.display{
+    font-family:'Cinzel', serif;
+    font-weight:600;
+    letter-spacing:0.01em;
+    color:var(--ink);
+  }
+  a{color:var(--verdigris);}
+  .wrap{max-width:var(--max); margin:0 auto; padding:0 24px;}
+  ::selection{background:var(--parchment);}
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:sticky; top:0; z-index:20;
+    background:rgba(237,230,216,0.92);
+    backdrop-filter: blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  nav .wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:14px 24px;
+  }
+  nav .brand{font-family:'Cinzel',serif; font-size:1.05rem; font-weight:700;}
+  nav ul{list-style:none; display:flex; gap:22px; margin:0; padding:0;}
+  nav a{text-decoration:none; color:var(--ink-soft); font-size:0.95rem; border-bottom:1px solid transparent;}
+  nav a:hover{border-bottom-color:var(--bronze);}
+  @media (max-width:560px){ nav ul{gap:14px; font-size:0.85rem;} }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    background: var(--ink);
+    color: var(--marble);
+    padding: 64px 0 72px;
+    overflow:hidden;
+  }
+  .hero .wrap{
+    display:grid;
+    grid-template-columns: 220px 1fr;
+    gap: 44px;
+    align-items:center;
+  }
+  @media (max-width:640px){
+    .hero .wrap{grid-template-columns:1fr; text-align:center;}
+    .hero .coin{margin:0 auto;}
+  }
+  .coin{width:220px; height:220px; flex-shrink:0;}
+  .coin .ring-text{
+    font-family:'Cinzel', serif;
+    font-size:11.5px;
+    fill: var(--bronze-bright);
+    letter-spacing:2px;
+  }
+  .hero h1{
+    font-size: clamp(2.1rem, 5vw, 3.1rem);
+    line-height:1.05;
+    margin:0 0 6px;
+    color:var(--marble);
+  }
+  .hero .dates{
+    color: var(--bronze-bright);
+    font-family:'Cinzel', serif;
+    font-size:1rem;
+    margin-bottom:16px;
+  }
+  .hero p{
+    color: rgba(237,230,216,0.82);
+    max-width:46ch;
+    margin:0 0 6px;
+  }
+  @media (max-width:640px){ .hero p{margin-inline:auto;} }
+  .hero .titles{
+    font-size:0.92rem;
+    color: var(--parchment);
+    margin-top:14px;
+  }
+
+  section{padding:64px 0;}
+  section + section{border-top:1px solid var(--line);}
+  section h2{font-size:1.7rem; margin:0 0 8px;}
+  section .lede{color:var(--ink-soft); max-width:56ch; margin:0 0 36px;}
+
+  /* ---------- CHRONICLE / TIMELINE ---------- */
+  .chronicle{
+    border-left:2px solid var(--bronze);
+    margin-left:6px;
+    padding-left:28px;
+    display:flex; flex-direction:column; gap:26px;
+  }
+  .chronicle .item{position:relative;}
+  .chronicle .item::before{
+    content:"";
+    position:absolute; left:-33px; top:6px;
+    width:9px; height:9px; border-radius:50%;
+    background:var(--marble); border:2px solid var(--bronze);
+  }
+  .chronicle .year{
+    font-family:'Cinzel', serif; color:var(--bronze); font-size:0.95rem;
+    display:block; margin-bottom:2px;
+  }
+  .chronicle .item h3{font-size:1.08rem; margin:0 0 4px; font-weight:600;}
+  .chronicle .item p{margin:0; color:var(--ink-soft); max-width:58ch;}
+
+  /* ---------- CAMPAIGN MAP ---------- */
+  .map-panel{
+    background:var(--parchment);
+    border:1px solid var(--line);
+    border-radius:2px;
+    padding:28px 20px 24px;
+    overflow-x:auto;
+  }
+  .map-panel svg{display:block; min-width:640px; width:100%; height:auto;}
+  .map-caption{
+    font-size:0.85rem; color:var(--ink-soft); margin-top:12px; font-style:italic;
+  }
+  .route-line{fill:none; stroke:var(--clay); stroke-width:2; stroke-dasharray:6 5;}
+  .route-dot{fill:var(--ink); stroke:var(--marble); stroke-width:2;}
+  .route-label{font-family:'Source Serif 4', serif; font-size:12.5px; fill:var(--ink);}
+
+  /* ---------- TRIAL / QUIZ ---------- */
+  .quiz-card{
+    background:var(--ink);
+    color:var(--marble);
+    border-radius:2px;
+    padding:30px 28px;
+    max-width:600px;
+  }
+  .quiz-meta{
+    display:flex; justify-content:space-between; align-items:baseline;
+    font-family:'Cinzel', serif; font-size:0.85rem; color:var(--bronze-bright);
+    margin-bottom:18px;
+  }
+  .quiz-card h3{color:var(--marble); font-size:1.2rem; margin:0 0 20px; font-family:'Source Serif 4', serif; font-weight:600;}
+  .options{display:flex; flex-direction:column; gap:10px;}
+  .option-btn{
+    text-align:left;
+    background: rgba(237,230,216,0.06);
+    border:1px solid rgba(237,230,216,0.25);
+    color:var(--marble);
+    font-family:'Source Serif 4', serif;
+    font-size:1rem;
+    padding:12px 16px;
+    border-radius:2px;
+    cursor:pointer;
+    transition: background 0.15s ease, border-color 0.15s ease;
+  }
+  .option-btn:hover:not(:disabled){border-color:var(--bronze-bright);}
+  .option-btn.correct{background: rgba(91,117,104,0.35); border-color:var(--verdigris);}
+  .option-btn.incorrect{background: rgba(139,58,43,0.35); border-color:var(--clay);}
+  .option-btn:disabled{cursor:default;}
+  .quiz-feedback{min-height:26px; margin-top:16px; font-size:0.95rem; color:var(--parchment);}
+  .quiz-footer{display:flex; justify-content:space-between; align-items:center; margin-top:18px;}
+  .btn{
+    font-family:'Cinzel', serif; font-size:0.9rem;
+    background:var(--bronze); color:var(--ink);
+    border:none; padding:10px 18px; border-radius:2px; cursor:pointer;
+  }
+  .btn:hover{background:var(--bronze-bright);}
+  .btn[disabled]{opacity:0.4; cursor:default;}
+  .best-score{font-size:0.85rem; color: rgba(237,230,216,0.65);}
+  .result-screen{display:none; text-align:center; padding:10px 0 4px;}
+  .result-screen .big{font-family:'Cinzel', serif; font-size:2.4rem; color:var(--bronze-bright); margin:6px 0;}
+
+  /* ---------- ARCHIVE / QUOTES ---------- */
+  .quote-grid{
+    display:grid; grid-template-columns:repeat(auto-fill, minmax(240px,1fr));
+    gap:16px; margin-bottom:36px;
+  }
+  .quote-card{
+    background:var(--marble-dark);
+    border:1px solid var(--line);
+    border-radius:2px;
+    padding:20px;
+    display:flex; flex-direction:column; gap:14px;
+  }
+  .quote-card blockquote{
+    margin:0; font-size:1.02rem; font-style:italic; line-height:1.5;
+  }
+  .quote-card .src{font-size:0.8rem; color:var(--ink-soft);}
+  .save-btn{
+    align-self:flex-start;
+    background:none; border:1px solid var(--bronze);
+    color:var(--bronze); font-family:'Cinzel', serif; font-size:0.78rem;
+    padding:6px 12px; border-radius:2px; cursor:pointer;
+  }
+  .save-btn.saved{background:var(--bronze); color:var(--marble);}
+  .archive-panel h3{font-size:1.05rem; margin-bottom:12px;}
+  .archive-list{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px;}
+  .archive-list li{
+    display:flex; justify-content:space-between; align-items:center; gap:12px;
+    background:var(--marble-dark); border:1px solid var(--line); padding:10px 14px; border-radius:2px;
+    font-size:0.92rem;
+  }
+  .archive-list button{
+    background:none; border:none; color:var(--clay); cursor:pointer; font-size:0.85rem;
+    font-family:'Cinzel', serif;
+  }
+  .empty-note{color:var(--ink-soft); font-size:0.9rem; font-style:italic;}
+
+  footer{
+    padding:36px 0 48px;
+    color:var(--ink-soft); font-size:0.85rem;
+  }
+  footer .wrap{border-top:1px solid var(--line); padding-top:22px;}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <span class="brand">Alexander</span>
+    <ul>
+      <li><a href="#chronicle">Chronicle</a></li>
+      <li><a href="#campaigns">Campaigns</a></li>
+      <li><a href="#trial">Trial</a></li>
+      <li><a href="#archive">Archive</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <svg class="coin" viewBox="0 0 240 240" role="img" aria-label="Coin motif with the Vergina Sun, the royal emblem of Alexander's Argead dynasty">
+      <circle cx="120" cy="120" r="116" fill="#DCCFA9" stroke="#8C6A34" stroke-width="3"/>
+      <circle cx="120" cy="120" r="104" fill="none" stroke="#8C6A34" stroke-width="1.5" stroke-dasharray="1 6" stroke-linecap="round"/>
+      <path id="ring" d="M120,120 m-88,0 a88,88 0 1,1 176,0 a88,88 0 1,1 -176,0" fill="none"/>
+      <text class="ring-text">
+        <textPath href="#ring" startOffset="1%">ΑΛΕΞΑΝΔΡΟΥ · ΒΑΣΙΛΕΩΣ · ΑΛΕΞΑΝΔΡΟΥ · ΒΑΣΙΛΕΩΣ ·</textPath>
+      </text>
+      <polygon points="120,25 135.3,83.0 187.2,52.8 157.0,104.7 215,120 157.0,135.3 187.2,187.2 135.3,157.0 120,215 104.7,157.0 52.8,187.2 83.0,135.3 25,120 83.0,104.7 52.8,52.8 104.7,83.0"
+        fill="#211C18" opacity="0.88"/>
+      <circle cx="120" cy="120" r="14" fill="#DCCFA9"/>
+    </svg>
+    <div>
+      <h1>Alexander&nbsp;the&nbsp;Great</h1>
+      <div class="dates">356 – 323 BC</div>
+      <p>King of Macedon at twenty. In thirteen years he broke the Persian empire, founded more than a dozen cities bearing his name, and pushed a Macedonian army further east than any before it.</p>
+      <div class="titles">Pupil of Aristotle · Son of Philip II · Pharaoh of Egypt · King of Asia</div>
+    </div>
+  </div>
+</header>
+
+<section id="chronicle">
+  <div class="wrap">
+    <h2>The chronicle</h2>
+    <p class="lede">A campaign that opened at Chaeronea and closed, thirteen years later, in a sickroom in Babylon.</p>
+    <div class="chronicle">
+      <div class="item"><span class="year">338 BC</span><h3>Chaeronea</h3><p>At eighteen, Alexander leads the Macedonian cavalry that breaks the Theban Sacred Band, securing Philip II's control of Greece.</p></div>
+      <div class="item"><span class="year">336 BC</span><h3>Accession</h3><p>Philip II is assassinated at Aegae. Alexander is proclaimed king of Macedon at twenty.</p></div>
+      <div class="item"><span class="year">335 BC</span><h3>Thebes destroyed</h3><p>After a revolt, Alexander razes Thebes and enslaves its survivors, a warning to the rest of Greece.</p></div>
+      <div class="item"><span class="year">334 BC</span><h3>Crossing into Asia</h3><p>Alexander crosses the Hellespont and defeats a Persian force at the Granicus River, his first battle on Asian soil.</p></div>
+      <div class="item"><span class="year">333 BC</span><h3>The Gordian Knot &amp; Issus</h3><p>At Gordium he cuts, rather than unties, the legendary knot. At Issus he routs Darius III, who flees the field.</p></div>
+      <div class="item"><span class="year">332 BC</span><h3>Tyre and Egypt</h3><p>A seven-month siege breaks Tyre's island fortress. Egypt submits without a fight; Alexander founds Alexandria on the coast.</p></div>
+      <div class="item"><span class="year">331 BC</span><h3>Gaugamela</h3><p>Alexander's final, decisive battle against Darius III shatters the Persian royal army near modern-day Erbil.</p></div>
+      <div class="item"><span class="year">330 BC</span><h3>Persepolis and Darius's death</h3><p>The Persian ceremonial capital is taken and its palace burned. Darius III is killed by his own satrap, Bessus.</p></div>
+      <div class="item"><span class="year">327–326 BC</span><h3>Into India</h3><p>Alexander marries Roxana in Bactria, then crosses the Indus. At the Hydaspes he defeats King Porus in the campaign's hardest-fought battle.</p></div>
+      <div class="item"><span class="year">326 BC</span><h3>The Hyphasis mutiny</h3><p>At the Hyphasis River his exhausted troops refuse to march further east. Alexander turns the army back.</p></div>
+      <div class="item"><span class="year">323 BC</span><h3>Death in Babylon</h3><p>Alexander dies in Babylon after a fever, aged thirty-two. His empire is divided among his generals, the Diadochi.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="campaigns">
+  <div class="wrap">
+    <h2>The campaign route</h2>
+    <p class="lede">A stylized west-to-east reading of the march — not a geographic map, just the order of the road.</p>
+    <div class="map-panel">
+      <svg viewBox="0 0 900 220">
+        <path class="route-line" d="M40,110 C120,60 180,160 260,110 S 400,60 460,110 S 600,160 660,110 S 800,60 860,110"/>
+        <g>
+          <circle class="route-dot" cx="40" cy="110" r="6"/><text class="route-label" x="20" y="140">Pella</text>
+          <circle class="route-dot" cx="180" cy="90" r="6"/><text class="route-label" x="150" y="65">Granicus</text>
+          <circle class="route-dot" cx="300" cy="130" r="6"/><text class="route-label" x="270" y="160">Issus</text>
+          <circle class="route-dot" cx="400" cy="90" r="6"/><text class="route-label" x="370" y="65">Tyre</text>
+          <circle class="route-dot" cx="480" cy="130" r="6"/><text class="route-label" x="450" y="160">Alexandria</text>
+          <circle class="route-dot" cx="600" cy="90" r="6"/><text class="route-label" x="565" y="65">Gaugamela</text>
+          <circle class="route-dot" cx="700" cy="130" r="6"/><text class="route-label" x="665" y="160">Persepolis</text>
+          <circle class="route-dot" cx="800" cy="90" r="6"/><text class="route-label" x="765" y="65">Bactria</text>
+          <circle class="route-dot" cx="860" cy="110" r="6"/><text class="route-label" x="820" y="140">Hydaspes</text>
+        </g>
+      </svg>
+      <p class="map-caption">Stylized order of march, left to right — distances and geography are not to scale.</p>
+    </div>
+  </div>
+</section>
+
+<section id="trial">
+  <div class="wrap">
+    <h2>The trial</h2>
+    <p class="lede">Eight questions on the man and the campaign. Your best score is kept on this device.</p>
+
+    <div class="quiz-card">
+      <div class="quiz-meta">
+        <span id="qProgress">Question 1 of 8</span>
+        <span id="qScore">Score 0</span>
+      </div>
+
+      <div id="quizBody">
+        <h3 id="qText">Loading…</h3>
+        <div class="options" id="qOptions"></div>
+        <div class="quiz-feedback" id="qFeedback"></div>
+        <div class="quiz-footer">
+          <span class="best-score" id="bestScore">Best score: —</span>
+          <button class="btn" id="nextBtn" disabled>Next question</button>
+        </div>
+      </div>
+
+      <div class="result-screen" id="resultScreen">
+        <div>You scored</div>
+        <div class="big"><span id="finalScore">0</span> / 8</div>
+        <button class="btn" id="retryBtn">Try again</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="archive">
+  <div class="wrap">
+    <h2>The archive</h2>
+    <p class="lede">Sayings attributed to Alexander by ancient historians such as Arrian and Plutarch — authenticity is debated, but they've shaped his legend. Save the ones worth keeping.</p>
+
+    <div class="quote-grid" id="quoteGrid"></div>
+
+    <div class="archive-panel">
+      <h3>Your saved quotes</h3>
+      <ul class="archive-list" id="archiveList"></ul>
+      <p class="empty-note" id="archiveEmpty">Nothing saved yet — save a quote above to keep it here.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    Dates and events follow the standard ancient sources (Arrian, Plutarch, Diodorus); scholars still dispute many particulars of Alexander's life. This page has no server — the quiz score and saved quotes are stored on your device through a small simulated data layer, written to behave like an API even though it's local storage underneath.
+  </div>
+</footer>
+
+<script>
+/* =========================================================
+   DATA LAYER — stands in for a backend.
+   Everything is async and returns Promises, the way real
+   network calls would, even though the "database" here is
+   localStorage. Swap the internals of `db` for real fetch()
+   calls to a server and the rest of the page keeps working.
+   ========================================================= */
+function delay(ms){ return new Promise(res => setTimeout(res, ms)); }
+
+const db = {
+  read(key, fallback){
+    try{
+      const raw = localStorage.getItem(key);
+      return raw === null ? fallback : JSON.parse(raw);
+    }catch(e){ return fallback; }
+  },
+  write(key, value){
+    try{ localStorage.setItem(key, JSON.stringify(value)); }catch(e){ /* storage unavailable */ }
+  }
+};
+
+const api = {
+  async getBestScore(){
+    await delay(120);
+    return db.read('atg_quiz_best', null);
+  },
+  async submitScore(score){
+    await delay(150);
+    const prev = db.read('atg_quiz_best', 0);
+    const best = Math.max(prev, score);
+    db.write('atg_quiz_best', best);
+    return best;
+  },
+  async getSavedQuotes(){
+    await delay(120);
+    return db.read('atg_saved_quotes', []);
+  },
+  async toggleQuote(id){
+    await delay(150);
+    let list = db.read('atg_saved_quotes', []);
+    if(list.includes(id)){ list = list.filter(x => x !== id); }
+    else { list.push(id); }
+    db.write('atg_saved_quotes', list);
+    return list;
+  }
+};
+
+/* =========================================================
+   QUIZ
+   ========================================================= */
+const QUESTIONS = [
+  { q:"Who was Alexander's father?", options:["Philip II of Macedon","Darius III","Ptolemy I","Antipater"], a:0 },
+  { q:"Which philosopher tutored the young Alexander?", options:["Socrates","Aristotle","Plato","Diogenes"], a:1 },
+  { q:"At which battle did Alexander deliver his final, decisive defeat of Darius III?", options:["Issus","Granicus","Gaugamela","Hydaspes"], a:2 },
+  { q:"Which Egyptian city did Alexander found, and still bears his name?", options:["Memphis","Alexandria","Thebes","Naucratis"], a:1 },
+  { q:"How did Alexander deal with the Gordian Knot?", options:["Untied it slowly","Burned the cart","Cut it with his sword","Left it alone"], a:2 },
+  { q:"Which river marked the eastern limit of Alexander's march, where his army mutinied?", options:["The Indus","The Nile","The Hyphasis","The Tigris"], a:2 },
+  { q:"In which city did Alexander die?", options:["Pella","Persepolis","Athens","Babylon"], a:3 },
+  { q:"How old was Alexander when he died?", options:["25","28","32","41"], a:2 },
+];
+
+let qIndex = 0, score = 0, answered = false;
+
+const qProgress = document.getElementById('qProgress');
+const qScoreEl = document.getElementById('qScore');
+const qText = document.getElementById('qText');
+const qOptions = document.getElementById('qOptions');
+const qFeedback = document.getElementById('qFeedback');
+const nextBtn = document.getElementById('nextBtn');
+const bestScoreEl = document.getElementById('bestScore');
+const quizBody = document.getElementById('quizBody');
+const resultScreen = document.getElementById('resultScreen');
+const finalScoreEl = document.getElementById('finalScore');
+const retryBtn = document.getElementById('retryBtn');
+
+function renderQuestion(){
+  answered = false;
+  const current = QUESTIONS[qIndex];
+  qProgress.textContent = `Question ${qIndex + 1} of ${QUESTIONS.length}`;
+  qScoreEl.textContent = `Score ${score}`;
+  qText.textContent = current.q;
+  qFeedback.textContent = '';
+  nextBtn.disabled = true;
+  nextBtn.textContent = qIndex === QUESTIONS.length - 1 ? 'See result' : 'Next question';
+
+  qOptions.innerHTML = '';
+  current.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.textContent = opt;
+    btn.addEventListener('click', () => selectAnswer(i, btn));
+    qOptions.appendChild(btn);
+  });
+}
+
+function selectAnswer(i, btn){
+  if(answered) return;
+  answered = true;
+  const current = QUESTIONS[qIndex];
+  const correct = i === current.a;
+  if(correct) score++;
+
+  [...qOptions.children].forEach((b, idx) => {
+    b.disabled = true;
+    if(idx === current.a) b.classList.add('correct');
+    else if(idx === i) b.classList.add('incorrect');
+  });
+
+  qFeedback.textContent = correct ? 'Correct.' : `Not quite — the answer is "${current.options[current.a]}".`;
+  qScoreEl.textContent = `Score ${score}`;
+  nextBtn.disabled = false;
+}
+
+nextBtn.addEventListener('click', async () => {
+  if(qIndex < QUESTIONS.length - 1){
+    qIndex++;
+    renderQuestion();
+  } else {
+    quizBody.style.display = 'none';
+    resultScreen.style.display = 'block';
+    finalScoreEl.textContent = score;
+    const best = await api.submitScore(score);
+    bestScoreEl.textContent = `Best score: ${best} / ${QUESTIONS.length}`;
+  }
+});
+
+retryBtn.addEventListener('click', () => {
+  qIndex = 0; score = 0;
+  resultScreen.style.display = 'none';
+  quizBody.style.display = 'block';
+  renderQuestion();
+});
+
+async function initQuiz(){
+  const best = await api.getBestScore();
+  bestScoreEl.textContent = best === null ? 'Best score: —' : `Best score: ${best} / ${QUESTIONS.length}`;
+  renderQuestion();
+}
+initQuiz();
+
+/* =========================================================
+   QUOTE ARCHIVE
+   ========================================================= */
+const QUOTES = [
+  { id:'q1', text:"There is nothing impossible to him who will try.", src:"Attributed, per later tradition" },
+  { id:'q2', text:"I am not afraid of an army of lions led by a sheep; I am afraid of an army of sheep led by a lion.", src:"Attributed, authenticity disputed" },
+  { id:'q3', text:"Upon the conduct of each depends the fate of all.", src:"Attributed, per Arrian's paraphrase" },
+  { id:'q4', text:"I would rather live a short life of glory than a long one of obscurity.", src:"Attributed, per later tradition" },
+  { id:'q5', text:"Through every generation of the human race there has been a constant war, a war with fear.", src:"Attributed, authenticity disputed" },
+  { id:'q6', text:"There is something men call fortune... but a brave man's fortune is in his own hand.", src:"Attributed, per Arrian's paraphrase" },
+];
+
+const quoteGrid = document.getElementById('quoteGrid');
+const archiveList = document.getElementById('archiveList');
+const archiveEmpty = document.getElementById('archiveEmpty');
+let savedIds = [];
+
+function renderQuotes(){
+  quoteGrid.innerHTML = '';
+  QUOTES.forEach(q => {
+    const card = document.createElement('div');
+    card.className = 'quote-card';
+    const saved = savedIds.includes(q.id);
+    card.innerHTML = `
+      <blockquote>&ldquo;${q.text}&rdquo;</blockquote>
+      <div class="src">${q.src}</div>
+      <button class="save-btn ${saved ? 'saved' : ''}" data-id="${q.id}">${saved ? 'Saved' : 'Save quote'}</button>
+    `;
+    quoteGrid.appendChild(card);
+  });
+
+  archiveList.innerHTML = '';
+  const savedQuotes = QUOTES.filter(q => savedIds.includes(q.id));
+  archiveEmpty.style.display = savedQuotes.length ? 'none' : 'block';
+  savedQuotes.forEach(q => {
+    const li = document.createElement('li');
+    li.innerHTML = `<span>&ldquo;${q.text.slice(0,60)}${q.text.length > 60 ? '…' : ''}&rdquo;</span>`;
+    const removeBtn = document.createElement('button');
+    removeBtn.textContent = 'Remove';
+    removeBtn.addEventListener('click', () => handleToggle(q.id));
+    li.appendChild(removeBtn);
+    archiveList.appendChild(li);
+  });
+}
+
+async function handleToggle(id){
+  savedIds = await api.toggleQuote(id);
+  renderQuotes();
+}
+
+quoteGrid.addEventListener('click', (e) => {
+  const btn = e.target.closest('.save-btn');
+  if(!btn) return;
+  handleToggle(btn.dataset.id);
+});
+
+async function initArchive(){
+  savedIds = await api.getSavedQuotes();
+  renderQuotes();
+}
+initArchive();
+</script>
+</body>
+</html>

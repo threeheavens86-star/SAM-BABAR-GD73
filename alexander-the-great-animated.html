@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alexander the Great — The March</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --obsidian:#171310;
+    --obsidian-soft:#221C17;
+    --obsidian-softer:#2C241D;
+    --ember:#C99A44;
+    --ember-bright:#E3B65C;
+    --oxide:#8B3A2B;
+    --jade:#4F7A63;
+    --parchment:#EDE3CE;
+    --parchment-dim: rgba(237,227,206,0.68);
+    --line: rgba(237,227,206,0.12);
+    --max: 780px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--obsidian);
+    color:var(--parchment);
+    font-family:'Source Serif 4', serif;
+    font-size:17px;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.display{ font-family:'Cinzel', serif; font-weight:600; color:var(--parchment); }
+  a{ color:var(--ember-bright); }
+  .wrap{ max-width:var(--max); margin:0 auto; padding:0 24px; }
+  ::selection{ background:var(--ember); color:var(--obsidian); }
+
+  /* ---------- PROGRESS BAR ---------- */
+  #progressBar{
+    position:fixed; top:0; left:0; height:2px; width:0%;
+    background:linear-gradient(90deg, var(--oxide), var(--ember-bright));
+    z-index:50; transition:width 0.1s linear;
+  }
+
+  /* ---------- REVEAL SYSTEM ---------- */
+  .reveal{ opacity:0; transform:translateY(28px); transition:opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.in-view{ opacity:1; transform:translateY(0); }
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:sticky; top:0; z-index:40;
+    background:rgba(23,19,16,0.72);
+    backdrop-filter: blur(8px);
+    border-bottom:1px solid var(--line);
+    transition: padding 0.25s ease, box-shadow 0.25s ease;
+  }
+  nav .wrap{ display:flex; align-items:center; justify-content:space-between; padding:16px 24px; transition:padding 0.25s ease; }
+  nav.scrolled .wrap{ padding:10px 24px; }
+  nav.scrolled{ box-shadow:0 8px 24px rgba(0,0,0,0.35); }
+  nav .brand{ font-size:1.05rem; font-weight:700; letter-spacing:0.02em; }
+  nav ul{ list-style:none; display:flex; gap:22px; margin:0; padding:0; }
+  nav a{ text-decoration:none; color:var(--parchment-dim); font-size:0.95rem; position:relative; padding-bottom:2px; }
+  nav a::after{ content:""; position:absolute; left:0; right:100%; bottom:0; height:1px; background:var(--ember-bright); transition:right 0.25s ease; }
+  nav a:hover::after{ right:0; }
+  nav a:hover{ color:var(--parchment); }
+  @media (max-width:560px){ nav ul{ gap:12px; font-size:0.8rem; } }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative; min-height:100svh;
+    display:flex; align-items:center; justify-content:center;
+    text-align:center; overflow:hidden;
+    padding:80px 24px;
+  }
+  .ember-field{ position:absolute; inset:0; pointer-events:none; overflow:hidden; }
+  .ember-particle{
+    position:absolute; bottom:-10px; border-radius:50%;
+    background:var(--ember-bright); opacity:0;
+    animation: floatUp linear infinite;
+    box-shadow:0 0 6px var(--ember-bright);
+  }
+  @keyframes floatUp{
+    0%{ opacity:0; transform:translateY(0) translateX(0); }
+    10%{ opacity:0.8; }
+    90%{ opacity:0.4; }
+    100%{ opacity:0; transform:translateY(-100vh) translateX(var(--drift, 20px)); }
+  }
+  .hero-inner{ position:relative; z-index:2; }
+  .coin-glow{
+    position:absolute; left:50%; top:38%; width:340px; height:340px;
+    transform:translate(-50%,-50%);
+    background:radial-gradient(circle, rgba(201,154,68,0.35) 0%, rgba(201,154,68,0) 70%);
+    animation: glowPulse 5s ease-in-out infinite;
+    z-index:1;
+  }
+  @keyframes glowPulse{ 0%,100%{ opacity:0.6; transform:translate(-50%,-50%) scale(1);} 50%{ opacity:1; transform:translate(-50%,-50%) scale(1.08);} }
+  .coin-wrap{ width:220px; height:220px; margin:0 auto 28px; }
+  .coin-svg{ width:100%; height:100%; transform-origin:50% 50%; }
+  .ring-text{ font-family:'Cinzel', serif; font-size:11.5px; fill:var(--ember-bright); letter-spacing:2px; }
+  .hero h1{
+    font-size:clamp(2.3rem, 6vw, 3.6rem); line-height:1.05; margin:0 0 10px;
+  }
+  .hero h1 span{ display:inline-block; opacity:0; animation:letterIn 0.6s ease forwards; }
+  @keyframes letterIn{ from{ opacity:0; transform:translateY(16px);} to{ opacity:1; transform:translateY(0);} }
+  .hero .dates{
+    font-family:'Cinzel', serif; color:var(--ember-bright); font-size:1.05rem;
+    margin-bottom:18px; opacity:0; animation:fadeUp 0.8s ease forwards; animation-delay:1.3s;
+  }
+  .hero p{
+    color:var(--parchment-dim); max-width:50ch; margin:0 auto 8px;
+    opacity:0; animation:fadeUp 0.8s ease forwards; animation-delay:1.5s;
+  }
+  .hero .titles{
+    font-size:0.9rem; color:var(--ember); margin-top:16px;
+    opacity:0; animation:fadeUp 0.8s ease forwards; animation-delay:1.7s;
+  }
+  @keyframes fadeUp{ from{ opacity:0; transform:translateY(14px);} to{ opacity:1; transform:translateY(0);} }
+  .scroll-cue{
+    position:absolute; bottom:34px; left:50%; transform:translateX(-50%);
+    color:var(--parchment-dim); font-size:0.8rem; letter-spacing:0.08em;
+    display:flex; flex-direction:column; align-items:center; gap:6px;
+    opacity:0; animation:fadeUp 0.8s ease forwards; animation-delay:2s;
+  }
+  .scroll-cue .arrow{ width:1px; height:26px; background:linear-gradient(var(--ember-bright), transparent); animation:cueMove 1.6s ease-in-out infinite; }
+  @keyframes cueMove{ 0%,100%{ transform:scaleY(1); opacity:0.5;} 50%{ transform:scaleY(1.3); opacity:1;} }
+
+  @media (max-width:640px){ .coin-glow{ width:260px; height:260px; } }
+
+  section{ padding:96px 0; position:relative; }
+  section + section{ border-top:1px solid var(--line); }
+  section h2{ font-size:1.8rem; margin:0 0 10px; }
+  section .lede{ color:var(--parchment-dim); max-width:56ch; margin:0 0 44px; }
+
+  /* ---------- STATS ---------- */
+  .stats{ background:var(--obsidian-soft); }
+  .stats-grid{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:24px; text-align:center;
+  }
+  @media (max-width:640px){ .stats-grid{ grid-template-columns:repeat(2,1fr); } }
+  .stat .num{ font-family:'Cinzel', serif; font-size:clamp(2rem,5vw,2.7rem); color:var(--ember-bright); }
+  .stat .label{ font-size:0.85rem; color:var(--parchment-dim); margin-top:4px; }
+
+  /* ---------- CHRONICLE ---------- */
+  .chronicle{ position:relative; border-left:2px solid var(--obsidian-softer); margin-left:6px; padding-left:28px; display:flex; flex-direction:column; gap:30px; }
+  .chronicle-marker{
+    position:absolute; top:0; left:-8px; width:14px; height:14px; border-radius:50%;
+    background:var(--ember-bright); box-shadow:0 0 14px var(--ember-bright), 0 0 28px rgba(227,182,92,0.5);
+    transform:translateY(0); will-change:transform;
+  }
+  .chronicle .item{ position:relative; opacity:0; transform:translateY(24px); transition:opacity 0.6s ease, transform 0.6s ease; }
+  .chronicle .item.in-view{ opacity:1; transform:translateY(0); }
+  .chronicle .item::before{
+    content:""; position:absolute; left:-33px; top:6px; width:9px; height:9px; border-radius:50%;
+    background:var(--obsidian); border:2px solid var(--ember);
+  }
+  .chronicle .year{ font-family:'Cinzel', serif; color:var(--ember); font-size:0.95rem; display:block; margin-bottom:2px; }
+  .chronicle .item h3{ font-size:1.08rem; margin:0 0 4px; font-weight:600; }
+  .chronicle .item p{ margin:0; color:var(--parchment-dim); max-width:58ch; }
+
+  /* ---------- CAMPAIGN MAP ---------- */
+  .map-panel{ background:var(--obsidian-soft); border:1px solid var(--line); border-radius:3px; padding:30px 20px 24px; overflow-x:auto; }
+  .map-panel svg{ display:block; min-width:640px; width:100%; height:auto; }
+  .map-caption{ font-size:0.85rem; color:var(--parchment-dim); margin-top:14px; font-style:italic; }
+  .route-line{ fill:none; stroke:var(--oxide); stroke-width:2; transition:stroke-dashoffset 1.8s ease; }
+  .route-dot{ fill:var(--ember-bright); stroke:var(--obsidian); stroke-width:2; opacity:0; transform:scale(0); transform-origin:center; transition:opacity 0.4s ease, transform 0.4s cubic-bezier(.34,1.56,.64,1); }
+  .route-dot.show{ opacity:1; transform:scale(1); }
+  .route-label{ font-family:'Source Serif 4', serif; font-size:12.5px; fill:var(--parchment-dim); opacity:0; transition:opacity 0.5s ease; }
+  .route-label.show{ opacity:1; }
+
+  /* ---------- TRIAL / QUIZ ---------- */
+  .quiz-card{ background:var(--obsidian-soft); border:1px solid var(--line); border-radius:3px; padding:30px 28px; max-width:600px; position:relative; overflow:hidden; }
+  .quiz-progress{ position:absolute; top:0; left:0; height:3px; background:linear-gradient(90deg,var(--oxide),var(--ember-bright)); transition:width 0.4s ease; }
+  .quiz-meta{ display:flex; justify-content:space-between; align-items:baseline; font-family:'Cinzel', serif; font-size:0.85rem; color:var(--ember-bright); margin:10px 0 18px; }
+  .quiz-inner{ transition:opacity 0.22s ease, transform 0.22s ease; }
+  .quiz-inner.exit{ opacity:0; transform:translateX(-16px); }
+  .quiz-inner.enter{ opacity:0; transform:translateX(16px); }
+  .quiz-card h3{ font-size:1.2rem; margin:0 0 20px; font-family:'Source Serif 4', serif; font-weight:600; }
+  .options{ display:flex; flex-direction:column; gap:10px; }
+  .option-btn{
+    text-align:left; background:rgba(237,227,206,0.05); border:1px solid rgba(237,227,206,0.2);
+    color:var(--parchment); font-family:'Source Serif 4', serif; font-size:1rem;
+    padding:12px 16px; border-radius:3px; cursor:pointer;
+    transition:background 0.15s ease, border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .option-btn:hover:not(:disabled){ border-color:var(--ember-bright); transform:translateY(-2px); box-shadow:0 6px 16px rgba(0,0,0,0.3); }
+  .option-btn.correct{ background:rgba(79,122,99,0.35); border-color:var(--jade); animation:pulseGlow 0.9s ease; }
+  .option-btn.incorrect{ background:rgba(139,58,43,0.35); border-color:var(--oxide); animation:shakeX 0.4s ease; }
+  @keyframes pulseGlow{ 0%{ box-shadow:0 0 0 rgba(201,154,68,0);} 50%{ box-shadow:0 0 22px rgba(201,154,68,0.5);} 100%{ box-shadow:0 0 0 rgba(201,154,68,0);} }
+  @keyframes shakeX{ 0%,100%{ transform:translateX(0);} 25%{ transform:translateX(-6px);} 75%{ transform:translateX(6px);} }
+  .option-btn:disabled{ cursor:default; }
+  .quiz-feedback{ min-height:26px; margin-top:16px; font-size:0.95rem; color:var(--parchment-dim); }
+  .quiz-footer{ display:flex; justify-content:space-between; align-items:center; margin-top:18px; }
+  .btn{ font-family:'Cinzel', serif; font-size:0.9rem; background:var(--ember); color:var(--obsidian); border:none; padding:10px 18px; border-radius:3px; cursor:pointer; transition:background 0.2s ease, transform 0.15s ease; }
+  .btn:hover{ background:var(--ember-bright); transform:translateY(-2px); }
+  .btn[disabled]{ opacity:0.4; cursor:default; transform:none; }
+  .best-score{ font-size:0.85rem; color:var(--parchment-dim); }
+  .result-screen{ display:none; text-align:center; padding:10px 0 4px; }
+  .result-screen .big{ font-family:'Cinzel', serif; font-size:2.6rem; color:var(--ember-bright); margin:10px 0; animation:fadeUp 0.6s ease; }
+
+  /* ---------- ARCHIVE ---------- */
+  .quote-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(240px,1fr)); gap:18px; margin-bottom:40px; perspective:800px; }
+  .quote-card{
+    background:var(--obsidian-soft); border:1px solid var(--line); border-radius:3px;
+    padding:22px; display:flex; flex-direction:column; gap:14px;
+    opacity:0; transform:translateY(24px); transition:opacity 0.6s ease, transform 0.15s ease;
+  }
+  .quote-card.in-view{ opacity:1; transform:translateY(0); }
+  .quote-card blockquote{ margin:0; font-size:1.02rem; font-style:italic; line-height:1.5; }
+  .quote-card .src{ font-size:0.8rem; color:var(--parchment-dim); }
+  .save-btn{ align-self:flex-start; background:none; border:1px solid var(--ember); color:var(--ember-bright); font-family:'Cinzel', serif; font-size:0.78rem; padding:6px 12px; border-radius:3px; cursor:pointer; transition:background 0.2s ease, color 0.2s ease, transform 0.2s ease; }
+  .save-btn.saved{ background:var(--ember); color:var(--obsidian); }
+  .save-btn.pulse{ animation:btnPulse 0.4s ease; }
+  @keyframes btnPulse{ 0%{ transform:scale(1);} 50%{ transform:scale(1.12);} 100%{ transform:scale(1);} }
+  .archive-panel h3{ font-size:1.05rem; margin-bottom:12px; }
+  .archive-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px; }
+  .archive-list li{ display:flex; justify-content:space-between; align-items:center; gap:12px; background:var(--obsidian-soft); border:1px solid var(--line); padding:10px 14px; border-radius:3px; font-size:0.92rem; animation:fadeUp 0.4s ease; }
+  .archive-list button{ background:none; border:none; color:var(--oxide); cursor:pointer; font-size:0.85rem; font-family:'Cinzel', serif; }
+  .empty-note{ color:var(--parchment-dim); font-size:0.9rem; font-style:italic; }
+
+  footer{ padding:40px 0 56px; color:var(--parchment-dim); font-size:0.85rem; }
+  footer .wrap{ border-top:1px solid var(--line); padding-top:24px; }
+
+  @media (prefers-reduced-motion: reduce){
+    *, *::before, *::after{ animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; scroll-behavior:auto !important; }
+  }
+</style>
+</head>
+<body>
+
+<div id="progressBar"></div>
+
+<nav id="nav">
+  <div class="wrap">
+    <span class="brand">Alexander</span>
+    <ul>
+      <li><a href="#chronicle">Chronicle</a></li>
+      <li><a href="#campaigns">Campaigns</a></li>
+      <li><a href="#trial">Trial</a></li>
+      <li><a href="#archive">Archive</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="ember-field" id="emberField"></div>
+  <div class="coin-glow"></div>
+  <div class="hero-inner">
+    <div class="coin-wrap">
+      <svg class="coin-svg" id="coinSvg" viewBox="0 0 240 240" role="img" aria-label="Coin motif with the Vergina Sun, the royal emblem of Alexander's Argead dynasty">
+        <circle cx="120" cy="120" r="116" fill="#2C241D" stroke="#C99A44" stroke-width="3"/>
+        <circle cx="120" cy="120" r="104" fill="none" stroke="#C99A44" stroke-width="1.5" stroke-dasharray="1 6" stroke-linecap="round"/>
+        <path id="ring" d="M120,120 m-88,0 a88,88 0 1,1 176,0 a88,88 0 1,1 -176,0" fill="none"/>
+        <text class="ring-text">
+          <textPath href="#ring" startOffset="1%">ΑΛΕΞΑΝΔΡΟΥ · ΒΑΣΙΛΕΩΣ · ΑΛΕΞΑΝΔΡΟΥ · ΒΑΣΙΛΕΩΣ ·</textPath>
+        </text>
+        <polygon points="120,25 135.3,83.0 187.2,52.8 157.0,104.7 215,120 157.0,135.3 187.2,187.2 135.3,157.0 120,215 104.7,157.0 52.8,187.2 83.0,135.3 25,120 83.0,104.7 52.8,52.8 104.7,83.0"
+          fill="#E3B65C" opacity="0.9"/>
+        <circle cx="120" cy="120" r="14" fill="#171310"/>
+      </svg>
+    </div>
+    <h1 id="heroTitle">Alexander the Great</h1>
+    <div class="dates">356 – 323 BC</div>
+    <p>King of Macedon at twenty. In thirteen years he broke the Persian empire, founded more than a dozen cities bearing his name, and pushed a Macedonian army further east than any before it.</p>
+    <div class="titles">Pupil of Aristotle · Son of Philip II · Pharaoh of Egypt · King of Asia</div>
+  </div>
+  <div class="scroll-cue"><span>SCROLL</span><span class="arrow"></span></div>
+</header>
+
+<section class="stats">
+  <div class="wrap">
+    <div class="stats-grid">
+      <div class="stat"><div class="num" data-target="32">0</div><div class="label">Age at his death</div></div>
+      <div class="stat"><div class="num" data-target="13">0</div><div class="label">Years as king</div></div>
+      <div class="stat"><div class="num" data-target="20" data-suffix="+">0</div><div class="label">Cities founded</div></div>
+      <div class="stat"><div class="num" data-target="0">0</div><div class="label">Battles ever lost</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="chronicle">
+  <div class="wrap">
+    <h2 class="reveal">The chronicle</h2>
+    <p class="lede reveal">A campaign that opened at Chaeronea and closed, thirteen years later, in a sickroom in Babylon.</p>
+    <div class="chronicle" id="chronicleEl">
+      <div class="chronicle-marker" id="chronicleMarker"></div>
+      <div class="item"><span class="year">338 BC</span><h3>Chaeronea</h3><p>At eighteen, Alexander leads the Macedonian cavalry that breaks the Theban Sacred Band, securing Philip II's control of Greece.</p></div>
+      <div class="item"><span class="year">336 BC</span><h3>Accession</h3><p>Philip II is assassinated at Aegae. Alexander is proclaimed king of Macedon at twenty.</p></div>
+      <div class="item"><span class="year">335 BC</span><h3>Thebes destroyed</h3><p>After a revolt, Alexander razes Thebes and enslaves its survivors, a warning to the rest of Greece.</p></div>
+      <div class="item"><span class="year">334 BC</span><h3>Crossing into Asia</h3><p>Alexander crosses the Hellespont and defeats a Persian force at the Granicus River, his first battle on Asian soil.</p></div>
+      <div class="item"><span class="year">333 BC</span><h3>The Gordian Knot &amp; Issus</h3><p>At Gordium he cuts, rather than unties, the legendary knot. At Issus he routs Darius III, who flees the field.</p></div>
+      <div class="item"><span class="year">332 BC</span><h3>Tyre and Egypt</h3><p>A seven-month siege breaks Tyre's island fortress. Egypt submits without a fight; Alexander founds Alexandria on the coast.</p></div>
+      <div class="item"><span class="year">331 BC</span><h3>Gaugamela</h3><p>Alexander's final, decisive battle against Darius III shatters the Persian royal army near modern-day Erbil.</p></div>
+      <div class="item"><span class="year">330 BC</span><h3>Persepolis and Darius's death</h3><p>The Persian ceremonial capital is taken and its palace burned. Darius III is killed by his own satrap, Bessus.</p></div>
+      <div class="item"><span class="year">327–326 BC</span><h3>Into India</h3><p>Alexander marries Roxana in Bactria, then crosses the Indus. At the Hydaspes he defeats King Porus in the campaign's hardest-fought battle.</p></div>
+      <div class="item"><span class="year">326 BC</span><h3>The Hyphasis mutiny</h3><p>At the Hyphasis River his exhausted troops refuse to march further east. Alexander turns the army back.</p></div>
+      <div class="item"><span class="year">323 BC</span><h3>Death in Babylon</h3><p>Alexander dies in Babylon after a fever, aged thirty-two. His empire is divided among his generals, the Diadochi.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="campaigns">
+  <div class="wrap">
+    <h2 class="reveal">The campaign route</h2>
+    <p class="lede reveal">A stylized west-to-east reading of the march — not a geographic map, just the order of the road.</p>
+    <div class="map-panel reveal" id="mapPanel">
+      <svg viewBox="0 0 900 220">
+        <path class="route-line" id="routePath" d="M40,110 C120,60 180,160 260,110 S 400,60 460,110 S 600,160 660,110 S 800,60 860,110"/>
+        <g id="routeDots">
+          <circle class="route-dot" cx="40" cy="110" r="6"/><text class="route-label" x="20" y="140">Pella</text>
+          <circle class="route-dot" cx="180" cy="90" r="6"/><text class="route-label" x="150" y="65">Granicus</text>
+          <circle class="route-dot" cx="300" cy="130" r="6"/><text class="route-label" x="270" y="160">Issus</text>
+          <circle class="route-dot" cx="400" cy="90" r="6"/><text class="route-label" x="370" y="65">Tyre</text>
+          <circle class="route-dot" cx="480" cy="130" r="6"/><text class="route-label" x="450" y="160">Alexandria</text>
+          <circle class="route-dot" cx="600" cy="90" r="6"/><text class="route-label" x="565" y="65">Gaugamela</text>
+          <circle class="route-dot" cx="700" cy="130" r="6"/><text class="route-label" x="665" y="160">Persepolis</text>
+          <circle class="route-dot" cx="800" cy="90" r="6"/><text class="route-label" x="765" y="65">Bactria</text>
+          <circle class="route-dot" cx="860" cy="110" r="6"/><text class="route-label" x="820" y="140">Hydaspes</text>
+        </g>
+      </svg>
+      <p class="map-caption">Stylized order of march, left to right — distances and geography are not to scale.</p>
+    </div>
+  </div>
+</section>
+
+<section id="trial">
+  <div class="wrap">
+    <h2 class="reveal">The trial</h2>
+    <p class="lede reveal">Eight questions on the man and the campaign. Your best score is kept on this device.</p>
+
+    <div class="quiz-card reveal">
+      <div class="quiz-progress" id="quizProgressBar" style="width:12.5%"></div>
+      <div class="quiz-meta">
+        <span id="qProgress">Question 1 of 8</span>
+        <span id="qScore">Score 0</span>
+      </div>
+
+      <div id="quizBody">
+        <div class="quiz-inner" id="quizInner">
+          <h3 id="qText">Loading…</h3>
+          <div class="options" id="qOptions"></div>
+          <div class="quiz-feedback" id="qFeedback"></div>
+        </div>
+        <div class="quiz-footer">
+          <span class="best-score" id="bestScore">Best score: —</span>
+          <button class="btn" id="nextBtn" disabled>Next question</button>
+        </div>
+      </div>
+
+      <div class="result-screen" id="resultScreen">
+        <div>You scored</div>
+        <div class="big"><span id="finalScore">0</span> / 8</div>
+        <button class="btn" id="retryBtn">Try again</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="archive">
+  <div class="wrap">
+    <h2 class="reveal">The archive</h2>
+    <p class="lede reveal">Sayings attributed to Alexander by ancient historians such as Arrian and Plutarch — authenticity is debated, but they've shaped his legend. Save the ones worth keeping.</p>
+
+    <div class="quote-grid" id="quoteGrid"></div>
+
+    <div class="archive-panel reveal">
+      <h3>Your saved quotes</h3>
+      <ul class="archive-list" id="archiveList"></ul>
+      <p class="empty-note" id="archiveEmpty">Nothing saved yet — save a quote above to keep it here.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    Dates and events follow the standard ancient sources (Arrian, Plutarch, Diodorus); scholars still dispute many particulars of Alexander's life. This page has no server — the quiz score and saved quotes are stored on your device through a small simulated data layer, written to behave like an API even though it's local storage underneath.
+  </div>
+</footer>
+
+<script>
+const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------------- progress bar + nav shrink ---------------- */
+const progressBar = document.getElementById('progressBar');
+const navEl = document.getElementById('nav');
+function onScroll(){
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  progressBar.style.width = (docHeight > 0 ? (scrollTop/docHeight)*100 : 0) + '%';
+  navEl.classList.toggle('scrolled', scrollTop > 10);
+  updateChronicleMarker();
+}
+window.addEventListener('scroll', onScroll, {passive:true});
+
+/* ---------------- hero letter stagger ---------------- */
+(function staggerHero(){
+  const el = document.getElementById('heroTitle');
+  const text = el.textContent;
+  el.textContent = '';
+  [...text].forEach((ch,i) => {
+    const span = document.createElement('span');
+    span.textContent = ch === ' ' ? '\u00A0' : ch;
+    span.style.animationDelay = (0.3 + i*0.035) + 's';
+    el.appendChild(span);
+  });
+})();
+
+/* ---------------- ember particles ---------------- */
+if(!prefersReduced){
+  const field = document.getElementById('emberField');
+  for(let i=0;i<16;i++){
+    const p = document.createElement('span');
+    p.className = 'ember-particle';
+    const size = 2 + Math.random()*3;
+    p.style.width = size+'px';
+    p.style.height = size+'px';
+    p.style.left = Math.random()*100 + '%';
+    p.style.setProperty('--drift', (Math.random()*60-30)+'px');
+    p.style.animationDuration = (6 + Math.random()*6) + 's';
+    p.style.animationDelay = (Math.random()*8) + 's';
+    field.appendChild(p);
+  }
+}
+
+/* ---------------- generic scroll reveal ---------------- */
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){ entry.target.classList.add('in-view'); revealObserver.unobserve(entry.target); }
+  });
+}, { threshold: 0.2 });
+document.querySelectorAll('.reveal, .chronicle .item').forEach(el => revealObserver.observe(el));
+
+/* ---------------- chronicle traveling marker ---------------- */
+const chronicleEl = document.getElementById('chronicleEl');
+const chronicleMarker = document.getElementById('chronicleMarker');
+function updateChronicleMarker(){
+  if(prefersReduced) return;
+  const rect = chronicleEl.getBoundingClientRect();
+  const total = chronicleEl.offsetHeight;
+  const viewportRef = window.innerHeight * 0.5;
+  let progress = (viewportRef - rect.top) / total;
+  progress = Math.max(0, Math.min(1, progress));
+  chronicleMarker.style.transform = `translateY(${progress*total}px)`;
+}
+
+/* ---------------- stats count-up ---------------- */
+const statsObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      document.querySelectorAll('.stat .num').forEach(el => {
+        const target = parseInt(el.dataset.target,10);
+        const suffix = el.dataset.suffix || '';
+        const start = performance.now();
+        const duration = 1300;
+        function tick(now){
+          const p = Math.min((now-start)/duration,1);
+          const eased = 1 - Math.pow(1-p,3);
+          el.textContent = Math.round(eased*target) + suffix;
+          if(p<1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+      });
+      statsObserver.disconnect();
+    }
+  });
+}, { threshold: 0.5 });
+statsObserver.observe(document.querySelector('.stats'));
+
+/* ---------------- campaign route drawing ---------------- */
+const routePath = document.getElementById('routePath');
+const routeLen = routePath.getTotalLength();
+routePath.style.strokeDasharray = routeLen;
+routePath.style.strokeDashoffset = routeLen;
+const mapObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      routePath.style.strokeDashoffset = 0;
+      const dots = document.querySelectorAll('.route-dot');
+      const labels = document.querySelectorAll('.route-label');
+      dots.forEach((d,i) => setTimeout(() => d.classList.add('show'), 200 + i*160));
+      labels.forEach((l,i) => setTimeout(() => l.classList.add('show'), 300 + i*160));
+      mapObserver.disconnect();
+    }
+  });
+}, { threshold: 0.3 });
+mapObserver.observe(document.getElementById('mapPanel'));
+
+/* =========================================================
+   DATA LAYER — stands in for a backend. Async, Promise-based,
+   so it behaves like a real API even though the "database"
+   is localStorage underneath. Swap `db` for fetch() calls to
+   a real server and the rest of the page keeps working.
+   ========================================================= */
+function delay(ms){ return new Promise(res => setTimeout(res, ms)); }
+const db = {
+  read(key, fallback){ try{ const raw = localStorage.getItem(key); return raw === null ? fallback : JSON.parse(raw); }catch(e){ return fallback; } },
+  write(key, value){ try{ localStorage.setItem(key, JSON.stringify(value)); }catch(e){} }
+};
+const api = {
+  async getBestScore(){ await delay(120); return db.read('atg_quiz_best', null); },
+  async submitScore(score){ await delay(150); const prev = db.read('atg_quiz_best', 0); const best = Math.max(prev, score); db.write('atg_quiz_best', best); return best; },
+  async getSavedQuotes(){ await delay(120); return db.read('atg_saved_quotes', []); },
+  async toggleQuote(id){ await delay(150); let list = db.read('atg_saved_quotes', []); if(list.includes(id)){ list = list.filter(x => x !== id); } else { list.push(id); } db.write('atg_saved_quotes', list); return list; }
+};
+
+/* ---------------- quiz ---------------- */
+const QUESTIONS = [
+  { q:"Who was Alexander's father?", options:["Philip II of Macedon","Darius III","Ptolemy I","Antipater"], a:0 },
+  { q:"Which philosopher tutored the young Alexander?", options:["Socrates","Aristotle","Plato","Diogenes"], a:1 },
+  { q:"At which battle did Alexander deliver his final, decisive defeat of Darius III?", options:["Issus","Granicus","Gaugamela","Hydaspes"], a:2 },
+  { q:"Which Egyptian city did Alexander found, and still bears his name?", options:["Memphis","Alexandria","Thebes","Naucratis"], a:1 },
+  { q:"How did Alexander deal with the Gordian Knot?", options:["Untied it slowly","Burned the cart","Cut it with his sword","Left it alone"], a:2 },
+  { q:"Which river marked the eastern limit of Alexander's march, where his army mutinied?", options:["The Indus","The Nile","The Hyphasis","The Tigris"], a:2 },
+  { q:"In which city did Alexander die?", options:["Pella","Persepolis","Athens","Babylon"], a:3 },
+  { q:"How old was Alexander when he died?", options:["25","28","32","41"], a:2 },
+];
+
+let qIndex = 0, score = 0, answered = false;
+const qProgress = document.getElementById('qProgress');
+const qScoreEl = document.getElementById('qScore');
+const qText = document.getElementById('qText');
+const qOptions = document.getElementById('qOptions');
+const qFeedback = document.getElementById('qFeedback');
+const quizInner = document.getElementById('quizInner');
+const quizProgressBar = document.getElementById('quizProgressBar');
+const nextBtn = document.getElementById('nextBtn');
+const bestScoreEl = document.getElementById('bestScore');
+const quizBody = document.getElementById('quizBody');
+const resultScreen = document.getElementById('resultScreen');
+const finalScoreEl = document.getElementById('finalScore');
+const retryBtn = document.getElementById('retryBtn');
+
+function paintQuestion(){
+  answered = false;
+  const current = QUESTIONS[qIndex];
+  qProgress.textContent = `Question ${qIndex + 1} of ${QUESTIONS.length}`;
+  qScoreEl.textContent = `Score ${score}`;
+  quizProgressBar.style.width = `${((qIndex)/QUESTIONS.length)*100}%`;
+  qText.textContent = current.q;
+  qFeedback.textContent = '';
+  nextBtn.disabled = true;
+  nextBtn.textContent = qIndex === QUESTIONS.length - 1 ? 'See result' : 'Next question';
+
+  qOptions.innerHTML = '';
+  current.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.textContent = opt;
+    btn.addEventListener('click', () => selectAnswer(i));
+    qOptions.appendChild(btn);
+  });
+}
+
+function selectAnswer(i){
+  if(answered) return;
+  answered = true;
+  const current = QUESTIONS[qIndex];
+  const correct = i === current.a;
+  if(correct) score++;
+
+  [...qOptions.children].forEach((b, idx) => {
+    b.disabled = true;
+    if(idx === current.a) b.classList.add('correct');
+    else if(idx === i) b.classList.add('incorrect');
+  });
+
+  qFeedback.textContent = correct ? 'Correct.' : `Not quite — the answer is "${current.options[current.a]}".`;
+  qScoreEl.textContent = `Score ${score}`;
+  nextBtn.disabled = false;
+}
+
+function transitionQuiz(after){
+  quizInner.classList.add('exit');
+  setTimeout(() => {
+    after();
+    quizInner.classList.remove('exit');
+    quizInner.classList.add('enter');
+    requestAnimationFrame(() => requestAnimationFrame(() => quizInner.classList.remove('enter')));
+  }, 220);
+}
+
+nextBtn.addEventListener('click', async () => {
+  if(qIndex < QUESTIONS.length - 1){
+    transitionQuiz(() => { qIndex++; paintQuestion(); });
+  } else {
+    quizProgressBar.style.width = '100%';
+    quizBody.style.display = 'none';
+    resultScreen.style.display = 'block';
+    finalScoreEl.textContent = score;
+    const best = await api.submitScore(score);
+    bestScoreEl.textContent = `Best score: ${best} / ${QUESTIONS.length}`;
+  }
+});
+
+retryBtn.addEventListener('click', () => {
+  qIndex = 0; score = 0;
+  resultScreen.style.display = 'none';
+  quizBody.style.display = 'block';
+  paintQuestion();
+});
+
+async function initQuiz(){
+  const best = await api.getBestScore();
+  bestScoreEl.textContent = best === null ? 'Best score: —' : `Best score: ${best} / ${QUESTIONS.length}`;
+  paintQuestion();
+}
+initQuiz();
+
+/* ---------------- quote archive ---------------- */
+const QUOTES = [
+  { id:'q1', text:"There is nothing impossible to him who will try.", src:"Attributed, per later tradition" },
+  { id:'q2', text:"I am not afraid of an army of lions led by a sheep; I am afraid of an army of sheep led by a lion.", src:"Attributed, authenticity disputed" },
+  { id:'q3', text:"Upon the conduct of each depends the fate of all.", src:"Attributed, per Arrian's paraphrase" },
+  { id:'q4', text:"I would rather live a short life of glory than a long one of obscurity.", src:"Attributed, per later tradition" },
+  { id:'q5', text:"Through every generation of the human race there has been a constant war, a war with fear.", src:"Attributed, authenticity disputed" },
+  { id:'q6', text:"There is something men call fortune... but a brave man's fortune is in his own hand.", src:"Attributed, per Arrian's paraphrase" },
+];
+
+const quoteGrid = document.getElementById('quoteGrid');
+const archiveList = document.getElementById('archiveList');
+const archiveEmpty = document.getElementById('archiveEmpty');
+let savedIds = [];
+let quoteObserver;
+
+function renderQuotes(){
+  quoteGrid.innerHTML = '';
+  QUOTES.forEach((q,i) => {
+    const card = document.createElement('div');
+    card.className = 'quote-card';
+    card.style.transitionDelay = (i*70) + 'ms';
+    const saved = savedIds.includes(q.id);
+    card.innerHTML = `
+      <blockquote>&ldquo;${q.text}&rdquo;</blockquote>
+      <div class="src">${q.src}</div>
+      <button class="save-btn ${saved ? 'saved' : ''}" data-id="${q.id}">${saved ? 'Saved' : 'Save quote'}</button>
+    `;
+    if(!prefersReduced){
+      card.addEventListener('mousemove', (e) => {
+        const r = card.getBoundingClientRect();
+        const x = e.clientX - r.left, y = e.clientY - r.top;
+        const rx = ((y/r.height)-0.5) * -8;
+        const ry = ((x/r.width)-0.5) * 8;
+        card.style.transform = `perspective(700px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-4px)`;
+      });
+      card.addEventListener('mouseleave', () => { card.style.transform = card.classList.contains('in-view') ? '' : card.style.transform; });
+    }
+    quoteGrid.appendChild(card);
+  });
+
+  if(quoteObserver) quoteObserver.disconnect();
+  quoteObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => { if(entry.isIntersecting){ entry.target.classList.add('in-view'); } });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.quote-card').forEach(c => quoteObserver.observe(c));
+
+  archiveList.innerHTML = '';
+  const savedQuotes = QUOTES.filter(q => savedIds.includes(q.id));
+  archiveEmpty.style.display = savedQuotes.length ? 'none' : 'block';
+  savedQuotes.forEach(q => {
+    const li = document.createElement('li');
+    li.innerHTML = `<span>&ldquo;${q.text.slice(0,60)}${q.text.length > 60 ? '…' : ''}&rdquo;</span>`;
+    const removeBtn = document.createElement('button');
+    removeBtn.textContent = 'Remove';
+    removeBtn.addEventListener('click', () => handleToggle(q.id));
+    li.appendChild(removeBtn);
+    archiveList.appendChild(li);
+  });
+}
+
+async function handleToggle(id, btnEl){
+  if(btnEl){ btnEl.classList.add('pulse'); setTimeout(() => btnEl.classList.remove('pulse'), 400); }
+  savedIds = await api.toggleQuote(id);
+  renderQuotes();
+}
+
+quoteGrid.addEventListener('click', (e) => {
+  const btn = e.target.closest('.save-btn');
+  if(!btn) return;
+  handleToggle(btn.dataset.id, btn);
+});
+
+async function initArchive(){
+  savedIds = await api.getSavedQuotes();
+  renderQuotes();
+}
+initArchive();
+
+/* ---------------- coin slow spin (respects reduced motion) ---------------- */
+if(!prefersReduced){
+  document.getElementById('coinSvg').style.animation = 'spin 90s linear infinite';
+  const styleTag = document.createElement('style');
+  styleTag.textContent = '@keyframes spin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}';
+  document.head.appendChild(styleTag);
+}
+
+onScroll();
+</script>
+</body>
+</html>

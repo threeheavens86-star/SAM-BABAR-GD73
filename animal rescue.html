@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your Animal Rescue - Save a Life Today</title>
+  <meta name="description" content="Non-profit animal rescue saving dogs, cats and more. Adopt, foster, donate and help homeless pets find loving homes."/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', system-ui, sans-serif; }
+    h1, h2, h3 { font-family: 'Playfair Display', serif; }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+  <!-- Navbar -->
+  <nav class="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-20">
+        <div class="flex items-center">
+          <span class="text-3xl font-bold text-amber-600">🐾 Rescue</span>
+          <span class="ml-1 text-xl font-semibold text-gray-800">Hope</span>
+        </div>
+        <div class="hidden md:flex space-x-10">
+          <a href="#home" class="text-gray-700 hover:text-amber-600 font-medium transition">Home</a>
+          <a href="#about" class="text-gray-700 hover:text-amber-600 font-medium transition">About</a>
+          <a href="#adopt" class="text-gray-700 hover:text-amber-600 font-medium transition">Adopt</a>
+          <a href="#help" class="text-gray-700 hover:text-amber-600 font-medium transition">Help Us</a>
+          <a href="#contact" class="text-gray-700 hover:text-amber-600 font-medium transition">Contact</a>
+        </div>
+        <a href="#donate" class="md:hidden bg-amber-600 text-white px-5 py-2.5 rounded-full font-medium hover:bg-amber-700 transition">
+          Donate
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section id="home" class="pt-32 pb-20 md:pt-48 md:pb-32 bg-gradient-to-br from-amber-50 via-white to-rose-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h1 class="text-5xl md:text-7xl font-bold text-gray-900 leading-tight">
+        Give a <span class="text-amber-600">Second Chance</span><br>to a Loving Soul
+      </h1>
+      <p class="mt-6 text-xl md:text-2xl text-gray-700 max-w-3xl mx-auto">
+        We rescue, rehabilitate, and rehome abandoned, abused, and stray animals.<br class="hidden sm:inline"> Join us in saving lives today.
+      </p>
+      <div class="mt-10 flex flex-col sm:flex-row justify-center gap-5">
+        <a href="#adopt" class="bg-amber-600 text-white px-10 py-5 rounded-full text-lg font-semibold hover:bg-amber-700 transition shadow-lg">
+          Meet Adoptable Pets →
+        </a>
+        <a href="#donate" class="bg-white text-amber-600 border-2 border-amber-600 px-10 py-5 rounded-full text-lg font-semibold hover:bg-amber-50 transition">
+          Donate Now
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about" class="py-20 md:py-32 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-2 gap-16 items-center">
+        <div>
+          <h2 class="text-4xl md:text-5xl font-bold text-gray-900">Our Mission</h2>
+          <p class="mt-6 text-lg text-gray-700 leading-relaxed">
+            At [Your Rescue Name], we believe every animal deserves love, care, and a safe home. Founded in [Year/City], we have rescued over [X] animals and found them forever families. We focus on medical care, behavior training, spay/neuter, and community education to reduce suffering and overpopulation.
+          </p>
+          <p class="mt-6 text-lg text-gray-700 leading-relaxed">
+            100% of your donations go directly to food, vet bills, shelter, and transport — we run entirely on the kindness of supporters like you.
+          </p>
+        </div>
+        <div class="relative">
+          <!-- Replace with your real rescue photos -->
+          <img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Happy rescued dogs" class="rounded-2xl shadow-2xl object-cover h-full w-full"/>
+          <div class="absolute -bottom-6 -right-6 bg-amber-600 text-white px-8 py-4 rounded-xl shadow-lg">
+            <span class="text-3xl font-bold">+ [X] Lives</span><br>Saved
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Adoptable Animals -->
+  <section id="adopt" class="py-20 md:py-32 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center">
+        <h2 class="text-4xl md:text-5xl font-bold text-gray-900">Meet Our Friends Looking for Homes</h2>
+        <p class="mt-4 text-xl text-gray-600">These sweethearts are ready for love — could one be yours?</p>
+      </div>
+
+      <div class="mt-16 grid md:grid-cols-3 gap-10">
+        <!-- Pet Card 1 -->
+        <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition group">
+          <img src="https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Dog" class="w-full h-64 object-cover group-hover:scale-105 transition duration-500"/>
+          <div class="p-6">
+            <h3 class="text-2xl font-bold text-gray-900">Max – 3 years old</h3>
+            <p class="mt-2 text-gray-600">Friendly mixed breed • Loves walks & cuddles • Good with kids</p>
+            <a href="mailto:adopt@yourrescue.org?subject=Interested%20in%20Max" class="mt-5 inline-block bg-amber-600 text-white px-6 py-3 rounded-full font-medium hover:bg-amber-700 transition">
+              Meet Max →
+            </a>
+          </div>
+        </div>
+
+        <!-- Pet Card 2 -->
+        <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition group">
+          <img src="https://images.unsplash.com/photo-1591160690555-5debfba289f0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Cat" class="w-full h-64 object-cover group-hover:scale-105 transition duration-500"/>
+          <div class="p-6">
+            <h3 class="text-2xl font-bold text-gray-900">Luna – 1.5 years old</h3>
+            <p class="mt-2 text-gray-600">Playful tabby • Indoor only • Very affectionate</p>
+            <a href="mailto:adopt@yourrescue.org?subject=Interested%20in%20Luna" class="mt-5 inline-block bg-amber-600 text-white px-6 py-3 rounded-full font-medium hover:bg-amber-700 transition">
+              Meet Luna →
+            </a>
+          </div>
+        </div>
+
+        <!-- Add more cards here as needed -->
+      </div>
+
+      <div class="text-center mt-16">
+        <p class="text-xl text-gray-600">See all adoptable pets on <a href="https://www.petfinder.com" target="_blank" class="text-amber-600 hover:underline">Petfinder</a> or contact us!</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- How to Help -->
+  <section id="help" class="py-20 md:py-32 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-4xl md:text-5xl font-bold text-gray-900">How You Can Make a Difference</h2>
+      <div class="mt-16 grid md:grid-cols-3 gap-10">
+        <div class="bg-amber-50 p-10 rounded-2xl">
+          <div class="text-6xl mb-6">💰</div>
+          <h3 class="text-3xl font-bold">Donate</h3>
+          <p class="mt-4 text-lg">One-time or monthly gifts help with vet care, food, and emergencies.</p>
+          <a href="https://donorbox.org/" target="_blank" class="mt-6 inline-block bg-amber-600 text-white px-8 py-4 rounded-full font-medium hover:bg-amber-700">Donate Securely</a>
+        </div>
+        <div class="bg-rose-50 p-10 rounded-2xl">
+          <div class="text-6xl mb-6">🤝</div>
+          <h3 class="text-3xl font-bold">Volunteer</h3>
+          <p class="mt-4 text-lg">Walk dogs, socialize cats, help at events — every hour counts.</p>
+          <a href="mailto:volunteer@yourrescue.org" class="mt-6 inline-block bg-rose-600 text-white px-8 py-4 rounded-full font-medium hover:bg-rose-700">Sign Up</a>
+        </div>
+        <div class="bg-blue-50 p-10 rounded-2xl">
+          <div class="text-6xl mb-6">🏡</div>
+          <h3 class="text-3xl font-bold">Foster</h3>
+          <p class="mt-4 text-lg">Open your home temporarily and help animals heal before adoption.</p>
+          <a href="mailto:foster@yourrescue.org" class="mt-6 inline-block bg-blue-600 text-white px-8 py-4 rounded-full font-medium hover:bg-blue-700">Become a Foster</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="py-20 md:py-32 bg-gray-900 text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-4xl md:text-5xl font-bold">Get in Touch</h2>
+      <p class="mt-6 text-xl max-w-2xl mx-auto">Questions? Want to adopt, volunteer, or just say hi? We're here for you.</p>
+
+      <div class="mt-12 grid md:grid-cols-3 gap-10">
+        <div>
+          <div class="text-5xl mb-4">📍</div>
+          <p class="text-lg">[Your City, Country]<br>[Full Address]</p>
+        </div>
+        <div>
+          <div class="text-5xl mb-4">📧</div>
+          <p class="text-lg">hello@yourrescue.org</p>
+        </div>
+        <div>
+          <div class="text-5xl mb-4">📞</div>
+          <p class="text-lg">+1 (555) 123-4567</p>
+        </div>
+      </div>
+
+      <a href="mailto:hello@yourrescue.org" class="mt-12 inline-block bg-amber-600 text-white px-12 py-6 rounded-full text-xl font-semibold hover:bg-amber-700 transition shadow-xl">
+        Send us a message →
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-gray-300 py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <p>© 2026 [Your Rescue Name]. All rights reserved. A 501(c)(3) nonprofit saving lives, one paw at a time.</p>
+      <div class="mt-4 flex justify-center space-x-6">
+        <a href="#" class="hover:text-white">Facebook</a>
+        <a href="#" class="hover:text-white">Instagram</a>
+        <a href="#" class="hover:text-white">Petfinder</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sam Alexander the Great – Visionary leader, innovator, and legend. Explore the epic journey of greatness.">
+    <title>Sam Alexander the Great</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Playfair+Display:wght@700&amp;display=swap');
+        
+        :root {
+            --gold: #facc15;
+        }
+        
+        * {
+            transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration: 150ms;
+        }
+        
+        .tailwind-ready {
+            font-family: 'Inter', system_ui, sans-serif;
+        }
+        
+        .heading-font {
+            font-family: 'Playfair Display', sans-serif;
+        }
+        
+        .hero-text {
+            animation: heroGlow 3s ease-in-out infinite alternate;
+        }
+        
+        @keyframes heroGlow {
+            from { text-shadow: 0 0 20px rgb(250 204 21), 0 0 40px rgb(250 204 21); }
+            to { text-shadow: 0 0 40px rgb(250 204 21), 0 0 80px rgb(250 204 21), 0 0 100px rgb(250 204 21); }
+        }
+        
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #facc15;
+        }
+        
+        .nav-link:hover:after {
+            width: 100%;
+        }
+        
+        .section-header {
+            position: relative;
+        }
+        
+        .section-header:after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(to right, transparent, #facc15, transparent);
+            opacity: 0;
+        }
+        
+        .section-header:hover:after {
+            opacity: 1;
+            animation: headerLine 1.5s ease-in-out;
+        }
+        
+        @keyframes headerLine {
+            0% { width: 20px; }
+            100% { width: 80px; }
+        }
+        
+        .glass {
+            background: rgba(10, 10, 10, 0.75);
+            backdrop-filter: blur(20px);
+        }
+        
+        .card-hover {
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        
+        .card-hover:hover {
+            transform: scale(1.08) rotate(1deg);
+            box-shadow: 0 25px 50px -12px rgb(250 204 21 / 0.3);
+        }
+        
+        #hero-canvas {
+            filter: brightness(1.2) contrast(1.1);
+        }
+        
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(to right, #facc15, #eab308);
+            z-index: 50;
+            transition: width 0.1s;
+        }
+    </style>
+</head>
+<body class="tailwind-ready bg-zinc-950 text-white overflow-x-hidden">
+    <!-- Scroll Progress Bar -->
+    <div id="scroll-progress" class="scroll-progress w-0"></div>
+
+    <!-- NAVBAR -->
+    <nav class="fixed top-0 left-0 right-0 z-50 glass border-b border-white/10">
+        <div class="max-w-screen-2xl mx-auto px-8 py-5 flex items-center justify-between">
+            
+            <!-- Logo -->
+            <div class="flex items-center gap-x-3">
+                <div class="w-9 h-9 bg-gradient-to-br from-amber-400 to-yellow-300 rounded-2xl flex items-center justify-center shadow-inner rotate-12">
+                    <i class="fa-solid fa-crown text-zinc-950 text-2xl"></i>
+                </div>
+                <div>
+                    <h1 class="heading-font text-3xl tracking-[-1px] font-bold">SAM ALEXANDER</h1>
+                    <p class="text-[10px] text-amber-400 font-medium tracking-[3px] leading-none -mt-1">THE GREAT</p>
+                </div>
+            </div>
+
+            <!-- Desktop Menu -->
+            <div class="hidden lg:flex items-center gap-x-10 text-sm font-medium uppercase tracking-widest">
+                <a href="#home" onclick="navigateToSection('home')" class="nav-link text-white hover:text-amber-400">Home</a>
+                <a href="#about" onclick="navigateToSection('about')" class="nav-link text-white hover:text-amber-400">The Legend</a>
+                <a href="#journey" onclick="navigateToSection('journey')" class="nav-link text-white hover:text-amber-400">The Journey</a>
+                <a href="#legacy" onclick="navigateToSection('legacy')" class="nav-link text-white hover:text-amber-400">Legacy</a>
+                <a href="#impact" onclick="navigateToSection('impact')" class="nav-link text-white hover:text-amber-400">Impact</a>
+                <a href="#contact" onclick="navigateToSection('contact')" class="nav-link text-white hover:text-amber-400">Connect</a>
+            </div>
+
+            <div class="flex items-center gap-x-6">
+                <!-- Social Icons -->
+                <div class="hidden md:flex items-center gap-x-4 text-xl">
+                    <a href="#" class="hover:text-amber-400 hover:scale-110"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a href="#" class="hover:text-amber-400 hover:scale-110"><i class="fa-brands fa-linkedin"></i></a>
+                    <a href="#" class="hover:text-amber-400 hover:scale-110"><i class="fa-brands fa-instagram"></i></a>
+                </div>
+                
+                <!-- CTA Button -->
+                <button onclick="navigateToSection('contact')" 
+                        class="px-8 py-3 bg-gradient-to-r from-amber-400 to-yellow-300 text-zinc-950 font-semibold rounded-3xl flex items-center gap-x-2 hover:shadow-2xl hover:shadow-amber-400/50 hover:scale-105 active:scale-95">
+                    <span>JOIN THE LEGACY</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+
+                <!-- Mobile Hamburger -->
+                <button onclick="toggleMobileMenu()" class="lg:hidden text-3xl text-white hover:text-amber-400">
+                    <i id="hamburger" class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-zinc-950 border-t border-white/10 px-8 py-6">
+            <div class="flex flex-col gap-y-6 text-lg font-medium">
+                <a href="#home" onclick="navigateToSection('home');toggleMobileMenu()" class="flex items-center gap-x-3"><i class="fa-solid fa-house w-5"></i> Home</a>
+                <a href="#about" onclick="navigateToSection('about');toggleMobileMenu()" class="flex items-center gap-x-3"><i class="fa-solid fa-user w-5"></i> The Legend</a>
+                <a href="#journey" onclick="navigateToSection('journey');toggleMobileMenu()" class="flex items-center gap-x-3"><i class="fa-solid fa-timeline w-5"></i> The Journey</a>
+                <a href="#legacy" onclick="navigateToSection('legacy');toggleMobileMenu()" class="flex items-center gap-x-3"><i class="fa-solid fa-trophy w-5"></i> Legacy</a>
+                <a href="#impact" onclick="navigateToSection('impact');toggleMobileMenu()" class="flex items-center gap-x-3"><i class="fa-solid fa-globe w-5"></i> Impact</a>
+                <a href="#contact" onclick="navigateToSection('contact');toggleMobileMenu()" class="flex items-center gap-x-3"><i class="fa-solid fa-envelope w-5"></i> Connect</a>
+                
+                <div class="pt-6 border-t border-white/10 flex justify-center gap-x-8 text-2xl">
+                    <a href="#" class="hover:text-amber-400"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a href="#" class="hover:text-amber-400"><i class="fa-brands fa-linkedin"></i></a>
+                    <a href="#" class="hover:text-amber-400"><i class="fa-brands fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section id="home" class="relative min-h-screen flex items-center justify-center overflow-hidden">
+        <!-- Particle Canvas -->
+        <canvas id="hero-canvas" class="absolute inset-0 z-0"></canvas>
+        
+        <!-- Gradient Overlay -->
+        <div class="absolute inset-0 bg-gradient-to-b from-zinc-950/60 via-zinc-950/40 to-zinc-950 z-10"></div>
+        
+        <div class="relative z-20 max-w-screen-2xl mx-auto px-8 text-center pt-20">
+            <div data-aos="fade-down" data-aos-duration="1200" class="inline-flex items-center bg-white/10 text-amber-400 text-sm font-medium tracking-[2px] px-8 py-3 rounded-3xl mb-8 backdrop-blur-md border border-amber-400/30 shadow-xl">
+                <div class="w-2 h-2 bg-amber-400 rounded-full animate-pulse mr-3"></div>
+                LEGEND • VISIONARY • CONQUEROR
+            </div>
+            
+            <h1 data-aos="zoom-in" data-aos-duration="1000" class="hero-text heading-font text-7xl md:text-[92px] lg:text-[110px] leading-none font-black tracking-[-4px] mb-4">
+                SAM ALEXANDER
+            </h1>
+            <div data-aos="zoom-in" data-aos-delay="400" class="text-amber-400 text-6xl md:text-7xl lg:text-8xl font-bold heading-font tracking-widest mb-10 flex items-center justify-center gap-x-6">
+                THE GREAT
+                <span class="text-4xl rotate-12">👑</span>
+            </div>
+            
+            <p data-aos="fade-up" data-aos-delay="600" class="max-w-2xl mx-auto text-2xl md:text-3xl text-zinc-200 font-light mb-12 leading-tight">
+                Conquering frontiers of innovation.<br>
+                Inspiring millions. Building empires that last forever.
+            </p>
+            
+            <div data-aos="fade-up" data-aos-delay="800" class="flex flex-wrap justify-center gap-6">
+                <button onclick="navigateToSection('journey')" 
+                        class="group px-12 py-6 text-xl font-semibold bg-white text-zinc-950 rounded-3xl flex items-center gap-x-4 hover:bg-amber-400 hover:shadow-[0_0_60px_-10px] hover:shadow-amber-400">
+                    BEGIN THE JOURNEY
+                    <i class="fa-solid fa-arrow-right group-active:translate-x-2"></i>
+                </button>
+                
+                <button onclick="navigateToSection('impact')" 
+                        class="group px-12 py-6 text-xl font-medium border-2 border-amber-400 hover:border-white rounded-3xl flex items-center gap-x-4">
+                    SEE THE LEGACY
+                    <span class="text-amber-400 group-hover:text-white text-2xl">✺</span>
+                </button>
+            </div>
+            
+            <!-- Scroll indicator -->
+            <div data-aos="fade" data-aos-delay="1400" class="absolute bottom-12 left-1/2 flex flex-col items-center">
+                <p class="text-xs tracking-[3px] text-amber-400/70 mb-2">SCROLL FOR GREATNESS</p>
+                <div class="animate-bounce">
+                    <i class="fa-solid fa-chevron-down text-4xl text-amber-400"></i>
+                </div>
+            </div>
+            
+            <!-- Floating badges -->
+            <div class="hidden xl:block absolute bottom-24 left-12 bg-white/10 backdrop-blur-lg px-6 py-3 rounded-3xl border border-white/20 text-sm flex items-center gap-x-3" data-aos="fade-right">
+                <i class="fa-solid fa-medal text-amber-400"></i>
+                <div>FORBES 100 GREATEST</div>
+            </div>
+            <div class="hidden xl:block absolute top-36 right-12 bg-white/10 backdrop-blur-lg px-6 py-3 rounded-3xl border border-white/20 text-sm flex items-center gap-x-3 rotate-[-8deg]" data-aos="fade-left">
+                <i class="fa-solid fa-rocket text-amber-400"></i>
+                <div>EMPIRE BUILDER</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT / THE LEGEND -->
+    <section id="about" class="relative py-24 bg-zinc-900">
+        <div class="max-w-screen-2xl mx-auto px-8">
+            <div class="grid md:grid-cols-12 gap-16 items-center">
+                <!-- Left text -->
+                <div class="md:col-span-7" data-aos="fade-right">
+                    <div class="uppercase text-amber-400 text-sm font-semibold tracking-widest mb-4">WHO IS THE GREAT?</div>
+                    <h2 class="section-header heading-font text-6xl font-bold leading-none mb-8">A modern legend forged in vision and relentless pursuit of excellence.</h2>
+                    <div class="prose prose-invert text-xl text-zinc-300 max-w-none">
+                        <p>Sam Alexander stands as one of the most influential figures of our era. From humble beginnings to building global empires in technology, sustainability, and human potential, his strategic brilliance and fearless leadership have redefined what “greatness” means in the 21st century.</p>
+                        <p>He has inspired over 200 million people worldwide through groundbreaking speeches, bestselling books, and transformative initiatives that bridge innovation with deep humanitarian impact.</p>
+                    </div>
+                    
+                    <div class="mt-12 flex flex-wrap gap-8">
+                        <div class="flex items-center gap-x-4">
+                            <div class="text-5xl font-bold text-amber-400">42</div>
+                            <div class="text-sm leading-tight"><span class="block font-medium">COMPANIES</span>FOUNDED &amp; SCALED</div>
+                        </div>
+                        <div class="flex items-center gap-x-4">
+                            <div class="text-5xl font-bold text-amber-400">18</div>
+                            <div class="text-sm leading-tight"><span class="block font-medium">COUNTRIES</span>TRANSFORMED</div>
+                        </div>
+                        <div class="flex items-center gap-x-4">
+                            <div class="text-5xl font-bold text-amber-400">∞</div>
+                            <div class="text-sm leading-tight"><span class="block font-medium">LIVES</span>CHANGED FOREVER</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right visual -->
+                <div class="md:col-span-5 relative" data-aos="fade-left">
+                    <div class="aspect-square bg-gradient-to-br from-amber-400/10 to-transparent rounded-3xl p-2 border border-amber-400/20">
+                        <div class="h-full w-full bg-zinc-800 rounded-3xl flex items-center justify-center overflow-hidden relative">
+                            <!-- Placeholder for portrait – epic visual -->
+                            <div class="text-center">
+                                <div class="text-[180px] leading-none text-amber-400/10 mb-4">👑</div>
+                                <div class="text-amber-400 text-5xl heading-font">SAM ALEXANDER</div>
+                                <div class="text-white/30 text-xl">THE GREAT</div>
+                            </div>
+                            <!-- Floating animated rings -->
+                            <div class="absolute inset-0 border border-amber-400/30 rounded-3xl animate-[spin_25s_linear_infinite]"></div>
+                            <div class="absolute inset-8 border border-amber-400/20 rounded-3xl animate-[spin_40s_linear_infinite_reverse]"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- JOURNEY / TIMELINE -->
+    <section id="journey" class="py-24 bg-zinc-950">
+        <div class="max-w-screen-2xl mx-auto px-8">
+            <h2 data-aos="fade-up" class="section-header text-center text-5xl heading-font font-bold mb-16">THE JOURNEY TO GREATNESS</h2>
+            
+            <div class="relative">
+                <!-- Vertical line -->
+                <div class="absolute left-1/2 top-8 bottom-8 w-1 bg-gradient-to-b from-transparent via-amber-400 to-transparent hidden md:block"></div>
+                
+                <div class="space-y-24">
+                    <!-- Timeline item 1 -->
+                    <div class="grid md:grid-cols-12 gap-8 items-center" data-aos="fade-up">
+                        <div class="md:col-span-5 md:text-right">
+                            <div class="text-amber-400 font-mono text-sm">2008</div>
+                            <h3 class="text-3xl font-semibold">The Spark</h3>
+                            <p class="text-zinc-400">Founded first startup in a garage. Turned a $300 idea into a $120M company in 18 months.</p>
+                        </div>
+                        <div class="md:col-span-2 flex justify-center">
+                            <div class="w-12 h-12 bg-amber-400 text-zinc-950 rounded-2xl flex items-center justify-center text-3xl shadow-xl z-10">1</div>
+                        </div>
+                        <div class="md:col-span-5 text-zinc-300">
+                            First global acquisition. The world took notice.
+                        </div>
+                    </div>
+                    
+                    <!-- Timeline item 2 -->
+                    <div class="grid md:grid-cols-12 gap-8 items-center" data-aos="fade-up" data-aos-delay="200">
+                        <div class="md:col-span-5 md:text-right md:order-3">
+                            <div class="text-amber-400 font-mono text-sm">2015</div>
+                            <h3 class="text-3xl font-semibold">Global Expansion</h3>
+                            <p class="text-zinc-400">Launched the “Rise Together” movement that empowered 10 million young leaders across 47 countries.</p>
+                        </div>
+                        <div class="md:col-span-2 flex justify-center order-2">
+                            <div class="w-12 h-12 bg-amber-400 text-zinc-950 rounded-2xl flex items-center justify-center text-3xl shadow-xl z-10">2</div>
+                        </div>
+                        <div class="md:col-span-5 text-zinc-300 order-1">
+                            TED Talk watched over 85 million times. The legend grew.
+                        </div>
+                    </div>
+                    
+                    <!-- Timeline item 3 -->
+                    <div class="grid md:grid-cols-12 gap-8 items-center" data-aos="fade-up" data-aos-delay="400">
+                        <div class="md:col-span-5 md:text-right">
+                            <div class="text-amber-400 font-mono text-sm">2022</div>
+                            <h3 class="text-3xl font-semibold">The Empire Era</h3>
+                            <p class="text-zinc-400">Built the world’s most advanced AI-human collaboration platform while launching a $2B climate fund.</p>
+                        </div>
+                        <div class="md:col-span-2 flex justify-center">
+                            <div class="w-12 h-12 bg-amber-400 text-zinc-950 rounded-2xl flex items-center justify-center text-3xl shadow-xl z-10">3</div>
+                        </div>
+                        <div class="md:col-span-5 text-zinc-300">
+                            Named “Person of the Decade” by TIME Magazine.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LEGACY / ACHIEVEMENTS -->
+    <section id="legacy" class="py-24 bg-gradient-to-b from-zinc-900 to-zinc-950">
+        <div class="max-w-screen-2xl mx-auto px-8">
+            <h2 data-aos="fade-up" class="section-header text-center text-5xl heading-font font-bold mb-4">A LEGACY THAT ECHOES</h2>
+            <p data-aos="fade-up" class="text-center text-zinc-400 text-xl mb-16">Numbers don’t lie. Greatness is measured in impact.</p>
+            
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+                <div data-aos="zoom-in" data-aos-delay="100" class="card-hover bg-white/5 border border-white/10 rounded-3xl p-8 text-center">
+                    <i class="fa-solid fa-building-columns text-5xl text-amber-400 mb-6"></i>
+                    <div id="count-1" class="text-6xl font-bold text-amber-400 mb-1">27</div>
+                    <p class="uppercase text-xs tracking-widest">Unicorn Companies</p>
+                </div>
+                <div data-aos="zoom-in" data-aos-delay="200" class="card-hover bg-white/5 border border-white/10 rounded-3xl p-8 text-center">
+                    <i class="fa-solid fa-users-rectangle text-5xl text-amber-400 mb-6"></i>
+                    <div id="count-2" class="text-6xl font-bold text-amber-400 mb-1">214M</div>
+                    <p class="uppercase text-xs tracking-widest">Lives Inspired</p>
+                </div>
+                <div data-aos="zoom-in" data-aos-delay="300" class="card-hover bg-white/5 border border-white/10 rounded-3xl p-8 text-center">
+                    <i class="fa-solid fa-trophy text-5xl text-amber-400 mb-6"></i>
+                    <div id="count-3" class="text-6xl font-bold text-amber-400 mb-1">89</div>
+                    <p class="uppercase text-xs tracking-widest">Major Awards</p>
+                </div>
+                <div data-aos="zoom-in" data-aos-delay="400" class="card-hover bg-white/5 border border-white/10 rounded-3xl p-8 text-center">
+                    <i class="fa-solid fa-book-open text-5xl text-amber-400 mb-6"></i>
+                    <div id="count-4" class="text-6xl font-bold text-amber-400 mb-1">7</div>
+                    <p class="uppercase text-xs tracking-widest">Bestselling Books</p>
+                </div>
+                <div data-aos="zoom-in" data-aos-delay="500" class="card-hover bg-white/5 border border-white/10 rounded-3xl p-8 text-center">
+                    <i class="fa-solid fa-hand-holding-heart text-5xl text-amber-400 mb-6"></i>
+                    <div id="count-5" class="text-6xl font-bold text-amber-400 mb-1">$4.2B</div>
+                    <p class="uppercase text-xs tracking-widest">Philanthropy</p>
+                </div>
+                <div data-aos="zoom-in" data-aos-delay="600" class="card-hover bg-white/5 border border-white/10 rounded-3xl p-8 text-center">
+                    <i class="fa-solid fa-globe text-5xl text-amber-400 mb-6"></i>
+                    <div id="count-6" class="text-6xl font-bold text-amber-400 mb-1">68</div>
+                    <p class="uppercase text-xs tracking-widest">Nations Reached</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- IMPACT -->
+    <section id="impact" class="py-24 bg-zinc-900">
+        <div class="max-w-screen-2xl mx-auto px-8">
+            <div class="flex flex-col lg:flex-row gap-16 items-center">
+                <div class="lg:w-5/12" data-aos="fade-right">
+                    <h2 class="section-header text-5xl heading-font font-bold">His impact reshapes the world every single day.</h2>
+                    <p class="text-2xl text-zinc-300 mt-8">From AI that heals to oceans that breathe again — Sam Alexander doesn’t just dream of a better future. He builds it.</p>
+                    
+                    <div class="mt-16 space-y-8">
+                        <div class="flex gap-6">
+                            <div class="flex-shrink-0 text-4xl text-amber-400">01</div>
+                            <div>
+                                <h4 class="font-semibold text-xl">Nova Initiative</h4>
+                                <p class="text-zinc-400">Revolutionary clean energy grid powering 1.8 billion homes by 2030.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-6">
+                            <div class="flex-shrink-0 text-4xl text-amber-400">02</div>
+                            <div>
+                                <h4 class="font-semibold text-xl">The Great Academy</h4>
+                                <p class="text-zinc-400">Free leadership &amp; entrepreneurship education for 10 million youth annually.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-6">
+                            <div class="flex-shrink-0 text-4xl text-amber-400">03</div>
+                            <div>
+                                <h4 class="font-semibold text-xl">Eternal Legacy Fund</h4>
+                                <p class="text-zinc-400">$10 billion endowment ensuring his vision lives for centuries.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="lg:w-7/12 grid grid-cols-2 gap-6" data-aos="fade-left">
+                    <div class="bg-gradient-to-br from-amber-400 to-yellow-300 text-zinc-950 rounded-3xl p-8 card-hover">
+                        <i class="fa-solid fa-leaf text-6xl mb-8"></i>
+                        <p class="text-4xl font-semibold">Restored 14 million acres of rainforest</p>
+                    </div>
+                    <div class="bg-zinc-800 rounded-3xl p-8 card-hover flex flex-col justify-end">
+                        <i class="fa-solid fa-microchip text-6xl mb-8 text-amber-400"></i>
+                        <p class="text-4xl font-semibold">Deployed AI that reduced global carbon emissions by 11%</p>
+                    </div>
+                    <div class="col-span-2 bg-gradient-to-r from-zinc-800 to-amber-400/10 rounded-3xl p-8 card-hover flex items-center">
+                        <div class="flex-1">
+                            <h3 class="text-5xl font-bold">1.4 billion smiles</h3>
+                            <p class="text-xl">created through education, healthcare, and opportunity programs</p>
+                        </div>
+                        <div class="text-[120px] leading-none text-amber-400/30">🌍</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="py-24 bg-zinc-950">
+        <div class="max-w-screen-2xl mx-auto px-8">
+            <h2 data-aos="fade-up" class="section-header text-center text-5xl heading-font font-bold mb-16">Voices of those who witnessed greatness</h2>
+            
+            <div id="testimonial-slider" class="relative overflow-hidden rounded-3xl max-w-4xl mx-auto">
+                <!-- Slides will be controlled by JS -->
+                <div id="slides" class="flex transition-transform duration-700">
+                    <div class="min-w-full px-12 py-14 bg-white/5 backdrop-blur-xl border border-amber-400/10 rounded-3xl">
+                        <div class="text-7xl mb-8 text-amber-400">“</div>
+                        <p class="text-2xl italic mb-12">"Sam doesn’t just lead — he elevates every soul around him to their highest potential. He is truly The Great."</p>
+                        <div class="flex items-center gap-x-4">
+                            <div class="w-12 h-12 bg-amber-400 rounded-2xl"></div>
+                            <div>
+                                <div class="font-semibold">Elon Musk</div>
+                                <div class="text-amber-400 text-sm">CEO, xAI &amp; Tesla</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="min-w-full px-12 py-14 bg-white/5 backdrop-blur-xl border border-amber-400/10 rounded-3xl">
+                        <div class="text-7xl mb-8 text-amber-400">“</div>
+                        <p class="text-2xl italic mb-12">"Working with Sam Alexander changed how I view leadership forever. A true modern Alexander the Great."</p>
+                        <div class="flex items-center gap-x-4">
+                            <div class="w-12 h-12 bg-gradient-to-br from-pink-400 to-purple-400 rounded-2xl"></div>
+                            <div>
+                                <div class="font-semibold">Satya Nadella</div>
+                                <div class="text-amber-400 text-sm">CEO, Microsoft</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="min-w-full px-12 py-14 bg-white/5 backdrop-blur-xl border border-amber-400/10 rounded-3xl">
+                        <div class="text-7xl mb-8 text-amber-400">“</div>
+                        <p class="text-2xl italic mb-12">"Sam’s vision is contagious. His work will be studied in history books for the next thousand years."</p>
+                        <div class="flex items-center gap-x-4">
+                            <div class="w-12 h-12 bg-emerald-400 rounded-2xl"></div>
+                            <div>
+                                <div class="font-semibold">Malala Yousafzai</div>
+                                <div class="text-amber-400 text-sm">Nobel Laureate</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex justify-center gap-x-4 mt-8">
+                <button onclick="prevSlide()" class="w-12 h-12 rounded-2xl border border-white/30 hover:border-amber-400 flex items-center justify-center text-2xl"><i class="fa-solid fa-chevron-left"></i></button>
+                <button onclick="nextSlide()" class="w-12 h-12 rounded-2xl border border-white/30 hover:border-amber-400 flex items-center justify-center text-2xl"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="py-24 bg-gradient-to-br from-zinc-900 to-black relative">
+        <div class="max-w-screen-2xl mx-auto px-8">
+            <div class="grid lg:grid-cols-2 gap-16">
+                <div data-aos="fade-right">
+                    <h2 class="text-6xl heading-font font-bold mb-6">Ready to create your own greatness?</h2>
+                    <p class="text-zinc-400 text-2xl">Whether you seek mentorship, partnership, or simply want to say hello — Sam Alexander welcomes those who dream big.</p>
+                    
+                    <form id="contact-form" class="mt-12 space-y-8" onsubmit="handleSubmit(event)">
+                        <div>
+                            <input type="text" placeholder="Your name" required
+                                   class="w-full px-8 py-6 bg-white/10 border border-white/20 focus:border-amber-400 rounded-3xl text-lg outline-none">
+                        </div>
+                        <div>
+                            <input type="email" placeholder="Your email" required
+                                   class="w-full px-8 py-6 bg-white/10 border border-white/20 focus:border-amber-400 rounded-3xl text-lg outline-none">
+                        </div>
+                        <div>
+                            <textarea placeholder="Your message to the legend..." rows="6" required
+                                      class="w-full px-8 py-6 bg-white/10 border border-white/20 focus:border-amber-400 rounded-3xl text-lg outline-none resize-none"></textarea>
+                        </div>
+                        <button type="submit"
+                                class="w-full py-7 bg-gradient-to-r from-amber-400 to-yellow-400 text-zinc-950 font-bold text-2xl rounded-3xl hover:scale-[1.02] hover:shadow-2xl hover:shadow-amber-400 flex items-center justify-center gap-x-4">
+                            SEND MESSAGE TO THE GREAT
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+                
+                <div data-aos="fade-left" class="flex flex-col justify-center">
+                    <div class="text-amber-400 text-8xl mb-8">“Greatness is not given. It is taken.”</div>
+                    <div class="text-3xl font-light">— Sam Alexander the Great</div>
+                    <div class="mt-auto pt-16 text-sm flex flex-col gap-y-3">
+                        <div class="flex items-center gap-x-4"><i class="fa-solid fa-envelope w-6"></i> hello@samalexanderthegreat.com</div>
+                        <div class="flex items-center gap-x-4"><i class="fa-solid fa-globe w-6"></i> samalexanderthegreat.com</div>
+                        <div class="flex items-center gap-x-4"><i class="fa-solid fa-location-dot w-6"></i> Empires Worldwide</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-black py-16 border-t border-amber-400/10">
+        <div class="max-w-screen-2xl mx-auto px-8 text-center">
+            <div class="flex justify-center mb-6">
+                <div class="flex items-center gap-x-3">
+                    <i class="fa-solid fa-crown text-amber-400 text-4xl"></i>
+                    <span class="heading-font text-4xl">SAM ALEXANDER THE GREAT</span>
+                </div>
+            </div>
+            <p class="text-zinc-500">© 2026 • Built to inspire generations. All empires rise.</p>
+            <div class="flex justify-center gap-x-8 text-2xl mt-8 text-amber-400">
+                <i class="fa-brands fa-x-twitter hover:scale-125 cursor-pointer"></i>
+                <i class="fa-brands fa-linkedin hover:scale-125 cursor-pointer"></i>
+                <i class="fa-brands fa-youtube hover:scale-125 cursor-pointer"></i>
+                <i class="fa-brands fa-instagram hover:scale-125 cursor-pointer"></i>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        /**
+         * Main website script for Sam Alexander the Great
+         * Features beautiful particle canvas, AOS scroll animations,
+         * counter animations, mobile menu, testimonial carousel,
+         * smooth navigation, scroll progress bar, and more.
+         * Everything is self-contained and designed to amaze.
+         */
+
+        // Tailwind configuration
+        function initializeTailwind() {
+            return {
+                config(userConfig = {}) {
+                    return {
+                        configUser: userConfig,
+                        theme: {
+                            extend: {
+                                colors: {
+                                    gold: '#facc15'
+                                }
+                            }
+                        }
+                    }
+                },
+                theme: {
+                    extend: {}
+                }
+            }
+        }
+        
+        // Particle system for hero
+        let canvas, ctx, particlesArray = []
+        
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width
+                this.y = Math.random() * canvas.height
+                this.size = Math.random() * 4 + 1
+                this.speedX = Math.random() * 1.5 - 0.75
+                this.speedY = Math.random() * 1.5 - 0.75
+                this.hue = 48 // amber/gold
+            }
+            update() {
+                this.x += this.speedX
+                this.y += this.speedY
+                
+                // Gentle bounce on edges
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -0.9
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -0.9
+                
+                // Slight fade in size for sparkle effect
+                this.size = Math.max(0.8, this.size - 0.01)
+                if (this.size <= 0.8) {
+                    this.size = Math.random() * 4 + 1
+                    this.x = Math.random() * canvas.width
+                    this.y = Math.random() * canvas.height
+                }
+            }
+            draw() {
+                ctx.save()
+                ctx.globalAlpha = 0.9
+                ctx.fillStyle = `hsl(${this.hue}, 100%, 75%)`
+                ctx.shadowBlur = 15
+                ctx.shadowColor = '#facc15'
+                ctx.beginPath()
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2)
+                ctx.fill()
+                ctx.restore()
+            }
+        }
+        
+        function initParticles() {
+            particlesArray = []
+            const numberOfParticles = Math.floor(window.innerWidth / 6) + 80
+            for (let i = 0; i < numberOfParticles; i++) {
+                particlesArray.push(new Particle())
+            }
+        }
+        
+        function connectParticles() {
+            for (let i = 0; i < particlesArray.length; i++) {
+                for (let j = i + 1; j < particlesArray.length; j++) {
+                    const dx = particlesArray[i].x - particlesArray[j].x
+                    const dy = particlesArray[i].y - particlesArray[j].y
+                    const distance = Math.sqrt(dx * dx + dy * dy)
+                    
+                    if (distance < 140) {
+                        ctx.save()
+                        ctx.globalAlpha = (140 - distance) / 140 * 0.4
+                        ctx.strokeStyle = '#facc15'
+                        ctx.lineWidth = 0.8
+                        ctx.beginPath()
+                        ctx.moveTo(particlesArray[i].x, particlesArray[i].y)
+                        ctx.lineTo(particlesArray[j].x, particlesArray[j].y)
+                        ctx.stroke()
+                        ctx.restore()
+                    }
+                }
+            }
+        }
+        
+        function animateCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height)
+            
+            particlesArray.forEach(particle => {
+                particle.update()
+                particle.draw()
+            })
+            
+            connectParticles()
+            requestAnimationFrame(animateCanvas)
+        }
+        
+        function resizeCanvas() {
+            canvas.width = window.innerWidth
+            canvas.height = window.innerHeight
+            initParticles()
+        }
+        
+        // Counter animation
+        function animateCounters() {
+            const counters = [
+                { id: 'count-1', target: 27, suffix: '' },
+                { id: 'count-2', target: 214, suffix: 'M' },
+                { id: 'count-3', target: 89, suffix: '' },
+                { id: 'count-4', target: 7, suffix: '' },
+                { id: 'count-5', target: 4.2, suffix: 'B', decimal: true },
+                { id: 'count-6', target: 68, suffix: '' }
+            ]
+            
+            counters.forEach(counter => {
+                const el = document.getElementById(counter.id)
+                if (!el) return
+                
+                let count = 0
+                const increment = counter.target / 80
+                
+                const timer = setInterval(() => {
+                    count += increment
+                    
+                    if (counter.decimal) {
+                        el.textContent = count.toFixed(1) + counter.suffix
+                    } else {
+                        el.textContent = Math.floor(count) + counter.suffix
+                    }
+                    
+                    if (count >= counter.target) {
+                        if (counter.decimal) {
+                            el.textContent = counter.target + counter.suffix
+                        } else {
+                            el.textContent = counter.target + counter.suffix
+                        }
+                        clearInterval(timer)
+                    }
+                }, 25)
+            })
+        }
+        
+        // Testimonial carousel
+        let currentSlide = 0
+        const totalSlides = 3
+        
+        function moveSlider() {
+            const slider = document.getElementById('slides')
+            slider.style.transform = `translateX(-${currentSlide * 100}%)`
+        }
+        
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % totalSlides
+            moveSlider()
+        }
+        
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides
+            moveSlider()
+        }
+        
+        // Auto rotate testimonials
+        function startTestimonialRotation() {
+            setInterval(() => {
+                nextSlide()
+            }, 5200)
+        }
+        
+        // Mobile menu toggle with animation
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu')
+            const icon = document.getElementById('hamburger')
+            
+            if (menu.classList.contains('hidden')) {
+                menu.style.display = 'block'
+                setTimeout(() => {
+                    menu.classList.remove('hidden')
+                    icon.classList.replace('fa-bars', 'fa-xmark')
+                }, 10)
+            } else {
+                menu.classList.add('hidden')
+                icon.classList.replace('fa-xmark', 'fa-bars')
+                setTimeout(() => { menu.style.display = 'none' }, 300)
+            }
+        }
+        
+        // Smooth section navigation
+        function navigateToSection(section) {
+            let id = section
+            if (section === 'home') id = 'home'
+            const element = document.getElementById(id)
+            if (element) {
+                const navHeight = 80
+                const bodyRect = document.body.getBoundingClientRect().top
+                const elementRect = element.getBoundingClientRect().top
+                const elementPosition = elementRect - bodyRect
+                const offsetPosition = elementPosition - navHeight
+                
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                })
+            }
+        }
+        
+        // Form submission handler (demo)
+        function handleSubmit(e) {
+            e.preventDefault()
+            const btn = e.target.querySelector('button')
+            const originalText = btn.innerHTML
+            
+            btn.style.transitionDuration = '300ms'
+            btn.innerHTML = `
+                <i class="fa-solid fa-check mr-2"></i>
+                MESSAGE SENT TO THE GREAT!
+            `
+            btn.classList.add('!bg-emerald-400')
+            
+            setTimeout(() => {
+                alert("✺ Thank you! Sam Alexander the Great has received your message and sends his golden regards.")
+                e.target.reset()
+                btn.innerHTML = originalText
+                btn.classList.remove('!bg-emerald-400')
+            }, 2200)
+        }
+        
+        // Scroll progress bar
+        function initScrollProgress() {
+            const progressBar = document.getElementById('scroll-progress')
+            
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY
+                const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight
+                const scrollPercent = (scrollTop / docHeight) * 100
+                progressBar.style.width = `${scrollPercent}%`
+            })
+        }
+        
+        // Main initialization when page loads
+        function initializeWebsite() {
+            // Tailwind
+            const config = initializeTailwind()
+            document.documentElement.setAttribute('data-tailwind-config', JSON.stringify(config))
+            
+            // AOS scroll animations
+            AOS.init({
+                once: true,
+                duration: 1100,
+                easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
+                offset: 100
+            })
+            
+            // Canvas setup
+            canvas = document.getElementById('hero-canvas')
+            if (canvas) {
+                ctx = canvas.getContext('2d')
+                resizeCanvas()
+                window.addEventListener('resize', resizeCanvas)
+                initParticles()
+                animateCanvas()
+            }
+            
+            // Counters
+            const legacySection = document.getElementById('legacy')
+            if (legacySection) {
+                const observer = new IntersectionObserver((entries) => {
+                    if (entries[0].isIntersecting) {
+                        animateCounters()
+                        observer.disconnect()
+                    }
+                }, { threshold: 0.6 })
+                observer.observe(legacySection)
+            }
+            
+            // Testimonial auto play
+            startTestimonialRotation()
+            
+            // Scroll progress
+            initScrollProgress()
+            
+            console.log('%c✅ Sam Alexander the Great website loaded with epic animations and particle magic!', 'background:#facc15;color:#0a0a0a;font-weight:bold;padding:4px 8px;border-radius:4px')
+        }
+        
+        // Launch the greatness
+        window.onload = initializeWebsite
+    </script>
+</body>
+</html>

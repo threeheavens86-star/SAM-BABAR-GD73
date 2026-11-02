@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sam Travel & Tours - Premium travel agency offering unforgettable journeys, luxury tours, and adventure packages worldwide.">
+    <title>Sam Travel & Tours | Discover. Explore. Remember.</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- AOS Animation Library -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@400;500;600&display=swap');
+        
+        :root {
+            --primary: #0f172a;
+            --accent: #00d4c8;
+        }
+        
+        * {
+            transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration: 150ms;
+        }
+        
+        .tailwind-config {
+            font-family: 'Inter', system_ui, sans-serif;
+        }
+        
+        .heading-font {
+            font-family: 'Playfair Display', sans-serif;
+        }
+
+        /* Navbar */
+        .nav-link {
+            position: relative;
+        }
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #00d4c8;
+        }
+        .nav-link:hover:after {
+            width: 100%;
+        }
+
+        /* Hero */
+        .hero-bg {
+            animation: heroPan 30s infinite alternate linear;
+        }
+        
+        @keyframes heroPan {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
+        /* Card hover effects */
+        .service-card, .destination-card, .package-card {
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .service-card:hover, .destination-card:hover, .package-card:hover {
+            transform: translateY(-12px) scale(1.03);
+            box-shadow: 0 25px 50px -12px rgb(0 212 200 / 0.25);
+        }
+
+        /* Button pulse */
+        .btn-pulse {
+            animation: pulse 2s infinite;
+        }
+
+        /* Counter animation */
+        .counter {
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* Scroll progress */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(to right, #00d4c8 var(--scroll), transparent var(--scroll));
+            z-index: 50;
+            transition: width 0.1s;
+        }
+    </style>
+</head>
+<body class="tailwind-config">
+
+    <!-- SCROLL PROGRESS BAR -->
+    <div id="scrollProgress" class="scroll-progress w-0"></div>
+
+    <!-- NAVBAR -->
+    <nav class="bg-white/95 backdrop-blur-lg border-b sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
+            
+            <!-- Logo -->
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-gradient-to-br from-[#00d4c8] to-[#0f172a] rounded-2xl flex items-center justify-center text-white text-2xl shadow-inner">
+                    ✈️
+                </div>
+                <div>
+                    <h1 class="heading-font text-3xl font-bold tracking-tighter text-[#0f172a]">Sam Travel</h1>
+                    <p class="text-xs -mt-1 text-[#00d4c8] font-medium tracking-[1px]">&amp; TOURS</p>
+                </div>
+            </div>
+
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center gap-8 text-[#0f172a] font-medium">
+                <a href="#home" class="nav-link text-lg">Home</a>
+                <a href="#destinations" class="nav-link text-lg">Destinations</a>
+                <a href="#tours" class="nav-link text-lg">Tours</a>
+                <a href="#packages" class="nav-link text-lg">Packages</a>
+                <a href="#about" class="nav-link text-lg">About Us</a>
+                <a href="#contact" class="nav-link text-lg">Contact</a>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <!-- Phone -->
+                <a href="tel:+923001234567" class="hidden sm:flex items-center gap-2 text-[#0f172a] hover:text-[#00d4c8]">
+                    <i class="fa-solid fa-phone"></i>
+                    <span class="font-medium">+92 300 1234567</span>
+                </a>
+                
+                <!-- Book Now Button -->
+                <button onclick="showBookingModal()" 
+                        class="btn-pulse bg-[#00d4c8] hover:bg-[#00b8ae] text-white px-8 py-3 rounded-3xl font-semibold flex items-center gap-2 shadow-lg shadow-[#00d4c8]/30">
+                    <i class="fa-solid fa-plane"></i>
+                    BOOK NOW
+                </button>
+
+                <!-- Mobile Hamburger -->
+                <button id="mobileMenuBtn" class="md:hidden text-3xl text-[#0f172a]">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden md:hidden bg-white border-t px-6 py-6">
+            <div class="flex flex-col gap-6 text-xl font-medium text-[#0f172a]">
+                <a href="#home" onclick="toggleMobileMenu()" class="nav-link">Home</a>
+                <a href="#destinations" onclick="toggleMobileMenu()" class="nav-link">Destinations</a>
+                <a href="#tours" onclick="toggleMobileMenu()" class="nav-link">Tours</a>
+                <a href="#packages" onclick="toggleMobileMenu()" class="nav-link">Packages</a>
+                <a href="#about" onclick="toggleMobileMenu()" class="nav-link">About Us</a>
+                <a href="#contact" onclick="toggleMobileMenu()" class="nav-link">Contact</a>
+                <div class="pt-4 border-t flex flex-col gap-4">
+                    <a href="tel:+923001234567" class="flex items-center gap-3">
+                        <i class="fa-solid fa-phone"></i> +92 300 1234567
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section id="home" class="relative h-screen flex items-center overflow-hidden">
+        <!-- Background with parallax + animation -->
+        <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4')] bg-cover bg-center hero-bg" 
+             style="filter: brightness(0.65);"></div>
+        
+        <div class="absolute inset-0 bg-gradient-to-r from-[#0f172a]/80 via-[#0f172a]/40 to-transparent"></div>
+        
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
+            <div class="max-w-2xl" data-aos="fade-up" data-aos-duration="1200">
+                <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md text-white text-sm font-medium px-5 py-2 rounded-3xl mb-6 border border-white/30">
+                    <span class="relative flex h-3 w-3">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00d4c8] opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-3 w-3 bg-[#00d4c8]"></span>
+                    </span>
+                    NEW: 2026 Summer Escapes Now Open
+                </div>
+                
+                <h1 class="heading-font text-7xl md:text-8xl font-bold text-white leading-none tracking-tighter mb-6">
+                    DISCOVER THE<br>EXTRAORDINARY
+                </h1>
+                
+                <p class="text-2xl text-white/90 mb-10 max-w-md">
+                    Premium journeys crafted by Sam Travel &amp; Tours. Where every trip becomes a story.
+                </p>
+                
+                <div class="flex flex-wrap gap-4">
+                    <button onclick="document.getElementById('destinations').scrollIntoView({ behavior: 'smooth' })" 
+                            class="bg-white text-[#0f172a] hover:bg-[#00d4c8] hover:text-white px-10 py-5 rounded-3xl text-xl font-semibold flex items-center gap-3 shadow-2xl">
+                        EXPLORE DESTINATIONS
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                    
+                    <button onclick="showBookingModal()" 
+                            class="border-2 border-white text-white hover:bg-white hover:text-[#0f172a] px-10 py-5 rounded-3xl text-xl font-semibold flex items-center gap-3">
+                        <i class="fa-solid fa-plane-departure"></i>
+                        PLAN YOUR TRIP
+                    </button>
+                </div>
+                
+                <!-- Trust signals -->
+                <div class="mt-16 flex items-center gap-8 text-white/70">
+                    <div class="flex -space-x-4">
+                        <img src="https://i.pravatar.cc/48?img=1" class="w-8 h-8 rounded-2xl ring-2 ring-white" alt="">
+                        <img src="https://i.pravatar.cc/48?img=2" class="w-8 h-8 rounded-2xl ring-2 ring-white" alt="">
+                        <img src="https://i.pravatar.cc/48?img=3" class="w-8 h-8 rounded-2xl ring-2 ring-white" alt="">
+                    </div>
+                    <div>
+                        <p class="text-sm">Trusted by 12,450+ happy travelers</p>
+                        <div class="flex text-yellow-400 text-xl">★★★★★</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Floating badges -->
+        <div class="absolute bottom-12 right-12 hidden lg:flex flex-col gap-4">
+            <div data-aos="zoom-in" data-aos-delay="800" class="bg-white text-[#0f172a] px-6 py-3 rounded-3xl flex items-center gap-3 shadow-2xl">
+                <i class="fa-solid fa-globe text-[#00d4c8] text-2xl"></i>
+                <div>
+                    <p class="font-semibold">120+ Countries</p>
+                    <p class="text-xs text-gray-500">Visited by our guests</p>
+                </div>
+            </div>
+            <div data-aos="zoom-in" data-aos-delay="1100" class="bg-white text-[#0f172a] px-6 py-3 rounded-3xl flex items-center gap-3 shadow-2xl">
+                <i class="fa-solid fa-medal text-[#00d4c8] text-2xl"></i>
+                <div>
+                    <p class="font-semibold">Award Winning</p>
+                    <p class="text-xs text-gray-500">Best Travel Agency 2025</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll indicator -->
+        <div class="absolute bottom-10 left-1/2 flex flex-col items-center text-white/60 text-sm">
+            <p class="mb-2 tracking-widest">SCROLL TO EXPLORE</p>
+            <i class="fa-solid fa-chevron-down animate-bounce text-3xl"></i>
+        </div>
+    </section>
+
+    <!-- STATS BAR -->
+    <div class="bg-[#0f172a] py-8 text-white">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-3 md:grid-cols-6 gap-8 text-center">
+            <div data-aos="fade-up">
+                <h3 id="counter1" class="counter text-5xl font-bold text-[#00d4c8]">248</h3>
+                <p class="text-sm uppercase tracking-widest">Destinations</p>
+            </div>
+            <div data-aos="fade-up" data-aos-delay="200">
+                <h3 id="counter2" class="counter text-5xl font-bold text-[#00d4c8]">1840</h3>
+                <p class="text-sm uppercase tracking-widest">Happy Clients</p>
+            </div>
+            <div data-aos="fade-up" data-aos-delay="400">
+                <h3 id="counter3" class="counter text-5xl font-bold text-[#00d4c8]">98</h3>
+                <p class="text-sm uppercase tracking-widest">Tour Packages</p>
+            </div>
+            <div data-aos="fade-up" data-aos-delay="600">
+                <h3 id="counter4" class="counter text-5xl font-bold text-[#00d4c8]">14</h3>
+                <p class="text-sm uppercase tracking-widest">Years Experience</p>
+            </div>
+            <div data-aos="fade-up" data-aos-delay="800">
+                <h3 id="counter5" class="counter text-5xl font-bold text-[#00d4c8]">42</h3>
+                <p class="text-sm uppercase tracking-widest">Expert Guides</p>
+            </div>
+            <div data-aos="fade-up" data-aos-delay="1000">
+                <h3 id="counter6" class="counter text-5xl font-bold text-[#00d4c8]">4.98</h3>
+                <p class="text-sm uppercase tracking-widest">Average Rating</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SERVICES SECTION -->
+    <section class="py-24 bg-white" id="tours">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <span class="px-5 py-2 bg-[#00d4c8]/10 text-[#00d4c8] text-sm font-semibold rounded-3xl">OUR EXPERTISE</span>
+                <h2 class="heading-font text-5xl font-bold text-[#0f172a] mt-4">What We Offer</h2>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Card 1 -->
+                <div class="service-card bg-white border border-gray-100 rounded-3xl p-8 shadow-xl" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-14 h-14 bg-[#00d4c8]/10 rounded-2xl flex items-center justify-center text-4xl mb-6">🏔️</div>
+                    <h3 class="text-3xl font-semibold mb-3">Adventure &amp; Trekking</h3>
+                    <p class="text-gray-600 leading-relaxed">Himalayan treks, desert safaris, and extreme expeditions with certified guides.</p>
+                    <button class="mt-8 text-[#00d4c8] font-medium flex items-center gap-2 hover:gap-4">Learn more <i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+                
+                <!-- Card 2 -->
+                <div class="service-card bg-white border border-gray-100 rounded-3xl p-8 shadow-xl" data-aos="fade-up" data-aos-delay="300">
+                    <div class="w-14 h-14 bg-[#00d4c8]/10 rounded-2xl flex items-center justify-center text-4xl mb-6">🏨</div>
+                    <h3 class="text-3xl font-semibold mb-3">Luxury Escapes</h3>
+                    <p class="text-gray-600 leading-relaxed">5-star resorts, private villas, and bespoke honeymoon packages worldwide.</p>
+                    <button class="mt-8 text-[#00d4c8] font-medium flex items-center gap-2 hover:gap-4">Learn more <i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+                
+                <!-- Card 3 -->
+                <div class="service-card bg-white border border-gray-100 rounded-3xl p-8 shadow-xl" data-aos="fade-up" data-aos-delay="500">
+                    <div class="w-14 h-14 bg-[#00d4c8]/10 rounded-2xl flex items-center justify-center text-4xl mb-6">🌍</div>
+                    <h3 class="text-3xl font-semibold mb-3">Cultural Journeys</h3>
+                    <p class="text-gray-600 leading-relaxed">Immersive tours in Europe, Asia, Africa — history, food &amp; authentic experiences.</p>
+                    <button class="mt-8 text-[#00d4c8] font-medium flex items-center gap-2 hover:gap-4">Learn more <i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DESTINATIONS SECTION -->
+    <section id="destinations" class="py-24 bg-[#f8fafc]">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex justify-between items-end mb-12" data-aos="fade-up">
+                <div>
+                    <span class="text-[#00d4c8] font-medium">EXPLORE THE GLOBE</span>
+                    <h2 class="heading-font text-5xl font-bold text-[#0f172a]">Popular Destinations</h2>
+                </div>
+                <a href="#" class="hidden md:flex items-center gap-3 text-[#00d4c8] font-semibold text-lg">
+                    View all destinations <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Destination 1 -->
+                <div class="destination-card group overflow-hidden rounded-3xl bg-white shadow-xl" data-aos="fade-up">
+                    <div class="h-72 relative">
+                        <img src="https://images.unsplash.com/photo-154097938878a4-5c2b4e3c3c0d" alt="Maldives" 
+                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute top-4 right-4 bg-white/90 px-4 py-1 rounded-3xl text-xs font-bold">4N/5D • $1,299</div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-center">
+                            <h4 class="text-2xl font-semibold">Maldives Paradise</h4>
+                            <span class="text-3xl">🏝️</span>
+                        </div>
+                        <p class="text-gray-500 mt-2">Overwater villas &amp; crystal lagoons</p>
+                    </div>
+                </div>
+
+                <!-- Destination 2 -->
+                <div class="destination-card group overflow-hidden rounded-3xl bg-white shadow-xl" data-aos="fade-up" data-aos-delay="150">
+                    <div class="h-72 relative">
+                        <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34" alt="Paris" 
+                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute top-4 right-4 bg-white/90 px-4 py-1 rounded-3xl text-xs font-bold">7D/6N • $2,899</div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-center">
+                            <h4 class="text-2xl font-semibold">Romantic Paris</h4>
+                            <span class="text-3xl">🗼</span>
+                        </div>
+                        <p class="text-gray-500 mt-2">Eiffel Tower, Seine &amp; fine dining</p>
+                    </div>
+                </div>
+
+                <!-- Destination 3 -->
+                <div class="destination-card group overflow-hidden rounded-3xl bg-white shadow-xl" data-aos="fade-up" data-aos-delay="300">
+                    <div class="h-72 relative">
+                        <img src="https://images.unsplash.com/photo-1545568415-6a1c8a0e2c3e" alt="Bali" 
+                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute top-4 right-4 bg-white/90 px-4 py-1 rounded-3xl text-xs font-bold">5N/6D • $899</div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-center">
+                            <h4 class="text-2xl font-semibold">Bali Spiritual Escape</h4>
+                            <span class="text-3xl">🌺</span>
+                        </div>
+                        <p class="text-gray-500 mt-2">Temples, rice fields &amp; yoga retreats</p>
+                    </div>
+                </div>
+
+                <!-- Destination 4 -->
+                <div class="destination-card group overflow-hidden rounded-3xl bg-white shadow-xl" data-aos="fade-up" data-aos-delay="450">
+                    <div class="h-72 relative">
+                        <img src="https://images.unsplash.com/photo-1580130684516-5a4a9c8d3d3c" alt="Pakistan" 
+                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute top-4 right-4 bg-white/90 px-4 py-1 rounded-3xl text-xs font-bold">8D/7N • $699</div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-center">
+                            <h4 class="text-2xl font-semibold">Pakistan Northern Gems</h4>
+                            <span class="text-3xl">🏔️</span>
+                        </div>
+                        <p class="text-gray-500 mt-2">Hunza, Skardu &amp; Fairy Meadows</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURED PACKAGES -->
+    <section id="packages" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="heading-font text-5xl font-bold text-[#0f172a]">Featured Travel Packages</h2>
+                <p class="text-gray-600 mt-3 max-w-md mx-auto">Handpicked journeys with early-bird discounts and flexible payments.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="package-card rounded-3xl overflow-hidden border border-gray-100" data-aos="fade-up">
+                    <img src="https://images.unsplash.com/photo-1518546305927-5a555bb32c3f" alt="" class="w-full h-60 object-cover">
+                    <div class="p-7">
+                        <div class="flex justify-between text-sm"><span class="font-semibold">7 Days • Turkey</span><span class="text-[#00d4c8]">25% OFF</span></div>
+                        <h4 class="text-3xl font-semibold mt-2">Istanbul &amp; Cappadocia Magic</h4>
+                        <p class="text-gray-500 mt-1">Hot air balloons, ancient history &amp; Bosphorus cruise</p>
+                        <div class="flex justify-between items-end mt-8">
+                            <div><span class="text-4xl font-bold">$1,399</span><span class="text-xs block">per person</span></div>
+                            <button onclick="showBookingModal()" class="px-7 py-4 bg-[#00d4c8] text-white rounded-3xl text-sm font-semibold">BOOK THIS TRIP</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="package-card rounded-3xl overflow-hidden border border-gray-100" data-aos="fade-up" data-aos-delay="150">
+                    <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e" alt="" class="w-full h-60 object-cover">
+                    <div class="p-7">
+                        <div class="flex justify-between text-sm"><span class="font-semibold">10 Days • Thailand</span><span class="text-[#00d4c8]">Limited</span></div>
+                        <h4 class="text-3xl font-semibold mt-2">Bangkok • Phuket • Krabi</h4>
+                        <p class="text-gray-500 mt-1">Beaches, temples, night markets &amp; elephant sanctuary</p>
+                        <div class="flex justify-between items-end mt-8">
+                            <div><span class="text-4xl font-bold">$2,199</span><span class="text-xs block">per person</span></div>
+                            <button onclick="showBookingModal()" class="px-7 py-4 bg-[#00d4c8] text-white rounded-3xl text-sm font-semibold">BOOK THIS TRIP</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="package-card rounded-3xl overflow-hidden border border-gray-100" data-aos="fade-up" data-aos-delay="300">
+                    <img src="https://images.unsplash.com/photo-154097938878a4-5c2b4e3c3c0d" alt="" class="w-full h-60 object-cover">
+                    <div class="p-7">
+                        <div class="flex justify-between text-sm"><span class="font-semibold">5 Days • Maldives</span><span class="text-[#00d4c8]">BEST SELLER</span></div>
+                        <h4 class="text-3xl font-semibold mt-2">All-Inclusive Paradise</h4>
+                        <p class="text-gray-500 mt-1">Private beach villa, snorkeling &amp; sunset dinners</p>
+                        <div class="flex justify-between items-end mt-8">
+                            <div><span class="text-4xl font-bold">$1,899</span><span class="text-xs block">per person</span></div>
+                            <button onclick="showBookingModal()" class="px-7 py-4 bg-[#00d4c8] text-white rounded-3xl text-sm font-semibold">BOOK THIS TRIP</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US / TESTIMONIALS -->
+    <section class="py-20 bg-gradient-to-br from-[#0f172a] to-[#112233] text-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid md:grid-cols-2 gap-16">
+                <!-- Why Us -->
+                <div data-aos="fade-right">
+                    <h2 class="heading-font text-5xl font-bold mb-10">Why travelers love Sam Travel &amp; Tours</h2>
+                    <div class="space-y-8">
+                        <div class="flex gap-5">
+                            <div class="text-5xl">🔒</div>
+                            <div>
+                                <h4 class="text-2xl font-semibold">100% Secure &amp; Flexible</h4>
+                                <p class="text-white/70">Free cancellation up to 30 days • Easy EMI plans</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-5">
+                            <div class="text-5xl">👨‍✈️</div>
+                            <div>
+                                <h4 class="text-2xl font-semibold">Expert Local Guides</h4>
+                                <p class="text-white/70">Passionate travelers turned professional guides in every destination</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-5">
+                            <div class="text-5xl">🌱</div>
+                            <div>
+                                <h4 class="text-2xl font-semibold">Eco-Friendly Journeys</h4>
+                                <p class="text-white/70">Carbon-neutral trips • We plant 10 trees per booking</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonials Carousel -->
+                <div data-aos="fade-left">
+                    <div id="testimonialSlider" class="relative overflow-hidden rounded-3xl bg-white/10 backdrop-blur-xl p-10 h-full flex flex-col">
+                        <div id="testimonialContent" class="flex-1">
+                            <!-- JS injected -->
+                        </div>
+                        
+                        <div class="flex justify-between mt-8">
+                            <button onclick="prevTestimonial()" class="text-4xl hover:text-[#00d4c8]"><i class="fa-solid fa-chevron-left"></i></button>
+                            <button onclick="nextTestimonial()" class="text-4xl hover:text-[#00d4c8]"><i class="fa-solid fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT US -->
+    <section id="about" class="py-24">
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-12 gap-16 items-center">
+            <div class="md:col-span-7" data-aos="fade-right">
+                <img src="https://images.unsplash.com/photo-1523906834658-6e24ef2386f9" alt="Our team on adventure" 
+                     class="rounded-3xl shadow-2xl">
+            </div>
+            <div class="md:col-span-5" data-aos="fade-left">
+                <span class="text-[#00d4c8]">OUR STORY</span>
+                <h2 class="heading-font text-5xl font-bold leading-tight mt-3 mb-8">From Rawalpindi to the world — with love and passion</h2>
+                <p class="text-gray-600 text-lg">Founded in 2012, Sam Travel &amp; Tours began as a small family dream to share Pakistan’s hidden gems with the world. Today we curate unforgettable journeys across 120+ countries. Every trip is designed with care, local expertise, and a personal touch.</p>
+                
+                <div class="mt-12 grid grid-cols-2 gap-8">
+                    <div>
+                        <div class="text-6xl font-bold text-[#00d4c8]">500+</div>
+                        <p class="font-medium">Group tours successfully completed</p>
+                    </div>
+                    <div>
+                        <div class="text-6xl font-bold text-[#00d4c8]">98%</div>
+                        <p class="font-medium">Repeat &amp; referral customers</p>
+                    </div>
+                </div>
+                
+                <button onclick="document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })" 
+                        class="mt-10 px-10 py-4 border-2 border-[#00d4c8] text-[#00d4c8] hover:bg-[#00d4c8] hover:text-white rounded-3xl text-lg font-medium">
+                    MEET OUR TEAM →
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT + FORM -->
+    <section id="contact" class="py-24 bg-[#0f172a] text-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid md:grid-cols-2 gap-16">
+                <div data-aos="fade-up">
+                    <h2 class="heading-font text-5xl font-bold mb-8">Let’s plan your next adventure</h2>
+                    <p class="text-white/70 text-xl">Tell us your dream destination and dates. Our travel experts will craft a personalized itinerary within 24 hours.</p>
+                    
+                    <form id="contactForm" class="mt-12 space-y-6" onsubmit="handleSubmit(event)">
+                        <div class="grid grid-cols-2 gap-6">
+                            <input type="text" placeholder="Your name" required class="bg-white/10 border border-white/30 rounded-3xl px-6 py-5 outline-none focus:border-[#00d4c8]">
+                            <input type="email" placeholder="Email address" required class="bg-white/10 border border-white/30 rounded-3xl px-6 py-5 outline-none focus:border-[#00d4c8]">
+                        </div>
+                        <input type="tel" placeholder="Phone number" class="w-full bg-white/10 border border-white/30 rounded-3xl px-6 py-5 outline-none focus:border-[#00d4c8]">
+                        <textarea placeholder="Tell us about your dream trip..." rows="4" class="w-full bg-white/10 border border-white/30 rounded-3xl px-6 py-5 outline-none focus:border-[#00d4c8]"></textarea>
+                        
+                        <button type="submit" class="w-full bg-[#00d4c8] py-6 text-[#0f172a] font-semibold text-xl rounded-3xl hover:shadow-2xl hover:shadow-[#00d4c8]/50">SEND MY REQUEST</button>
+                    </form>
+                </div>
+                
+                <div data-aos="fade-up" data-aos-delay="200" class="flex flex-col justify-center">
+                    <div class="bg-white/10 backdrop-blur-3xl rounded-3xl p-8 mb-8">
+                        <p class="flex items-center gap-4 text-2xl"><i class="fa-solid fa-location-dot text-[#00d4c8]"></i> Office #12, Commercial Market, Satellite Town, Rawalpindi</p>
+                    </div>
+                    <div class="flex items-center gap-8">
+                        <a href="#" class="flex-1 bg-white/10 hover:bg-white/20 backdrop-blur-3xl rounded-3xl p-8 text-center text-3xl">📧</a>
+                        <a href="#" class="flex-1 bg-white/10 hover:bg-white/20 backdrop-blur-3xl rounded-3xl p-8 text-center text-3xl">📱</a>
+                        <a href="#" class="flex-1 bg-white/10 hover:bg-white/20 backdrop-blur-3xl rounded-3xl p-8 text-center text-3xl">📸</a>
+                    </div>
+                    <p class="mt-auto pt-8 text-white/60 text-center">Follow us for travel inspiration</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-[#0a1320] text-white/70 py-16">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div>
+                <div class="flex items-center gap-3 text-white mb-6">
+                    <div class="w-10 h-10 bg-[#00d4c8] rounded-2xl flex items-center justify-center text-3xl">✈️</div>
+                    <span class="heading-font text-3xl font-bold">Sam Travel &amp; Tours</span>
+                </div>
+                <p class="text-sm">Crafting memories since 2012</p>
+            </div>
+            <div>
+                <p class="font-semibold text-white mb-4">Quick Links</p>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="#" class="hover:text-[#00d4c8]">Destinations</a></li>
+                    <li><a href="#" class="hover:text-[#00d4c8]">Special Offers</a></li>
+                    <li><a href="#" class="hover:text-[#00d4c8]">Travel Blog</a></li>
+                    <li><a href="#" class="hover:text-[#00d4c8]">Travel Insurance</a></li>
+                </ul>
+            </div>
+            <div>
+                <p class="font-semibold text-white mb-4">Company</p>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="#" class="hover:text-[#00d4c8]">About Us</a></li>
+                    <li><a href="#" class="hover:text-[#00d4c8]">Our Team</a></li>
+                    <li><a href="#" class="hover:text-[#00d4c8]">Careers</a></li>
+                    <li><a href="#" class="hover:text-[#00d4c8]">Contact</a></li>
+                </ul>
+            </div>
+            <div>
+                <p class="font-semibold text-white mb-4">Get in touch</p>
+                <a href="tel:+923001234567" class="flex items-center gap-3 text-white text-xl mb-6"><i class="fa-solid fa-phone"></i> +92 300 1234567</a>
+                <p class="text-xs">© 2026 Sam Travel &amp; Tours. All rights reserved.</p>
+                <div class="mt-6 flex gap-6 text-2xl">
+                    <i class="fa-brands fa-instagram hover:text-[#00d4c8] cursor-pointer"></i>
+                    <i class="fa-brands fa-facebook hover:text-[#00d4c8] cursor-pointer"></i>
+                    <i class="fa-brands fa-youtube hover:text-[#00d4c8] cursor-pointer"></i>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- BOOKING MODAL -->
+    <div id="bookingModal" onclick="if(event.target===this)hideBookingModal()" 
+         class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-[9999]">
+        <div onclick="event.stopImmediatePropagation()" 
+             class="bg-white rounded-3xl max-w-xl w-full mx-4 p-8">
+            <h2 class="text-4xl heading-font font-bold mb-6">Start Your Journey</h2>
+            <div class="grid grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-sm mb-2">Where to?</label>
+                    <input type="text" id="modalDestination" placeholder="e.g. Maldives, Paris..." 
+                           class="w-full border rounded-3xl px-6 py-4">
+                </div>
+                <div>
+                    <label class="block text-sm mb-2">Travel dates</label>
+                    <input type="date" class="w-full border rounded-3xl px-6 py-4">
+                </div>
+            </div>
+            <div class="mt-6">
+                <label class="block text-sm mb-2">Number of travelers</label>
+                <div class="flex gap-3">
+                    <button onclick="this.classList.add('bg-[#00d4c8]','text-white');" class="flex-1 py-4 border rounded-3xl">1</button>
+                    <button onclick="this.classList.add('bg-[#00d4c8]','text-white');" class="flex-1 py-4 border rounded-3xl">2</button>
+                    <button onclick="this.classList.add('bg-[#00d4c8]','text-white');" class="flex-1 py-4 border rounded-3xl">3+</button>
+                </div>
+            </div>
+            
+            <button onclick="submitBooking()" 
+                    class="mt-10 w-full py-6 bg-[#00d4c8] text-[#0f172a] text-2xl font-semibold rounded-3xl">GET A CUSTOM QUOTE IN 60 SECONDS</button>
+            
+            <p onclick="hideBookingModal()" class="text-center text-sm mt-8 cursor-pointer hover:text-[#00d4c8]">Close</p>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Tailwind script initialization
+        function initializeTailwind() {
+            return {
+                config(userConfig = {}) {
+                    return {
+                        content: [],
+                        theme: {
+                            extend: {},
+                        },
+                        plugins: [],
+                        ...userConfig,
+                    }
+                },
+                theme(userTheme = {}) {
+                    return {
+                        ...this.defaultTheme(),
+                        ...userTheme,
+                    }
+                },
+                defaultTheme() {
+                    return {
+                        extend: {
+                            colors: {
+                                primary: '#0f172a',
+                                accent: '#00d4c8',
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        // Initialize everything
+        function initialize() {
+            // Tailwind
+            const config = initializeTailwind().config()
+            document.documentElement.setAttribute('data-tailwind-config', JSON.stringify(config))
+            
+            // AOS
+            AOS.init({
+                once: true,
+                duration: 800,
+                easing: 'ease-out-cubic'
+            })
+            
+            // Scroll progress bar
+            const progressBar = document.getElementById('scrollProgress')
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY
+                const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight
+                const scrollPercent = scrollTop / docHeight * 100
+                progressBar.style.setProperty('--scroll', `${scrollPercent}%`)
+                progressBar.style.width = '100%'
+            })
+            
+            // Counter animations
+            animateCounters()
+            
+            // Testimonial carousel
+            initTestimonials()
+            
+            // Mobile menu
+            document.getElementById('mobileMenuBtn').addEventListener('click', toggleMobileMenu)
+            
+            console.log('%c✅ Sam Travel & Tours professional website loaded with beautiful animations!', 'color:#00d4c8; font-size:13px; font-weight:bold')
+        }
+        
+        // Animate numbers
+        function animateCounters() {
+            const counters = [
+                { id: 'counter1', target: 248, suffix: '' },
+                { id: 'counter2', target: 1840, suffix: '+' },
+                { id: 'counter3', target: 98, suffix: '' },
+                { id: 'counter4', target: 14, suffix: '' },
+                { id: 'counter5', target: 42, suffix: '' },
+                { id: 'counter6', target: 4.98, suffix: '' }
+            ]
+            
+            counters.forEach(counter => {
+                const el = document.getElementById(counter.id)
+                let count = 0
+                const increment = counter.target / 80
+                
+                const timer = setInterval(() => {
+                    count += increment
+                    if (count >= counter.target) {
+                        count = counter.target
+                        clearInterval(timer)
+                    }
+                    el.textContent = Number(count.toFixed(2)) + counter.suffix
+                }, 25)
+            })
+        }
+        
+        // Testimonials data & carousel
+        let currentTestimonial = 0
+        const testimonials = [
+            {
+                text: "Sam Travel turned our honeymoon into pure magic! The Maldives overwater villa surprise was unforgettable. Every detail was perfect.",
+                name: "Ayesha & Bilal Khan",
+                location: "Lahore, Pakistan",
+                avatar: "❤️"
+            },
+            {
+                text: "Best decision ever! The Northern Pakistan tour with Sam was life-changing. Professional, safe, and culturally rich.",
+                name: "Hamza Malik",
+                location: "Islamabad, Pakistan",
+                avatar: "🏔️"
+            },
+            {
+                text: "From booking to return, everything was seamless. The team feels like family now. 10/10 would travel with them again.",
+                name: "Sana Rehman",
+                location: "Karachi, Pakistan",
+                avatar: "🌍"
+            }
+        ]
+        
+        function initTestimonials() {
+            const container = document.getElementById('testimonialContent')
+            renderTestimonial()
+            
+            // Auto-rotate every 6 seconds
+            setInterval(() => {
+                currentTestimonial = (currentTestimonial + 1) % testimonials.length
+                renderTestimonial()
+            }, 6000)
+        }
+        
+        function renderTestimonial() {
+            const container = document.getElementById('testimonialContent')
+            const t = testimonials[currentTestimonial]
+            
+            container.innerHTML = `
+                <div class="text-7xl mb-8">${t.avatar}</div>
+                <p class="italic text-2xl leading-relaxed">"${t.text}"</p>
+                <div class="mt-auto pt-8">
+                    <p class="font-semibold text-xl">${t.name}</p>
+                    <p class="text-white/50">${t.location}</p>
+                </div>
+            `
+        }
+        
+        function nextTestimonial() {
+            currentTestimonial = (currentTestimonial + 1) % testimonials.length
+            renderTestimonial()
+        }
+        
+        function prevTestimonial() {
+            currentTestimonial = (currentTestimonial - 1 + testimonials.length) % testimonials.length
+            renderTestimonial()
+        }
+        
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu')
+            menu.classList.toggle('hidden')
+            
+            const icon = document.getElementById('mobileMenuBtn').querySelector('i')
+            if (menu.classList.contains('hidden')) {
+                icon.classList.replace('fa-xmark', 'fa-bars')
+            } else {
+                icon.classList.replace('fa-bars', 'fa-xmark')
+            }
+        }
+        
+        function showBookingModal() {
+            document.getElementById('bookingModal').classList.remove('hidden')
+            document.getElementById('bookingModal').classList.add('flex')
+        }
+        
+        function hideBookingModal() {
+            const modal = document.getElementById('bookingModal')
+            modal.classList.add('hidden')
+            modal.classList.remove('flex')
+        }
+        
+        function submitBooking() {
+            hideBookingModal()
+            setTimeout(() => {
+                alert('🎉 Thank you! Our travel expert will contact you shortly with a custom itinerary for Sam Travel & Tours.')
+            }, 800)
+        }
+        
+        function handleSubmit(e) {
+            e.preventDefault()
+            alert('✅ Thank you! Your request has been received. We will reply within 24 hours.')
+            e.target.reset()
+        }
+        
+        // Launch everything
+        window.onload = initialize
+    </script>
+</body>
+</html>

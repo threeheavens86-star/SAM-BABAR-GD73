@@ -1,0 +1,673 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sam Alexander the Great</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;500;600;700;900&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0b0906;
+  --ink-2:#141009;
+  --parchment:#ece2c8;
+  --parchment-dim:#c9bd9c;
+  --gold:#d4af37;
+  --gold-bright:#f4d888;
+  --gold-deep:#8a6a1f;
+  --bronze:#8c6b3f;
+  --wine:#5c1a1a;
+  --wine-bright:#8c2a2a;
+  --marble:#2a251d;
+  --line:rgba(212,175,55,0.35);
+  --serif-display:'Cinzel', serif;
+  --serif-deco:'Cinzel Decorative', serif;
+  --serif-body:'EB Garamond', serif;
+}
+@media (prefers-color-scheme: light){
+  :root:not([data-theme="dark"]){ }
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  background:
+    radial-gradient(ellipse at 20% 0%, rgba(140,107,63,0.12), transparent 55%),
+    radial-gradient(ellipse at 85% 30%, rgba(212,175,55,0.08), transparent 50%),
+    var(--ink);
+  color:var(--parchment);
+  font-family:var(--serif-body);
+  overflow-x:hidden;
+  min-height:100vh;
+}
+
+/* -------- texture overlay -------- */
+.grain{
+  position:fixed; inset:0; pointer-events:none; z-index:999; opacity:0.05; mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* -------- laurel / meander divider -------- */
+.meander{
+  height:14px; width:100%; max-width:520px; margin:0 auto;
+  background-image:repeating-linear-gradient(90deg, transparent 0 6px, var(--line) 6px 8px);
+  opacity:0.6;
+}
+.meander-svg{ display:block; margin:1.8rem auto; opacity:0.75; }
+
+/* -------- scroll reveal -------- */
+.reveal{ opacity:0; transform:translateY(28px); transition:opacity 1s ease, transform 1s cubic-bezier(.22,1,.36,1); }
+.reveal.in{ opacity:1; transform:translateY(0); }
+.reveal-scale{ opacity:0; transform:scale(0.94); transition:opacity 1.1s ease, transform 1.1s cubic-bezier(.22,1,.36,1); }
+.reveal-scale.in{ opacity:1; transform:scale(1); }
+
+/* ================= HERO ================= */
+.hero{
+  position:relative;
+  min-height:100svh;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  text-align:center;
+  padding:6rem 1.5rem 4rem;
+  overflow:hidden;
+}
+.hero-portrait{
+  position:absolute; inset:0; z-index:0;
+  background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Marble%20portrait%20of%20Alexander%20the%20Great%2C%20Hellenistic%20Greek%2C%202nd-1st%20century%20BC%2C%20said%20to%20be%20from%20Alexandria%2C%20Egypt%2C%20British%20Museum%20(13738844563).jpg');
+  background-size:cover; background-position:center 20%;
+  filter:grayscale(1) contrast(1.1) brightness(0.55);
+  opacity:0;
+  animation:portraitIn 2.4s ease forwards 0.1s;
+}
+@keyframes portraitIn{ from{ opacity:0; transform:scale(1.08); } to{ opacity:0.55; transform:scale(1); } }
+.hero::before{
+  content:"";
+  position:absolute; inset:0; z-index:1;
+  background:
+    linear-gradient(180deg, rgba(11,9,6,0.55) 0%, var(--ink) 85%),
+    radial-gradient(ellipse at center 40%, transparent 0%, rgba(11,9,6,0.65) 70%),
+    repeating-linear-gradient(90deg, rgba(212,175,55,0.05) 0 2px, transparent 2px 84px);
+  pointer-events:none;
+}
+.columns-bg{
+  position:absolute; inset:0; display:flex; justify-content:space-between; z-index:0; opacity:0.5;
+}
+.columns-bg .col{
+  width:2px; height:100%;
+  background:linear-gradient(180deg, transparent, var(--bronze) 20%, var(--bronze) 80%, transparent);
+  animation:colGlow 6s ease-in-out infinite;
+}
+.columns-bg .col:nth-child(odd){ animation-delay:1.2s; }
+@keyframes colGlow{
+  0%,100%{ opacity:0.25; }
+  50%{ opacity:0.55; }
+}
+
+.eyebrow-wrap{
+  position:relative; z-index:2;
+  display:flex; align-items:center; gap:0.9rem;
+  margin-bottom:1.6rem;
+  opacity:0;
+  animation:fadeUp 1s ease forwards 0.2s;
+}
+.eyebrow-wrap svg{ width:22px; height:22px; opacity:0.8; }
+.eyebrow{
+  font-family:var(--serif-display);
+  font-size:0.78rem;
+  letter-spacing:0.35em;
+  color:var(--parchment-dim);
+  font-weight:500;
+  padding-left: 0.35em;
+}
+
+.title-line{
+  position:relative; z-index:2;
+  font-family:var(--serif-deco);
+  font-weight:700;
+  line-height:1.02;
+  letter-spacing:0.01em;
+}
+.title-sam{
+  display:block;
+  font-size:clamp(2.6rem, 9vw, 5.4rem);
+  color:var(--parchment);
+  opacity:0;
+  animation:fadeUp 1s ease forwards 0.4s;
+}
+.title-main{
+  display:block;
+  font-size:clamp(3.4rem, 13vw, 8.2rem);
+  margin-top:0.05em;
+  background:linear-gradient(100deg, var(--gold-deep) 0%, var(--gold-bright) 22%, var(--gold) 45%, var(--gold-bright) 65%, var(--gold-deep) 88%);
+  background-size:300% auto;
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  animation:shimmer 5s linear infinite, revealMain 1.3s cubic-bezier(.22,1,.36,1) forwards 0.7s;
+  opacity:0;
+  filter:drop-shadow(0 0 22px rgba(212,175,55,0.25));
+}
+@keyframes revealMain{
+  from{ opacity:0; transform:translateY(18px) scale(0.98); letter-spacing:0.08em; }
+  to{ opacity:1; transform:translateY(0) scale(1); letter-spacing:0.01em; }
+}
+@keyframes shimmer{
+  to{ background-position:300% center; }
+}
+.title-epithet{
+  display:block;
+  font-family:var(--serif-display);
+  font-size:clamp(1rem, 2.6vw, 1.4rem);
+  letter-spacing:0.5em;
+  color:var(--parchment-dim);
+  margin-top:1.1rem;
+  padding-left:0.5em;
+  opacity:0;
+  animation:fadeUp 1s ease forwards 1.5s;
+}
+
+.hero-sub{
+  position:relative; z-index:2;
+  max-width:560px; margin:2.2rem auto 0;
+  font-size:1.15rem; line-height:1.7; color:var(--parchment-dim);
+  font-style:italic;
+  opacity:0;
+  animation:fadeUp 1s ease forwards 1.8s;
+}
+
+.scroll-cue{
+  position:relative; z-index:2; margin-top:3.2rem;
+  display:flex; flex-direction:column; align-items:center; gap:0.6rem;
+  opacity:0; animation:fadeUp 1s ease forwards 2.2s;
+}
+.scroll-cue span{ font-size:0.7rem; letter-spacing:0.3em; color:var(--gold-deep); font-family:var(--serif-display); }
+.scroll-cue .arrow{ width:1px; height:34px; background:linear-gradient(var(--gold), transparent); position:relative; overflow:hidden; }
+.scroll-cue .arrow::after{
+  content:""; position:absolute; top:-40%; left:0; width:100%; height:40%;
+  background:linear-gradient(var(--gold-bright), transparent);
+  animation:drip 1.8s ease-in-out infinite;
+}
+@keyframes drip{ 0%{ top:-40%; } 100%{ top:100%; } }
+
+@keyframes fadeUp{
+  from{ opacity:0; transform:translateY(16px); }
+  to{ opacity:1; transform:translateY(0); }
+}
+
+.crest{
+  position:relative; z-index:2; margin-bottom:0.6rem;
+  animation:crestFloat 6s ease-in-out infinite;
+  filter:drop-shadow(0 0 18px rgba(212,175,55,0.35));
+}
+.helmet-wrap{
+  display:flex; justify-content:center; margin-bottom:1.8rem;
+  filter:drop-shadow(0 0 16px rgba(212,175,55,0.25));
+  animation:crestFloat 7s ease-in-out infinite;
+}
+.coin-wrap{
+  display:flex; justify-content:center; margin-bottom:1.6rem;
+  filter:drop-shadow(0 6px 20px rgba(212,175,55,0.4));
+  animation:coinSpin 10s linear infinite;
+  transform-style:preserve-3d;
+}
+@keyframes coinSpin{
+  0%{ transform:rotateY(0deg); }
+  100%{ transform:rotateY(360deg); }
+}
+@media (prefers-reduced-motion: reduce){
+  .coin-wrap, .crest, .helmet-wrap{ animation:none; }
+}
+@keyframes crestFloat{
+  0%,100%{ transform:translateY(0); }
+  50%{ transform:translateY(-8px); }
+}
+
+/* ================= SECTION shell ================= */
+section{ position:relative; padding:6.5rem 1.5rem; max-width:920px; margin:0 auto; }
+.section-head{ text-align:center; margin-bottom:3.2rem; }
+.section-num{
+  font-family:var(--serif-display); font-size:0.75rem; letter-spacing:0.4em;
+  color:var(--gold-deep); margin-bottom:0.9rem;
+}
+.section-title{
+  font-family:var(--serif-display); font-weight:700;
+  font-size:clamp(1.9rem, 4.4vw, 3rem);
+  color:var(--parchment);
+}
+.section-title em{ font-style:normal; color:var(--gold); }
+
+/* ================= FRAMED IMAGE ================= */
+.framed-img{
+  position:relative;
+  border:1px solid var(--line);
+  padding:10px;
+  background:linear-gradient(180deg, rgba(212,175,55,0.06), transparent);
+  margin:2.6rem auto;
+  max-width:720px;
+}
+.framed-img::before{
+  content:""; position:absolute; inset:4px; border:1px solid rgba(212,175,55,0.25); pointer-events:none;
+}
+.framed-img img{
+  display:block; width:100%; height:auto;
+  filter:sepia(0.25) contrast(1.05);
+}
+.framed-cap{
+  text-align:center; font-family:var(--serif-display); font-size:0.72rem; letter-spacing:0.18em;
+  color:var(--gold-deep); margin-top:0.9rem;
+}
+
+/* ================= CHAPTERS (timeline) ================= */
+.timeline{ position:relative; padding-left:0; }
+.timeline::before{
+  content:""; position:absolute; left:50%; top:0; bottom:0; width:1px;
+  background:linear-gradient(180deg, transparent, var(--line) 8%, var(--line) 92%, transparent);
+  transform:translateX(-50%);
+}
+.chapter{
+  position:relative;
+  display:grid; grid-template-columns:1fr 1fr; gap:2.5rem;
+  padding:2.6rem 0;
+  align-items:start;
+}
+.chapter:nth-child(even) .chapter-copy{ order:2; text-align:left; }
+.chapter:nth-child(even) .chapter-mark{ order:1; text-align:right; }
+.chapter-mark{
+  font-family:var(--serif-deco); color:var(--gold); opacity:0.85;
+  font-size:2.6rem; line-height:1; position:relative;
+}
+.chapter-icon{
+  display:block; width:26px; height:26px; margin-bottom:0.5rem; color:var(--gold-deep);
+}
+.chapter:nth-child(even) .chapter-mark .chapter-icon{ margin-left:auto; }
+.chapter-mark .year{
+  display:block; font-family:var(--serif-display); font-size:0.85rem; letter-spacing:0.15em;
+  color:var(--parchment-dim); margin-top:0.6rem;
+}
+.chapter-dot{
+  position:absolute; left:50%; top:3.1rem; width:11px; height:11px; border-radius:50%;
+  background:var(--gold); transform:translateX(-50%);
+  box-shadow:0 0 0 4px var(--ink), 0 0 16px 3px rgba(212,175,55,0.6);
+}
+.chapter-copy h3{
+  font-family:var(--serif-display); font-size:1.4rem; color:var(--parchment); margin-bottom:0.7rem; font-weight:600;
+}
+.chapter-copy p{ color:var(--parchment-dim); line-height:1.75; font-size:1.03rem; }
+.chapter-copy .edit-note{
+  display:inline-block; margin-top:0.7rem; font-size:0.78rem; color:var(--gold-deep);
+  border:1px dashed var(--line); padding:0.25rem 0.6rem; border-radius:3px; font-family:var(--serif-body); font-style:italic;
+}
+
+@media (max-width:720px){
+  .chapter{ grid-template-columns:1fr; padding-left:2.4rem; }
+  .timeline::before{ left:0.9rem; }
+  .chapter-dot{ left:0.9rem; top:0.4rem; }
+  .chapter:nth-child(even) .chapter-copy, .chapter:nth-child(even) .chapter-mark{ order:0; text-align:left; }
+  .chapter-mark{ font-size:1.6rem; margin-bottom:0.3rem; }
+}
+
+/* ================= VIRTUES / PILLARS ================= */
+.pillars{ display:grid; grid-template-columns:repeat(3, 1fr); gap:1.6rem; }
+.pillar{
+  border:1px solid var(--line); padding:2.2rem 1.4rem; text-align:center; position:relative;
+  background:linear-gradient(180deg, rgba(212,175,55,0.04), transparent);
+  transition:transform 0.5s cubic-bezier(.22,1,.36,1), border-color 0.5s, box-shadow 0.5s;
+}
+.pillar:hover{ transform:translateY(-8px); border-color:var(--gold); box-shadow:0 18px 40px -18px rgba(212,175,55,0.35); }
+.pillar-icon{ width:40px; height:40px; margin:0 auto 1.1rem; color:var(--gold); }
+.pillar h4{ font-family:var(--serif-display); color:var(--parchment); font-size:1.05rem; margin-bottom:0.6rem; letter-spacing:0.03em; }
+.pillar p{ color:var(--parchment-dim); font-size:0.94rem; line-height:1.6; }
+@media (max-width:720px){ .pillars{ grid-template-columns:1fr; } }
+
+/* ================= QUOTE ================= */
+.quote-block{ text-align:center; padding:2rem 1rem; }
+.quote-block blockquote{
+  font-family:var(--serif-display); font-size:clamp(1.4rem,3.4vw,2.1rem);
+  color:var(--gold-bright); line-height:1.5; font-weight:500;
+  position:relative;
+}
+.quote-block blockquote::before, .quote-block blockquote::after{
+  content:"—"; color:var(--gold-deep); display:block; font-size:1rem; margin:0.6rem 0;
+}
+.quote-block cite{ display:block; margin-top:1rem; font-style:italic; color:var(--parchment-dim); font-size:0.95rem; }
+
+/* ================= MAP / CONQUESTS ================= */
+.conquest-list{ display:grid; gap:1rem; }
+.conquest-item{
+  display:flex; justify-content:space-between; align-items:center; gap:1rem;
+  padding:1.15rem 1.4rem; border:1px solid var(--line); border-left:3px solid var(--gold-deep);
+  background:rgba(212,175,55,0.03);
+  transition:background 0.4s, border-color 0.4s, transform 0.4s;
+}
+.conquest-item:hover{ background:rgba(212,175,55,0.08); border-left-color:var(--gold); transform:translateX(6px); }
+.conquest-item .c-name{ font-family:var(--serif-display); color:var(--parchment); font-size:1.05rem; }
+.conquest-item .c-tag{ font-family:var(--serif-display); font-size:0.72rem; letter-spacing:0.2em; color:var(--gold-deep); white-space:nowrap; }
+
+/* ================= LEGACY / CTA ================= */
+.legacy{ text-align:center; }
+.legacy p.lead{ font-size:1.2rem; line-height:1.8; color:var(--parchment-dim); max-width:640px; margin:0 auto 2.2rem; }
+.gold-btn{
+  display:inline-block; position:relative; padding:1rem 2.4rem;
+  font-family:var(--serif-display); letter-spacing:0.15em; font-size:0.85rem; color:var(--ink);
+  background:linear-gradient(100deg, var(--gold-deep), var(--gold-bright), var(--gold-deep));
+  background-size:220% auto;
+  border:none; cursor:pointer; text-decoration:none;
+  transition:background-position 0.6s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow:0 10px 30px -12px rgba(212,175,55,0.5);
+}
+.gold-btn:hover{ background-position:100% center; transform:translateY(-2px); box-shadow:0 16px 36px -14px rgba(212,175,55,0.65); }
+
+/* ================= FOOTER ================= */
+footer{ text-align:center; padding:3.5rem 1.5rem 3rem; color:var(--parchment-dim); font-size:0.85rem; border-top:1px solid var(--line); margin-top:2rem;}
+footer .sig{ font-family:var(--serif-deco); color:var(--gold); font-size:1.3rem; margin-bottom:0.6rem; }
+
+/* laurel svg color */
+.laurel{ color:var(--gold-deep); }
+
+::selection{ background:var(--gold); color:var(--ink); }
+</style>
+</head>
+<body>
+<div class="grain"></div>
+
+<!-- ============ HERO ============ -->
+<section class="hero" style="max-width:none;">
+  <div class="hero-portrait"></div>
+  <div class="columns-bg">
+    <div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div>
+  </div>
+
+  <div class="crest reveal-scale in">
+    <svg viewBox="0 0 220 220" width="120" height="120">
+      <defs>
+        <linearGradient id="crestGold" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#8a6a1f"/>
+          <stop offset="45%" stop-color="#f4d888"/>
+          <stop offset="100%" stop-color="#8a6a1f"/>
+        </linearGradient>
+      </defs>
+      <!-- laurel left -->
+      <g fill="none" stroke="url(#crestGold)" stroke-width="2.4" stroke-linecap="round">
+        <path d="M110 190 C70 185 40 160 34 120 C30 95 40 70 55 50"/>
+        <path d="M45 150 C55 148 63 142 66 133"/>
+        <path d="M38 128 C48 127 56 121 60 112"/>
+        <path d="M34 104 C44 104 53 99 57 90"/>
+        <path d="M36 80 C46 81 55 77 60 68"/>
+        <path d="M46 58 C54 61 62 59 68 52"/>
+      </g>
+      <!-- laurel right (mirrored) -->
+      <g fill="none" stroke="url(#crestGold)" stroke-width="2.4" stroke-linecap="round">
+        <path d="M110 190 C150 185 180 160 186 120 C190 95 180 70 165 50"/>
+        <path d="M175 150 C165 148 157 142 154 133"/>
+        <path d="M182 128 C172 127 164 121 160 112"/>
+        <path d="M186 104 C176 104 167 99 163 90"/>
+        <path d="M184 80 C174 81 165 77 160 68"/>
+        <path d="M174 58 C166 61 158 59 152 52"/>
+      </g>
+      <!-- central monogram -->
+      <circle cx="110" cy="105" r="46" fill="none" stroke="url(#crestGold)" stroke-width="1.6" opacity="0.7"/>
+      <text x="110" y="122" text-anchor="middle" font-family="Cinzel, serif" font-size="46" font-weight="700" fill="url(#crestGold)">ΣΑ</text>
+      <path d="M110 40 L114 52 L127 52 L116 60 L120 73 L110 65 L100 73 L104 60 L93 52 L106 52 Z" fill="url(#crestGold)"/>
+    </svg>
+  </div>
+
+  <div class="eyebrow-wrap">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" style="color:var(--gold-deep)"><path d="M12 2L4 6v6c0 5 3.5 8.5 8 10 4.5-1.5 8-5 8-10V6l-8-4z"/></svg>
+    <span class="eyebrow">A LIFE WRITTEN IN GOLD</span>
+  </div>
+
+  <h1 class="title-line">
+    <span class="title-sam">SAM</span>
+    <span class="title-main">ALEXANDER</span>
+    <span class="title-epithet">THE&nbsp;GREAT</span>
+  </h1>
+
+  <p class="hero-sub">Every empire begins with a single step out of the ordinary. This is the chronicle of mine — written the way the old historians wrote kings.</p>
+
+  <div class="scroll-cue">
+    <span>DESCEND INTO THE CHRONICLE</span>
+    <div class="arrow"></div>
+  </div>
+</section>
+
+<!-- ============ MEANDER DIVIDER ============ -->
+<svg class="meander-svg reveal" viewBox="0 0 400 20" width="260" height="14">
+  <path d="M0 10 H30 V0 H60 V20 H90 V0 H120 V20 H150 V0 H180 V20 H210 V0 H240 V20 H270 V0 H300 V20 H330 V0 H360 V10 H400" fill="none" stroke="#d4af37" stroke-width="1.5" opacity="0.6"/>
+</svg>
+
+<!-- ============ ORIGINS ============ -->
+<section id="origins">
+  <div class="section-head reveal">
+    <div class="section-num">CHAPTER I</div>
+    <h2 class="section-title">Born <em>of Ordinary Stock</em>, Destined for More</h2>
+  </div>
+  <div class="helmet-wrap reveal-scale">
+    <svg viewBox="0 0 200 180" width="150" height="135">
+      <defs>
+        <linearGradient id="helmGold" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#f4d888"/>
+          <stop offset="50%" stop-color="#d4af37"/>
+          <stop offset="100%" stop-color="#8a6a1f"/>
+        </linearGradient>
+      </defs>
+      <path d="M100 8 C70 8 58 22 55 38 L52 40 C40 46 34 58 34 74 L34 96 C34 118 40 132 50 142 L46 158 L64 150 C72 156 84 160 100 160 C116 160 128 156 136 150 L154 158 L150 142 C160 132 166 118 166 96 L166 74 C166 58 160 46 148 40 L145 38 C142 22 130 8 100 8 Z"
+        fill="none" stroke="url(#helmGold)" stroke-width="2.2"/>
+      <path d="M100 8 L100 60" stroke="url(#helmGold)" stroke-width="2.2"/>
+      <path d="M60 62 C75 56 125 56 140 62" stroke="url(#helmGold)" stroke-width="1.6" fill="none" opacity="0.75"/>
+      <path d="M34 88 C20 92 10 100 6 116 C2 132 8 146 20 152 L34 150" stroke="url(#helmGold)" stroke-width="2" fill="none"/>
+      <path d="M166 88 C180 92 190 100 194 116 C198 132 192 146 180 152 L166 150" stroke="url(#helmGold)" stroke-width="2" fill="none"/>
+      <path d="M78 96 C85 108 115 108 122 96" stroke="url(#helmGold)" stroke-width="1.6" fill="none" opacity="0.6"/>
+    </svg>
+  </div>
+  <p class="reveal" style="text-align:center; max-width:680px; margin:0 auto; color:var(--parchment-dim); font-size:1.1rem; line-height:1.85;">
+    Every chronicle begins before the hero knows he is one. In the old telling, Alexander was raised at Pella,
+    tutored by Aristotle, and shaped by a father's ambition long before he raised a single sword. This is the space
+    for your own origin — where you were born, who shaped you, and the first sign that an ordinary path wasn't going to hold you.
+  </p>
+  <p style="text-align:center; margin-top:1.2rem;">
+    <span class="chapter-copy edit-note" style="display:inline-block;">Tell me your real details and I'll rewrite this chapter as your own origin story.</span>
+  </p>
+
+  <figure class="framed-img reveal-scale">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZ8b9wE9Vj7MW6k_HwxuzIhE1xyvib8_6KqvTEDb-PZw&s=10.jpg" alt="Ancient marble bust of Alexander the Great, British Museum" loading="lazy">
+    <figcaption class="framed-cap">MARBLE PORTRAIT — THE FACE BEHIND THE LEGEND</figcaption>
+  </figure>
+</section>
+
+<svg class="meander-svg reveal" viewBox="0 0 400 20" width="260" height="14">
+  <path d="M0 10 H30 V0 H60 V20 H90 V0 H120 V20 H150 V0 H180 V20 H210 V0 H240 V20 H270 V0 H300 V20 H330 V0 H360 V10 H400" fill="none" stroke="#d4af37" stroke-width="1.5" opacity="0.6"/>
+</svg>
+
+<!-- ============ THE CHRONICLE / TIMELINE ============ -->
+<section id="chronicle">
+  <div class="section-head reveal">
+    <div class="section-num">CHAPTER II</div>
+    <h2 class="section-title">The <em>Chronicle</em> of Campaigns</h2>
+  </div>
+
+  <figure class="framed-img reveal-scale">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8y2_tMCYMu_kTkUtmYoaBak1CsewcioS96jNSBQFdTw&s=10.jpg" alt="The Alexander Mosaic depicting the Battle of Issus, from the House of the Faun, Pompeii" loading="lazy">
+    <figcaption class="framed-cap">THE ALEXANDER MOSAIC — BATTLE OF ISSUS, HOUSE OF THE FAUN, POMPEII</figcaption>
+  </figure>
+
+  <div class="timeline">
+    <div class="chapter reveal">
+      <div class="chapter-dot"></div>
+      <div class="chapter-mark">I<span class="year">The First Crossing</span></div>
+      <div class="chapter-copy">
+        <h3>Leaving the Familiar Shore</h3>
+        <p>The moment you left behind what was safe — a school, a hometown, a comfortable plan — to chase something larger. Alexander crossed the Hellespont and burned his ships behind him. What was your crossing?</p>
+        <span class="edit-note">Placeholder — replace with your real turning point</span>
+      </div>
+    </div>
+
+    <div class="chapter reveal">
+      <div class="chapter-dot"></div>
+      <div class="chapter-mark"><svg class="chapter-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 3l7 3v6c0 5-3 8-7 9-4-1-7-4-7-9V6l7-3z"/></svg>II<span class="year">The First Victory</span></div>
+      <div class="chapter-copy">
+        <h3>Granicus — The First Real Test</h3>
+        <p>Every great story has an early battle that proves the hero can actually win. This is where your first major achievement goes — the job landed, the business launched, the degree earned against the odds.</p>
+        <span class="edit-note">Placeholder — replace with your real milestone</span>
+      </div>
+    </div>
+
+    <div class="chapter reveal">
+      <div class="chapter-dot"></div>
+      <div class="chapter-mark"><svg class="chapter-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 19l6-10 4 6 2-3 6 7z"/></svg>III<span class="year">The Long March</span></div>
+      <div class="chapter-copy">
+        <h3>Through the Hard Country</h3>
+        <p>No conqueror's road is smooth. This is your desert crossing — the years of struggle, setback, or grind that tested whether you'd turn back. Tell me about it and I'll cast it in bronze.</p>
+        <span class="edit-note">Placeholder — replace with your real challenge</span>
+      </div>
+    </div>
+
+    <div class="chapter reveal">
+      <div class="chapter-dot"></div>
+      <div class="chapter-mark"><svg class="chapter-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M22 12h-3M5 12H2M19 5l-2 2M7 17l-2 2M19 19l-2-2M7 7L5 5"/></svg>IV<span class="year">Gaugamela</span></div>
+      <div class="chapter-copy">
+        <h3>The Decisive Hour</h3>
+        <p>The single moment everything changed — the win that made the rest of the empire possible. What was your Gaugamela?</p>
+        <span class="edit-note">Placeholder — replace with your real breakthrough</span>
+      </div>
+    </div>
+
+    <div class="chapter reveal">
+      <div class="chapter-dot"></div>
+      <div class="chapter-mark"><svg class="chapter-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 8l4 3 5-6 5 6 4-3-2 10H5L3 8z"/></svg>V<span class="year">The Empire</span></div>
+      <div class="chapter-copy">
+        <h3>What You Built</h3>
+        <p>Where you stand today — the empire, however you define it: a career, a family, a body of work, a reputation. This is the present-day chapter of your chronicle.</p>
+        <span class="edit-note">Placeholder — replace with where you are now</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<svg class="meander-svg reveal" viewBox="0 0 400 20" width="260" height="14">
+  <path d="M0 10 H30 V0 H60 V20 H90 V0 H120 V20 H150 V0 H180 V20 H210 V0 H240 V20 H270 V0 H300 V20 H330 V0 H360 V10 H400" fill="none" stroke="#d4af37" stroke-width="1.5" opacity="0.6"/>
+</svg>
+
+<!-- ============ VIRTUES ============ -->
+<section id="virtues">
+  <div class="section-head reveal">
+    <div class="section-num">CHAPTER III</div>
+    <h2 class="section-title">The <em>Virtues</em> of the King</h2>
+  </div>
+  <div class="pillars">
+    <div class="pillar reveal">
+      <svg class="pillar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M12 2l2.4 6.8L21 11l-6.6 2.2L12 20l-2.4-6.8L3 11l6.6-2.2z"/></svg>
+      <h4>Ambition</h4>
+      <p>The refusal to accept the size of the world as given. A hunger to expand what's possible.</p>
+    </div>
+    <div class="pillar reveal">
+      <svg class="pillar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="4" y="4" width="16" height="16" rx="1"/><path d="M4 10h16M10 4v16"/></svg>
+      <h4>Discipline</h4>
+      <p>Strategy before glory. Every conquest was planned before it was won.</p>
+    </div>
+    <div class="pillar reveal">
+      <svg class="pillar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M12 21s-7-4.6-9.5-9C.7 8.4 2 5 5.5 4.3 8 3.8 10 5 12 7c2-2 4-3.2 6.5-2.7C22 5 23.3 8.4 21.5 12 19 16.4 12 21 12 21z"/></svg>
+      <h4>Loyalty</h4>
+      <p>The companions and allies who marched the whole way — no empire is built alone.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ QUOTE ============ -->
+<section id="quote">
+  <div class="quote-block reveal-scale">
+    <blockquote>There is nothing impossible to him who will try.</blockquote>
+    <cite>attributed to Alexander the Great — and now, the standard you march under</cite>
+  </div>
+</section>
+
+<svg class="meander-svg reveal" viewBox="0 0 400 20" width="260" height="14">
+  <path d="M0 10 H30 V0 H60 V20 H90 V0 H120 V20 H150 V0 H180 V20 H210 V0 H240 V20 H270 V0 H300 V20 H330 V0 H360 V10 H400" fill="none" stroke="#d4af37" stroke-width="1.5" opacity="0.6"/>
+</svg>
+
+<!-- ============ CONQUESTS LIST ============ -->
+<section id="conquests">
+  <div class="section-head reveal">
+    <div class="section-num">CHAPTER IV</div>
+    <h2 class="section-title">Territories <em>Claimed</em></h2>
+  </div>
+  <div class="conquest-list">
+    <div class="conquest-item reveal">
+      <span class="c-name">Your first career milestone</span>
+      <span class="c-tag">EDIT ME</span>
+    </div>
+    <div class="conquest-item reveal">
+      <span class="c-name">A skill or craft mastered</span>
+      <span class="c-tag">EDIT ME</span>
+    </div>
+    <div class="conquest-item reveal">
+      <span class="c-name">A personal battle overcome</span>
+      <span class="c-tag">EDIT ME</span>
+    </div>
+    <div class="conquest-item reveal">
+      <span class="c-name">Something you built or created</span>
+      <span class="c-tag">EDIT ME</span>
+    </div>
+    <div class="conquest-item reveal">
+      <span class="c-name">The people you brought with you</span>
+      <span class="c-tag">EDIT ME</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LEGACY ============ -->
+<section id="legacy" class="legacy">
+  <div class="coin-wrap reveal-scale">
+    <svg viewBox="0 0 200 200" width="140" height="140">
+      <defs>
+        <radialGradient id="coinGold" cx="35%" cy="30%" r="75%">
+          <stop offset="0%" stop-color="#f4d888"/>
+          <stop offset="55%" stop-color="#d4af37"/>
+          <stop offset="100%" stop-color="#7a5c1a"/>
+        </radialGradient>
+      </defs>
+      <circle cx="100" cy="100" r="92" fill="url(#coinGold)"/>
+      <circle cx="100" cy="100" r="92" fill="none" stroke="#5c4413" stroke-width="2"/>
+      <circle cx="100" cy="100" r="80" fill="none" stroke="#5c4413" stroke-width="1.3" stroke-dasharray="2 5"/>
+      <text x="100" y="118" text-anchor="middle" font-family="Cinzel, serif" font-size="58" font-weight="700" fill="#3a2a08">ΣΑ</text>
+      <path d="M60 60 C70 50 130 50 140 60" stroke="#3a2a08" stroke-width="1.4" fill="none" opacity="0.55"/>
+      <path d="M60 140 C70 150 130 150 140 140" stroke="#3a2a08" stroke-width="1.4" fill="none" opacity="0.55"/>
+    </svg>
+  </div>
+  <div class="section-head reveal">
+    <div class="section-num">FINAL CHAPTER</div>
+    <h2 class="section-title">The <em>Legacy</em> Continues</h2>
+  </div>
+  <p class="lead reveal">The story of Alexander didn't end at Babylon — it echoed for two thousand years. Yours is still being written. Send me the real chapters of your life, and I'll forge them into gold.</p>
+
+  <figure class="framed-img reveal-scale">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpElTCWUD0n1G_POT4QtBys8C5tb6FTAuGCRNU34irmYvFF-uTmvLGrwVBOFV28r-lsl2sM4prJc8SDNAx_RlWBiTGizpfGT6Ok3uF8mo&s=10.jpg" alt="The Parthenon on the Acropolis of Athens" loading="lazy">
+    <figcaption class="framed-cap">THE PARTHENON, ATHENS — WHAT OUTLASTS THE EMPIRE</figcaption>
+  </figure>
+
+  <a href="#origins" class="gold-btn reveal">BEGIN THE CHRONICLE AGAIN</a>
+</section>
+
+<footer>
+  <div class="sig">Σ · A</div>
+  <div>Sam Alexander the Great — a chronicle in progress</div>
+</footer>
+
+<script>
+// scroll reveal
+const revealEls = document.querySelectorAll('.reveal, .reveal-scale');
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('in');
+      io.unobserve(e.target);
+    }
+  });
+},{ threshold:0.15, rootMargin:'0px 0px -60px 0px' });
+revealEls.forEach(el=>io.observe(el));
+
+// respect reduced motion
+if (window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+  document.querySelectorAll('.reveal, .reveal-scale').forEach(el=>el.classList.add('in'));
+}
+</script>
+
+</body>
+</html>

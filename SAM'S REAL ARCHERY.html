@@ -1,0 +1,451 @@
+
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Sam's Real Archery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Layout: night-range field. Giant target + arrow hero, chronicles as long-form chapters, gallery as a pinned target-board grid. */
+:root {
+  --ground: #0b1613;
+  --ground-2: #112019;
+  --bone: #ece6d6;
+  --bone-dim: #a9b0a3;
+  --ember: #e2552b;
+  --starlight: #d9b86a;
+  --line: rgba(236, 230, 214, 0.16);
+  --display: "Big Shoulders Display", "Arial Narrow", Impact, sans-serif;
+  --body: "Newsreader", Georgia, "Times New Roman", serif;
+  --mono: "DM Mono", ui-monospace, Menlo, Consolas, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--ground);
+  color: var(--bone);
+  font-family: var(--body);
+  font-size: 1.125rem;
+  line-height: 1.65;
+  padding-inline: 16px;
+  overflow-x: hidden;
+}
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--starlight); outline-offset: 3px; }
+.wrap { max-width: 1120px; margin-inline: auto; }
+h1, h2, h3 { font-family: var(--display); font-weight: 900; text-transform: uppercase; line-height: 0.92; margin: 0; text-wrap: balance; letter-spacing: 0.01em; }
+.label { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--starlight); }
+
+/* progress arrow */
+.progress { position: fixed; left: 0; right: 0; top: env(safe-area-inset-top, 0px); height: 3px; z-index: 50; background: transparent; pointer-events: none; }
+.progress i { display: block; height: 100%; width: 100%; background: var(--ember); transform-origin: left; transform: scaleX(0); }
+
+/* nav */
+nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 40; background: color-mix(in srgb, var(--ground) 88%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); margin-inline: -16px; padding-inline: 16px; }
+nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 12px; flex-wrap: wrap; }
+.brand { font-family: var(--display); font-weight: 900; font-size: 1.35rem; text-transform: uppercase; text-decoration: none; letter-spacing: 0.04em; }
+.brand b { color: var(--ember); font-weight: 900; }
+nav ul { display: flex; gap: 20px; list-style: none; margin: 0; padding: 0; flex-wrap: wrap; }
+nav ul a { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none; color: var(--bone-dim); transition: color .25s; }
+nav ul a:hover { color: var(--bone); }
+
+/* hero */
+.hero { padding-block: 56px 72px; display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 32px; align-items: center; }
+.hero h1 { font-size: clamp(3.4rem, 11vw, 8.5rem); margin-top: 18px; }
+.hero h1 span { display: block; }
+.hero h1 .r { color: var(--ember); }
+.hero p.lede { max-width: 34ch; font-size: 1.3rem; color: var(--bone-dim); margin: 26px 0 0; font-style: italic; }
+.hero .cta { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 32px; }
+.btn { font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none; padding: 14px 22px; border: 1px solid var(--bone); background: transparent; color: var(--bone); cursor: pointer; transition: background .3s, color .3s, transform .3s; display: inline-block; }
+.btn:hover { background: var(--bone); color: var(--ground); transform: translateY(-2px); }
+.btn.solid { background: var(--ember); border-color: var(--ember); color: #fff; }
+.btn.solid:hover { background: var(--bone); border-color: var(--bone); color: var(--ground); }
+.target-box { min-width: 0; position: relative; }
+.target-box svg { width: 100%; height: auto; max-width: 100%; display: block; overflow: hidden; }
+.rings { transform-origin: 300px 300px; transform-box: view-box; }
+.ring-draw { stroke-dasharray: 1; stroke-dashoffset: 0; }
+.arrow { animation: shoot 1.1s cubic-bezier(.12,.75,.2,1) .5s both; }
+.arrow-wob { transform-origin: 300px 300px; animation: wob 1.4s ease-out 1.5s both; }
+@keyframes shoot { from { transform: translate(-520px, 390px); opacity: 0; } 12% { opacity: 1; } to { transform: translate(0, 0); opacity: 1; } }
+@keyframes wob { 0% { transform: rotate(0); } 15% { transform: rotate(1.6deg); } 35% { transform: rotate(-1.1deg); } 60% { transform: rotate(0.5deg); } 100% { transform: rotate(0); } }
+.ring-pop { animation: pop .9s ease-out 1.5s both; transform-origin: 300px 300px; }
+@keyframes pop { 0% { opacity: 1; transform: scale(1); } 40% { transform: scale(1.04); } 100% { transform: scale(1); } }
+.dist { position: absolute; right: 0; bottom: -6px; font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.16em; color: var(--bone-dim); text-transform: uppercase; }
+
+/* sections */
+section { padding-block: 88px; border-top: 1px solid var(--line); }
+.sec-head { display: flex; flex-direction: column; gap: 14px; margin-bottom: 44px; }
+.sec-head h2 { font-size: clamp(2.6rem, 8vw, 5.6rem); max-width: 14ch; }
+
+/* testimony */
+.testimony { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 56px; align-items: start; }
+.big-quote { font-family: var(--display); font-weight: 900; text-transform: uppercase; font-size: clamp(2rem, 5vw, 3.4rem); line-height: 1; color: var(--bone); }
+.big-quote em { font-style: normal; color: var(--ember); }
+.prose p { margin: 0 0 1.25em; max-width: 62ch; }
+.prose p:first-child::first-letter { font-family: var(--display); font-weight: 900; font-size: 4.6rem; float: left; line-height: .8; padding: 6px 12px 0 0; color: var(--ember); }
+.scripture { margin: 40px 0 0; padding: 22px 0 0; border-top: 1px solid var(--line); }
+.scripture q { font-style: italic; font-size: 1.35rem; display: block; quotes: none; }
+.scripture cite { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--starlight); font-style: normal; display: block; margin-top: 10px; }
+
+/* chronicles */
+.chapters { display: flex; flex-direction: column; gap: 0; }
+.chapter { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 32px; padding-block: 44px; border-top: 1px solid var(--line); position: relative; }
+.chapter:first-child { border-top: none; padding-top: 0; }
+.chapter .num { font-family: var(--display); font-weight: 900; font-size: 5.5rem; line-height: .85; color: transparent; -webkit-text-stroke: 1.5px var(--ember); transition: color .5s, transform .5s; }
+.chapter:hover .num { color: var(--ember); transform: translateX(6px); }
+.chapter h3 { font-size: clamp(1.9rem, 4vw, 2.8rem); margin: 10px 0 18px; }
+.chapter p { margin: 0 0 1em; max-width: 64ch; color: var(--bone); }
+.date-tag { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--starlight); }
+
+/* verse band */
+.band { background: var(--ground-2); margin-inline: -16px; padding-inline: 16px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.band section { border: none; padding-block: 72px; }
+.band .big { font-family: var(--display); font-weight: 900; text-transform: uppercase; font-size: clamp(2.2rem, 7vw, 5rem); line-height: .95; max-width: 18ch; }
+.band .big span { color: var(--ember); }
+.band cite { display: block; margin-top: 22px; font-family: var(--mono); font-size: .78rem; letter-spacing: .18em; text-transform: uppercase; color: var(--starlight); font-style: normal; }
+
+/* gallery */
+.gallery { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.slot { position: relative; aspect-ratio: 4 / 5; max-width: 100%; background: var(--ground-2); border: 1px solid var(--line); overflow: hidden; transition: transform .45s cubic-bezier(.2,.7,.2,1), border-color .3s; }
+.slot:nth-child(2) { transform: translateY(28px); }
+.slot:nth-child(5) { transform: translateY(28px); }
+.slot:hover { border-color: var(--ember); transform: translateY(-6px); }
+.slot:nth-child(2):hover, .slot:nth-child(5):hover { transform: translateY(22px); }
+.slot img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s cubic-bezier(.2,.7,.2,1); }
+.slot:hover img { transform: scale(1.06); }
+.slot label { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; cursor: pointer; text-align: center; padding: 16px; font-family: var(--mono); font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--bone-dim); }
+.slot label svg { width: 44px; height: 44px; }
+.slot.filled label { opacity: 0; background: rgba(11,22,19,.7); color: var(--bone); transition: opacity .3s; }
+.slot.filled:hover label, .slot.filled label:focus-within { opacity: 1; }
+.slot input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.slot input:focus-visible + span { outline: 2px solid var(--starlight); outline-offset: 4px; }
+.slot .cap { position: absolute; left: 0; right: 0; bottom: 0; padding: 26px 14px 12px; font-family: var(--mono); font-size: .68rem; letter-spacing: .14em; text-transform: uppercase; background: linear-gradient(transparent, rgba(11,22,19,.9)); pointer-events: none; }
+.gal-note { margin-top: 64px; font-family: var(--mono); font-size: .76rem; letter-spacing: .06em; color: var(--bone-dim); max-width: 70ch; }
+
+/* real archery */
+.three { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border: 1px solid var(--line); }
+.three > div { padding: 34px 28px; border-right: 1px solid var(--line); transition: background .4s; min-width: 0; }
+.three > div:last-child { border-right: none; }
+.three > div:hover { background: var(--ground-2); }
+.three h3 { font-size: 2.2rem; margin: 14px 0 12px; color: var(--ember); }
+.three p { margin: 0; color: var(--bone-dim); font-size: 1.05rem; }
+
+/* footer */
+footer { border-top: 1px solid var(--line); padding-block: 56px 72px; }
+footer .wrap { display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; align-items: end; }
+footer .mark { font-family: var(--display); font-weight: 900; font-size: clamp(2.4rem, 8vw, 5rem); text-transform: uppercase; line-height: .9; }
+footer .mark b { color: var(--ember); }
+footer small { font-family: var(--mono); font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--bone-dim); }
+.edit-btn { position: fixed; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 45; font-family: var(--mono); font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; padding: 12px 16px; background: var(--ground); color: var(--bone); border: 1px solid var(--bone); cursor: pointer; }
+.edit-btn[aria-pressed="true"] { background: var(--starlight); color: #1a1405; border-color: var(--starlight); }
+body.editing [data-edit] { outline: 1px dashed var(--starlight); outline-offset: 4px; cursor: text; }
+
+/* reveal motion */
+.pre { opacity: 0; transform: translateY(34px); }
+.reveal { transition: opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1); }
+.reveal.d1 { transition-delay: .1s; } .reveal.d2 { transition-delay: .2s; }
+
+@media (max-width: 860px) {
+  .hero { grid-template-columns: minmax(0, 1fr); padding-block: 36px 56px; }
+  .target-box { max-width: 420px; margin-inline: auto; width: 100%; }
+  .testimony { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+  .chapter { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+  .chapter .num { font-size: 3.6rem; }
+  .gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .slot:nth-child(2), .slot:nth-child(5) { transform: none; }
+  .slot:nth-child(2):hover, .slot:nth-child(5):hover { transform: translateY(-6px); }
+  .slot:nth-child(even) { transform: translateY(20px); }
+  .slot:nth-child(even):hover { transform: translateY(14px); }
+  .three { grid-template-columns: minmax(0, 1fr); }
+  .three > div { border-right: none; border-bottom: 1px solid var(--line); }
+  .three > div:last-child { border-bottom: none; }
+  section { padding-block: 64px; }
+  nav ul { gap: 14px; }
+}
+@media (max-width: 460px) { .gallery { gap: 12px; } nav .wrap { justify-content: center; } }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .arrow, .arrow-wob, .ring-pop { animation: none; }
+  .pre { opacity: 1; transform: none; }
+  .reveal, .slot, .slot img, .chapter .num { transition: none; }
+}
+</style>
+
+<div class="progress" aria-hidden="true"><i id="bar"></i></div>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="#top">Sam's <b>Real</b> Archery</a>
+    <ul>
+      <li><a href="#testimony">Testimony</a></li>
+      <li><a href="#chronicles">Chronicles</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#archery">The Shot</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="wrap hero" id="top">
+  <div>
+    <span class="label">Archer &middot; Believer &middot; Set apart</span>
+    <h1><span>Sam's</span><span class="r">Real</span><span>Archery</span></h1>
+    <p class="lede" data-edit="lede">God made me different from everyone else in the whole universe. This is my aim, and my story.</p>
+    <div class="cta">
+      <a class="btn solid" href="#chronicles">Read my chronicles</a>
+      <a class="btn" href="#gallery">See the photos</a>
+    </div>
+  </div>
+  <div class="target-box">
+    <svg viewBox="0 0 600 600" role="img" aria-label="An arrow stuck in the center of an archery target">
+      <g class="ring-pop">
+        <g class="rings" id="rings">
+          <circle cx="300" cy="300" r="280" fill="#ece6d6" stroke="#0b1613" stroke-width="2"/>
+          <circle cx="300" cy="300" r="224" fill="#0b1613" stroke="#ece6d6" stroke-width="2"/>
+          <circle cx="300" cy="300" r="168" fill="#3a8fa8" stroke="#0b1613" stroke-width="2"/>
+          <circle cx="300" cy="300" r="112" fill="#e2552b" stroke="#0b1613" stroke-width="2"/>
+          <circle cx="300" cy="300" r="56" fill="#d9b86a" stroke="#0b1613" stroke-width="2"/>
+          <circle cx="300" cy="300" r="14" fill="#0b1613"/>
+        </g>
+      </g>
+      <g class="arrow-wob">
+        <g class="arrow">
+          <line x1="300" y1="300" x2="70" y2="473" stroke="#ece6d6" stroke-width="7" stroke-linecap="round"/>
+          <line x1="300" y1="300" x2="70" y2="473" stroke="#0b1613" stroke-width="1.5" stroke-linecap="round" opacity=".5"/>
+          <polygon points="112,441 56,458 76,404" fill="#e2552b"/>
+          <polygon points="82,464 26,481 46,427" fill="#e2552b"/>
+          <circle cx="64" cy="478" r="7" fill="#d9b86a"/>
+        </g>
+      </g>
+    </svg>
+    <span class="dist">Bullseye &middot; 70 m</span>
+  </div>
+</header>
+
+<section id="testimony">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="label">My testimony</span>
+      <h2>Made different. On purpose.</h2>
+    </div>
+    <div class="testimony">
+      <div class="reveal">
+        <p class="big-quote" data-edit="bigquote">Out of every person, and every star, there is only <em>one me.</em></p>
+        <figure class="scripture" style="margin-inline:0">
+          <q>I will praise thee; for I am fearfully and wonderfully made.</q>
+          <cite>Psalm 139:14 &middot; KJV</cite>
+        </figure>
+      </div>
+      <div class="prose reveal d1" data-edit="testimony">
+        <p>I am a Christian, and I believe God made me different from other people. Not a little different. Different from everyone else in the whole universe. Nobody else carries my life, my story, or the way God speaks to me.</p>
+        <p>I did not choose this path by myself. God placed it in front of me, and He keeps showing me that I was shaped for a purpose. The more I walk with Him, the clearer it becomes that being set apart is not a burden. It is an invitation.</p>
+        <p>Archery taught me how to say it. You cannot fake a real shot. You stand, you breathe, you draw, and you let go. The arrow goes where it was aimed. My life is aimed by Him, and that is why I call this place Sam's Real Archery.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="band">
+  <div class="wrap">
+    <section>
+      <p class="big reveal">Before I formed thee, <span>I knew thee.</span></p>
+      <cite class="reveal d1">Jeremiah 1:5 &middot; KJV</cite>
+    </section>
+  </div>
+</div>
+
+<section id="chronicles">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="label">Supernatural chronicles</span>
+      <h2>My chronicles with God</h2>
+    </div>
+    <div class="chapters">
+      <article class="chapter reveal">
+        <div class="num" aria-hidden="true">I</div>
+        <div>
+          <span class="date-tag" data-edit="d1">Add the date</span>
+          <h3 data-edit="t1">Set apart</h3>
+          <div data-edit="c1">
+            <p>The first thing God showed me is that I am not a copy of anyone. From a young age I felt different from the people around me, and for a long time I did not know why. Then I understood that He made me this way.</p>
+            <p>That changed how I see myself. I stopped trying to fit in and started asking what He made me for.</p>
+          </div>
+        </div>
+      </article>
+      <article class="chapter reveal">
+        <div class="num" aria-hidden="true">II</div>
+        <div>
+          <span class="date-tag" data-edit="d2">Add the date</span>
+          <h3 data-edit="t2">The voice I could not explain</h3>
+          <div data-edit="c2">
+            <p>There are moments in my life that I cannot explain with ordinary words. Times when God's presence felt closer than the room around me, and I knew I was not alone.</p>
+            <p>I do not write these down to impress anyone. I write them because they are real to me, and because God deserves the credit.</p>
+          </div>
+        </div>
+      </article>
+      <article class="chapter reveal">
+        <div class="num" aria-hidden="true">III</div>
+        <div>
+          <span class="date-tag" data-edit="d3">Add the date</span>
+          <h3 data-edit="t3">Signs and wonders</h3>
+          <div data-edit="c3">
+            <p>This is where my supernatural experiences live: the dreams, the answered prayers, the things that happened that no one can explain away. Each one is a marker that God is near and working in my life.</p>
+            <p>Tap "Edit text" at the bottom of the page to write each experience in your own words.</p>
+          </div>
+        </div>
+      </article>
+      <article class="chapter reveal">
+        <div class="num" aria-hidden="true">IV</div>
+        <div>
+          <span class="date-tag" data-edit="d4">Today</span>
+          <h3 data-edit="t4">Still aiming</h3>
+          <div data-edit="c4">
+            <p>The story is not finished. I keep walking with God, and I keep telling the truth about what He has done. Every day is another arrow, and He is the one who sets the target.</p>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="gallery">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="label">Photo gallery</span>
+      <h2>Me, on the line</h2>
+    </div>
+    <div class="gallery" id="gal"></div>
+    <p class="gal-note reveal">Tap a frame to add your photo. Photos you add are saved in this browser only. To make them appear for every visitor, send the pictures to Claude in chat and they will be built into the page.</p>
+  </div>
+</section>
+
+<section id="archery">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="label">Real archery</span>
+      <h2>Three things the bow taught me</h2>
+    </div>
+    <div class="three">
+      <div class="reveal">
+        <span class="label">Before the draw</span>
+        <h3>Stance</h3>
+        <p>Feet set, shoulders square. A steady life starts with knowing where you stand, and I stand on God's word.</p>
+      </div>
+      <div class="reveal d1">
+        <span class="label">At full draw</span>
+        <h3>Draw</h3>
+        <p>You pull until it costs you something. Prayer is like that. It takes patience, and the strength comes from Him.</p>
+      </div>
+      <div class="reveal d2">
+        <span class="label">The release</span>
+        <h3>Release</h3>
+        <p>After all the practice, you let go. You trust the aim you were given and you do not chase the arrow.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="mark">Sam's <b>Real</b><br>Archery</div>
+    <small>Made different &middot; Aimed by God</small>
+  </div>
+</footer>
+
+<button class="edit-btn" id="editBtn" type="button" aria-pressed="false">Edit text</button>
+
+<script>
+(function () {
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function store(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+  function load(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+
+  /* scroll progress + ring spin */
+  var bar = document.getElementById('bar');
+  var rings = document.getElementById('rings');
+  function onScroll() {
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    var p = h > 0 ? Math.min(1, window.scrollY / h) : 0;
+    bar.style.transform = 'scaleX(' + p + ')';
+    if (rings && !reduce) rings.style.transform = 'rotate(' + (window.scrollY * 0.06) + 'deg)';
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  /* gallery slots */
+  var caps = ['On the line', 'Full draw', 'Quiet moment', 'Practice', 'Set apart', 'Still aiming'];
+  var gal = document.getElementById('gal');
+  var icon = '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="6" y="12" width="36" height="26" rx="2"/><circle cx="24" cy="25" r="7"/><path d="M17 12l3-5h8l3 5"/></svg>';
+  function shrink(file, cb) {
+    var fr = new FileReader();
+    fr.onload = function () {
+      var img = new Image();
+      img.onload = function () {
+        var m = 900, s = Math.min(1, m / Math.max(img.width, img.height));
+        var c = document.createElement('canvas');
+        c.width = Math.round(img.width * s); c.height = Math.round(img.height * s);
+        c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+        cb(c.toDataURL('image/jpeg', 0.82));
+      };
+      img.src = fr.result;
+    };
+    fr.readAsDataURL(file);
+  }
+  function setImg(slot, url) {
+    var old = slot.querySelector('img');
+    if (old) old.remove();
+    var im = document.createElement('img');
+    im.alt = 'Sam, photo'; im.src = url;
+    slot.insertBefore(im, slot.firstChild);
+    slot.classList.add('filled');
+    slot.querySelector('.txt').textContent = 'Change photo';
+  }
+  caps.forEach(function (cap, i) {
+    var d = document.createElement('div');
+    d.className = 'slot reveal d' + (i % 3);
+    d.innerHTML = '<label for="ph' + i + '">' + icon + '<span class="txt">Add photo</span></label><input id="ph' + i + '" type="file" accept="image/*"><div class="cap">' + cap + '</div>';
+    gal.appendChild(d);
+    var saved = load('sra-photo-' + i);
+    if (saved) setImg(d, saved);
+    d.querySelector('input').addEventListener('change', function (e) {
+      var f = e.target.files && e.target.files[0];
+      if (!f) return;
+      shrink(f, function (url) { setImg(d, url); store('sra-photo-' + i, url); });
+    });
+  });
+
+  /* editable text */
+  var editBtn = document.getElementById('editBtn');
+  var editables = Array.prototype.slice.call(document.querySelectorAll('[data-edit]'));
+  editables.forEach(function (el) {
+    var s = load('sra-text-' + el.getAttribute('data-edit'));
+    if (s) el.innerHTML = s;
+  });
+  editBtn.addEventListener('click', function () {
+    var on = editBtn.getAttribute('aria-pressed') !== 'true';
+    editBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
+    editBtn.textContent = on ? 'Done editing' : 'Edit text';
+    document.body.classList.toggle('editing', on);
+    editables.forEach(function (el) {
+      if (on) { el.setAttribute('contenteditable', 'true'); }
+      else { el.removeAttribute('contenteditable'); store('sra-text-' + el.getAttribute('data-edit'), el.innerHTML); }
+    });
+  });
+
+  /* reveal on scroll: only things below the fold start hidden */
+  var items = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
+  if (!reduce && 'IntersectionObserver' in window) {
+    var vh = window.innerHeight;
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.remove('pre'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.12 });
+    items.forEach(function (el) {
+      if (el.getBoundingClientRect().top > vh * 0.9) { el.classList.add('pre'); io.observe(el); }
+    });
+    setTimeout(function () { items.forEach(function (el) { if (el.classList.contains('pre') && el.getBoundingClientRect().top < window.innerHeight) el.classList.remove('pre'); }); }, 2500);
+  }
+})();
+</script>
+
+</body></html>

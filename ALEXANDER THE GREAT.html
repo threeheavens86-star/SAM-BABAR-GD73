@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Alexander the Great - The definitive professional website. Explore the life, conquests, legacy, and epic journey of the King of Macedon.">
+    <title>Alexander the Great | King of Macedon • Conqueror of the Known World</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@400;500;600&display=swap');
+        
+        :root {
+            --gold: #f5c451;
+        }
+        
+        * {
+            transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration: 150ms;
+        }
+        
+        body {
+            font-family: 'Inter', system_ui, sans-serif;
+        }
+        
+        .heading-font {
+            font-family: 'Playfair Display', sans-serif;
+        }
+        
+        .hero-bg {
+            background-image: linear-gradient(rgba(10, 10, 30, 0.75), rgba(10, 10, 30, 0.85)), 
+                             url('https://upload.wikimedia.org/wikipedia/commons/e/e1/Alexander_the_Great_mosaic.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        
+        .navbar {
+            backdrop-filter: blur(12px);
+        }
+        
+        .section-header {
+            position: relative;
+        }
+        
+        .section-header::after {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(to right, #f5c451, #d4a017);
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .card-hover {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-12px) scale(1.03);
+            box-shadow: 0 25px 50px -12px rgb(245 196 81 / 0.25);
+        }
+        
+        .timeline-line {
+            animation: drawLine 2s ease-in-out forwards;
+        }
+        
+        @keyframes drawLine {
+            from { height: 0; }
+            to { height: 100%; }
+        }
+        
+        .gallery-img {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .gallery-img:hover {
+            transform: scale(1.08);
+            filter: brightness(1.1) contrast(1.1);
+        }
+        
+        .modal {
+            animation: modalPop 0.3s ease forwards;
+        }
+        
+        @keyframes modalPop {
+            0% { opacity: 0; transform: scale(0.95); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        
+        .gold-glow {
+            text-shadow: 0 0 20px #f5c451,
+                         0 0 40px #f5c451;
+        }
+    </style>
+</head>
+<body class="bg-[#0a0a2a] text-white overflow-x-hidden">
+    <!-- NAVBAR -->
+    <nav class="navbar bg-[#0a0a2a]/90 border-b border-[#f5c451]/20 fixed w-full z-50 top-0">
+        <div class="max-w-screen-2xl mx-auto px-8 py-5 flex items-center justify-between">
+            <!-- Logo -->
+            <div class="flex items-center gap-x-3">
+                <div class="w-10 h-10 bg-gradient-to-br from-[#f5c451] to-[#d4a017] rounded-2xl flex items-center justify-center text-[#0a0a2a] text-2xl shadow-xl">
+                    <i class="fa-solid fa-crown"></i>
+                </div>
+                <h1 class="heading-font text-3xl tracking-tighter font-bold">ALEXANDER</h1>
+                <span class="text-[#f5c451] text-xl font-light">THE GREAT</span>
+            </div>
+
+            <!-- Menu -->
+            <div class="hidden md:flex items-center gap-x-9 text-sm font-medium uppercase tracking-widest">
+                <a onclick="document.getElementById('home').scrollIntoView({behavior:'smooth'})" class="hover:text-[#f5c451] flex items-center gap-x-1">
+                    <i class="fa-solid fa-home text-xs"></i> HOME
+                </a>
+                <a onclick="document.getElementById('bio').scrollIntoView({behavior:'smooth'})" class="hover:text-[#f5c451]">LIFE &amp; RISE</a>
+                <a onclick="document.getElementById('timeline').scrollIntoView({behavior:'smooth'})" class="hover:text-[#f5c451]">TIMELINE</a>
+                <a onclick="document.getElementById('conquests').scrollIntoView({behavior:'smooth'})" class="hover:text-[#f5c451]">CONQUESTS</a>
+                <a onclick="document.getElementById('gallery').scrollIntoView({behavior:'smooth'})" class="hover:text-[#f5c451]">GALLERY</a>
+                <a onclick="document.getElementById('legacy').scrollIntoView({behavior:'smooth'})" class="hover:text-[#f5c451]">LEGACY</a>
+            </div>
+
+            <div class="flex items-center gap-x-4">
+                <!-- Language / Era indicator -->
+                <div class="px-4 py-1.5 bg-[#f5c451]/10 text-[#f5c451] text-xs font-mono rounded-3xl border border-[#f5c451]/30 flex items-center gap-x-1.5">
+                    <i class="fa-solid fa-globe"></i>
+                    336–323 BC
+                </div>
+                
+                <!-- Mobile menu button -->
+                <button onclick="toggleMobileMenu()" class="md:hidden text-2xl text-[#f5c451]">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden md:hidden bg-[#0a0a2a] border-t border-[#f5c451]/20 px-8 py-6 text-sm font-medium">
+            <a onclick="toggleMobileMenu();document.getElementById('bio').scrollIntoView({behavior:'smooth'})" class="block py-3 border-b border-white/10">LIFE &amp; RISE</a>
+            <a onclick="toggleMobileMenu();document.getElementById('timeline').scrollIntoView({behavior:'smooth'})" class="block py-3 border-b border-white/10">TIMELINE</a>
+            <a onclick="toggleMobileMenu();document.getElementById('conquests').scrollIntoView({behavior:'smooth'})" class="block py-3 border-b border-white/10">CONQUESTS</a>
+            <a onclick="toggleMobileMenu();document.getElementById('gallery').scrollIntoView({behavior:'smooth'})" class="block py-3 border-b border-white/10">GALLERY</a>
+            <a onclick="toggleMobileMenu();document.getElementById('legacy').scrollIntoView({behavior:'smooth'})" class="block py-3">LEGACY</a>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section id="home" class="hero-bg min-h-screen flex items-center relative">
+        <div class="max-w-screen-2xl mx-auto px-8 pt-20">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div data-aos="fade-right" data-aos-duration="1200">
+                    <div class="inline-flex items-center bg-white/10 backdrop-blur-md px-6 py-3 rounded-3xl text-[#f5c451] text-sm mb-6 border border-[#f5c451]/30">
+                        <span class="w-2 h-2 bg-[#f5c451] rounded-full animate-pulse mr-2"></span>
+                        LEGEND OF THE ANCIENT WORLD
+                    </div>
+                    
+                    <h1 class="heading-font text-7xl md:text-8xl leading-none font-bold tracking-[-3px] gold-glow">
+                        ALEXANDER<br>THE GREAT
+                    </h1>
+                    <p class="mt-6 text-2xl text-white/90 max-w-lg">
+                        King of Macedon • Lord of Asia • Conqueror of Persia • 
+                        <span class="text-[#f5c451]">Undefeated in battle</span>
+                    </p>
+                    
+                    <div class="flex items-center gap-x-6 mt-10">
+                        <a onclick="document.getElementById('conquests').scrollIntoView({behavior:'smooth'})" 
+                           class="px-10 py-5 bg-[#f5c451] hover:bg-amber-300 text-[#0a0a2a] font-semibold rounded-2xl text-lg flex items-center gap-x-3 shadow-2xl shadow-[#f5c451]/40">
+                            EXPLORE HIS CONQUESTS
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                        
+                        <a onclick="document.getElementById('gallery').scrollIntoView({behavior:'smooth'})" 
+                           class="px-8 py-5 border-2 border-white/70 hover:border-[#f5c451] rounded-2xl text-lg flex items-center gap-x-2">
+                            <i class="fa-solid fa-images"></i>
+                            VIEW THE LEGEND
+                        </a>
+                    </div>
+                    
+                    <!-- Stats -->
+                    <div class="grid grid-cols-3 gap-8 mt-16">
+                        <div>
+                            <div class="text-[#f5c451] text-5xl font-bold">30,000+</div>
+                            <div class="text-sm uppercase tracking-widest text-white/70">Miles marched</div>
+                        </div>
+                        <div>
+                            <div class="text-[#f5c451] text-5xl font-bold">11</div>
+                            <div class="text-sm uppercase tracking-widest text-white/70">Major battles won</div>
+                        </div>
+                        <div>
+                            <div class="text-[#f5c451] text-5xl font-bold">3</div>
+                            <div class="text-sm uppercase tracking-widest text-white/70">Continents conquered</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right side floating portrait -->
+                <div data-aos="fade-left" data-aos-duration="1200" class="hidden md:flex justify-end relative">
+                    <div class="relative">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Alexander_the_Great_bust.jpg" 
+                             alt="Marble bust of Alexander the Great"
+                             class="w-96 h-96 object-cover rounded-3xl shadow-2xl shadow-[#f5c451]/30 border-4 border-[#f5c451]/20 rotate-6">
+                        <div class="absolute -top-6 -right-6 bg-[#0a0a2a] text-[#f5c451] px-6 py-3 rounded-3xl text-lg font-medium shadow-xl flex items-center gap-x-2">
+                            <i class="fa-solid fa-medal"></i>
+                            UNDEFEATED
+                        </div>
+                        <div class="absolute -bottom-8 left-8 bg-white/10 backdrop-blur-xl px-8 py-4 rounded-3xl text-center">
+                            <div class="text-xs uppercase">Bucephalus</div>
+                            <div class="text-[#f5c451] text-xl font-semibold">His legendary horse</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Scroll indicator -->
+        <div class="absolute bottom-12 left-1/2 flex flex-col items-center text-white/60 text-sm tracking-widest">
+            SCROLL FOR THE LEGACY
+            <i class="fa-solid fa-chevron-down animate-bounce mt-2 text-2xl"></i>
+        </div>
+        
+        <!-- Floating badges -->
+        <div class="absolute top-40 right-12 hidden xl:block bg-white/10 backdrop-blur-md px-5 py-3 rounded-3xl text-[#f5c451] flex items-center gap-x-3 shadow-2xl">
+            <i class="fa-solid fa-sword"></i>
+            <span class="font-semibold">Battle of Gaugamela • 331 BC</span>
+        </div>
+        <div class="absolute bottom-40 left-12 hidden xl:block bg-white/10 backdrop-blur-md px-5 py-3 rounded-3xl text-[#f5c451] flex items-center gap-x-3 shadow-2xl">
+            <i class="fa-solid fa-map"></i>
+            <span class="font-semibold">Empire stretched 3,000 miles</span>
+        </div>
+    </section>
+
+    <!-- BIO SECTION -->
+    <section id="bio" class="max-w-screen-2xl mx-auto px-8 py-24">
+        <div class="grid md:grid-cols-12 gap-16 items-center">
+            <div class="md:col-span-5" data-aos="fade-up">
+                <span class="px-5 py-2 bg-[#f5c451]/10 text-[#f5c451] text-sm rounded-3xl">356 – 323 BC</span>
+                <h2 class="heading-font text-6xl font-bold mt-4 leading-none">The Man Behind the Myth</h2>
+                <p class="mt-8 text-xl text-white/80 leading-relaxed">
+                    Born in Pella, Macedonia, to King Philip II and Queen Olympias. Tutored by Aristotle. 
+                    Became king at age 20 after his father’s assassination. In just 13 years, he created one of the largest empires in the ancient world — without ever losing a battle.
+                </p>
+                
+                <div class="mt-10 flex gap-x-8">
+                    <div class="flex-1 border-l-4 border-[#f5c451] pl-6">
+                        <div class="uppercase text-xs">Tutored by</div>
+                        <div class="text-3xl font-semibold">Aristotle</div>
+                    </div>
+                    <div class="flex-1 border-l-4 border-[#f5c451] pl-6">
+                        <div class="uppercase text-xs">Famous horse</div>
+                        <div class="text-3xl font-semibold">Bucephalus</div>
+                    </div>
+                    <div class="flex-1 border-l-4 border-[#f5c451] pl-6">
+                        <div class="uppercase text-xs">Age at death</div>
+                        <div class="text-3xl font-semibold">32</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="md:col-span-7" data-aos="fade-up" data-aos-delay="200">
+                <div class="bg-gradient-to-br from-[#1a1a3a] to-[#0a0a2a] rounded-3xl p-10 border border-[#f5c451]/10">
+                    <p class="text-white/90 text-lg italic leading-relaxed">
+                        “I am not afraid of an army of lions led by a sheep; I am afraid of an army of sheep led by a lion.”
+                    </p>
+                    <div class="mt-8 flex items-center gap-x-4">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Alexander_the_Great_bust.jpg" 
+                             alt="Alexander the Great" class="w-14 h-14 object-cover rounded-2xl">
+                        <div>
+                            <div class="font-semibold">— Alexander III of Macedon</div>
+                            <div class="text-[#f5c451] text-sm">King of Macedonia • Pharaoh of Egypt • King of Persia</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TIMELINE -->
+    <section id="timeline" class="bg-[#11112b] py-24 relative">
+        <div class="max-w-screen-2xl mx-auto px-8">
+            <div class="text-center mb-16">
+                <span class="px-4 py-1 bg-white/10 rounded-3xl text-sm">CHRONOLOGY</span>
+                <h2 class="heading-font text-6xl font-bold mt-4" data-aos="fade-up">A Lifetime of Glory</h2>
+            </div>
+            
+            <div class="relative max-w-4xl mx-auto">
+                <!-- Vertical line -->
+                <div class="absolute left-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-[#f5c451] to-transparent timeline-line hidden md:block"></div>
+                
+                <div class="space-y-16">
+                    <!-- Item 1 -->
+                    <div class="flex flex-col md:flex-row gap-8 items-center" data-aos="fade-up">
+                        <div class="md:w-1/2 text-right md:pr-12">
+                            <div class="text-[#f5c451] text-4xl font-bold">356 BC</div>
+                            <h3 class="text-3xl font-semibold">Birth in Pella</h3>
+                            <p class="text-white/70 mt-2">Son of Philip II and Olympias. Tamed the wild horse Bucephalus at age 12.</p>
+                        </div>
+                        <div class="w-10 h-10 rounded-2xl bg-[#f5c451] text-[#0a0a2a] flex items-center justify-center font-bold shadow-inner md:order-none order-first">1</div>
+                        <div class="md:w-1/2 md:pl-12">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Alexander_the_Great_bust.jpg/800px-Alexander_the_Great_bust.jpg" 
+                                 alt="Young Alexander" class="rounded-3xl shadow-2xl w-full max-w-xs mx-auto">
+                        </div>
+                    </div>
+                    
+                    <!-- Item 2 -->
+                    <div class="flex flex-col md:flex-row gap-8 items-center" data-aos="fade-up" data-aos-delay="150">
+                        <div class="md:w-1/2 md:pr-12 text-right order-2 md:order-1">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Alexander_the_Great_mosaic.jpg/800px-Alexander_the_Great_mosaic.jpg" 
+                                 alt="Alexander at Issus" class="rounded-3xl shadow-2xl w-full max-w-xs mx-auto">
+                        </div>
+                        <div class="w-10 h-10 rounded-2xl bg-[#f5c451] text-[#0a0a2a] flex items-center justify-center font-bold shadow-inner">2</div>
+                        <div class="md:w-1/2 md:pl-12">
+                            <div class="text-[#f5c451] text-4xl font-bold">336 BC</div>
+                            <h3 class="text-3xl font-semibold">Becomes King</h3>
+                            <p class="text-white/70 mt-2">Philip II assassinated. Alexander ascends throne at age 20 and crushes rebellions.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Item 3 -->
+                    <div class="flex flex-col md:flex-row gap-8 items-center" data-aos="fade-up" data-aos-delay="300">
+                        <div class="md:w-1/2 text-right md:pr-12">
+                            <div class="text-[#f5c451] text-4xl font-bold">334–331 BC</div>
+                            <h3 class="text-3xl font-semibold">Persian Campaign Begins</h3>
+                            <p class="text-white/70 mt-2">Crosses Hellespont, wins at Granicus, Issus, and Gaugamela. Declared Pharaoh of Egypt.</p>
+                        </div>
+                        <div class="w-10 h-10 rounded-2xl bg-[#f5c451] text-[#0a0a2a] flex items-center justify-center font-bold shadow-inner">3</div>
+                        <div class="md:w-1/2 md:pl-12">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Alexander%27s_empire_336-323_BC.png/800px-Alexander%27s_empire_336-323_BC.png" 
+                                 alt="Empire map" class="rounded-3xl shadow-2xl w-full max-w-xs mx-auto">
+                        </div>
+                    </div>
+                    
+                    <!-- Item 4 -->
+                    <div class="flex flex-col md:flex-row gap-8 items-center" data-aos="fade-up" data-aos-delay="450">
+                        <div class="md:w-1/2 md:pr-12 text-right order-2 md:order-1">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Alexander_the_Great_in_Babylon.jpg/800px-Alexander_the_Great_in_Babylon.jpg" 
+                                 alt="Alexander in Babylon" class="rounded-3xl shadow-2xl w-full max-w-xs mx-auto">
+                        </div>
+                        <div class="w-10 h-10 rounded-2xl bg-[#f5c451] text-[#0a0a2a] flex items-center justify-center font-bold shadow-inner">4</div>
+                        <div class="md:w-1/2 md:pl-12">
+                            <div class="text-[#f5c451] text-4xl font-bold">323 BC</div>
+                            <h3 class="text-3xl font-semibold">Death in Babylon</h3>
+                            <p class="text-white/70 mt-2">Dies at 32 in the palace of Nebuchadnezzar II. Empire divided among his generals.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONQUESTS / BATTLES -->
+    <section id="conquests" class="max-w-screen-2xl mx-auto px-8 py-24">
+        <div class="text-center mb-16">
+            <span class="text-[#f5c451] uppercase text-sm tracking-[2px]">UNDEFEATED CAMPAIGNS</span>
+            <h2 class="heading-font text-6xl font-bold mt-3">11 Years • 3 Continents • Never Defeated</h2>
+        </div>
+        
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <!-- Card 1 -->
+            <div class="card-hover bg-[#11112b] rounded-3xl overflow-hidden border border-white/10 group" data-aos="fade-up">
+                <div class="h-2 bg-gradient-to-r from-red-500 to-[#f5c451]"></div>
+                <div class="p-8">
+                    <div class="flex justify-between">
+                        <span class="font-mono text-xs bg-red-500/10 text-red-400 px-4 py-1 rounded-3xl">334 BC</span>
+                        <i class="fa-solid fa-sword text-3xl text-[#f5c451] group-hover:rotate-12"></i>
+                    </div>
+                    <h4 class="text-3xl font-semibold mt-6">Battle of the Granicus</h4>
+                    <p class="mt-3 text-white/70">First victory against the Persian satraps. Alexander leads the charge across the river.</p>
+                    <div class="text-[#f5c451] text-sm mt-8 flex items-center gap-x-2">
+                        <span class="font-bold">Macedonian victory</span> • 20,000 Persian casualties
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Card 2 -->
+            <div class="card-hover bg-[#11112b] rounded-3xl overflow-hidden border border-white/10 group" data-aos="fade-up" data-aos-delay="100">
+                <div class="h-2 bg-gradient-to-r from-amber-500 to-[#f5c451]"></div>
+                <div class="p-8">
+                    <div class="flex justify-between">
+                        <span class="font-mono text-xs bg-amber-500/10 text-amber-400 px-4 py-1 rounded-3xl">333 BC</span>
+                        <i class="fa-solid fa-sword text-3xl text-[#f5c451] group-hover:rotate-12"></i>
+                    </div>
+                    <h4 class="text-3xl font-semibold mt-6">Battle of Issus</h4>
+                    <p class="mt-3 text-white/70">Faced Darius III personally. Captured the Persian royal family.</p>
+                    <div class="text-[#f5c451] text-sm mt-8 flex items-center gap-x-2">
+                        <span class="font-bold">Decisive victory</span> • Darius flees
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Card 3 -->
+            <div class="card-hover bg-[#11112b] rounded-3xl overflow-hidden border border-white/10 group" data-aos="fade-up" data-aos-delay="200">
+                <div class="h-2 bg-gradient-to-r from-yellow-500 to-[#f5c451]"></div>
+                <div class="p-8">
+                    <div class="flex justify-between">
+                        <span class="font-mono text-xs bg-yellow-500/10 text-yellow-400 px-4 py-1 rounded-3xl">331 BC</span>
+                        <i class="fa-solid fa-sword text-3xl text-[#f5c451] group-hover:rotate-12"></i>
+                    </div>
+                    <h4 class="text-3xl font-semibold mt-6">Battle of Gaugamela</h4>
+                    <p class="mt-3 text-white/70">The decisive battle that destroyed the Persian Empire. Largest cavalry charge in history.</p>
+                    <div class="text-[#f5c451] text-sm mt-8 flex items-center gap-x-2">
+                        <span class="font-bold">Legendary win</span> • Empire falls
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Card 4 -->
+            <div class="card-hover bg-[#11112b] rounded-3xl overflow-hidden border border-white/10 group" data-aos="fade-up" data-aos-delay="300">
+                <div class="h-2 bg-gradient-to-r from-emerald-500 to-[#f5c451]"></div>
+                <div class="p-8">
+                    <div class="flex justify-between">
+                        <span class="font-mono text-xs bg-emerald-500/10 text-emerald-400 px-4 py-1 rounded-3xl">326 BC</span>
+                        <i class="fa-solid fa-sword text-3xl text-[#f5c451] group-hover:rotate-12"></i>
+                    </div>
+                    <h4 class="text-3xl font-semibold mt-6">Battle of the Hydaspes</h4>
+                    <p class="mt-3 text-white/70">Fought King Porus in India. Final major battle. Bucephalus dies here.</p>
+                    <div class="text-[#f5c451] text-sm mt-8 flex items-center gap-x-2">
+                        <span class="font-bold">Last victory</span> • Troops mutiny
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section id="gallery" class="py-24 bg-[#0a0a2a]">
+        <div class="max-w-screen-2xl mx-auto px-8">
+            <div class="flex justify-between items-end mb-12">
+                <div>
+                    <span class="uppercase text-[#f5c451] text-sm">VISUAL HISTORY</span>
+                    <h2 class="heading-font text-6xl font-bold">Images of the Legend</h2>
+                </div>
+                <button onclick="openAllGallery()" 
+                        class="text-[#f5c451] hover:text-white flex items-center gap-x-2 text-sm font-medium">
+                    VIEW FULL COLLECTION <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4" id="galleryGrid">
+                <!-- Populated by JS below -->
+            </div>
+        </div>
+    </section>
+
+    <!-- LEGACY -->
+    <section id="legacy" class="max-w-screen-2xl mx-auto px-8 py-24 bg-gradient-to-b from-[#11112b] to-[#0a0a2a]">
+        <div class="grid md:grid-cols-12 gap-16">
+            <div class="md:col-span-5" data-aos="fade-right">
+                <h2 class="heading-font text-6xl font-bold">His Enduring Legacy</h2>
+                <p class="mt-8 text-xl text-white/80">
+                    Alexander’s conquests spread Greek culture across three continents, creating the Hellenistic Age. 
+                    Cities named Alexandria still stand today. His military tactics are studied in academies worldwide. 
+                    He remains the ultimate symbol of ambition and leadership.
+                </p>
+                
+                <div class="mt-12 grid grid-cols-2 gap-y-8">
+                    <div class="flex gap-x-4">
+                        <i class="fa-solid fa-city text-4xl text-[#f5c451]"></i>
+                        <div>
+                            <div class="font-semibold">20+ cities founded</div>
+                            <p class="text-sm text-white/70">Including Alexandria in Egypt</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-x-4">
+                        <i class="fa-solid fa-book text-4xl text-[#f5c451]"></i>
+                        <div>
+                            <div class="font-semibold">Hellenistic civilization</div>
+                            <p class="text-sm text-white/70">Greek language &amp; culture spread to India</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-x-4">
+                        <i class="fa-solid fa-scale-balanced text-4xl text-[#f5c451]"></i>
+                        <div>
+                            <div class="font-semibold">Military genius</div>
+                            <p class="text-sm text-white/70">Still taught at West Point &amp; Sandhurst</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-x-4">
+                        <i class="fa-solid fa-globe text-4xl text-[#f5c451]"></i>
+                        <div>
+                            <div class="font-semibold">Cultural fusion</div>
+                            <p class="text-sm text-white/70">East meets West forever changed</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Map -->
+            <div class="md:col-span-7" data-aos="fade-left">
+                <div class="rounded-3xl overflow-hidden border-4 border-[#f5c451]/20 shadow-2xl">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Alexander%27s_empire_336-323_BC.png/1280px-Alexander%27s_empire_336-323_BC.png" 
+                         alt="Map of Alexander the Great's Empire" class="w-full">
+                    <div class="bg-[#0a0a2a] p-6 text-center text-[#f5c451] font-medium flex items-center justify-center gap-x-6">
+                        <div class="flex-1">From Greece to the Indus River</div>
+                        <div class="h-3 w-3 bg-[#f5c451] rounded-full animate-pulse"></div>
+                        <div class="flex-1">The largest empire the world had ever seen</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- QUOTES SECTION -->
+    <section class="py-20 bg-[#11112b]">
+        <div class="max-w-screen-2xl mx-auto px-8">
+            <div class="text-center mb-12">
+                <h2 class="heading-font text-5xl">Words That Echo Through Time</h2>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-[#0a0a2a] p-8 rounded-3xl border border-white/10">
+                    <p class="italic text-xl">"There is nothing impossible to him who will try."</p>
+                    <div class="mt-6 text-[#f5c451] text-sm">— Alexander the Great</div>
+                </div>
+                <div class="bg-[#0a0a2a] p-8 rounded-3xl border border-white/10">
+                    <p class="italic text-xl">"I would rather live a short life of glory than a long one of obscurity."</p>
+                    <div class="mt-6 text-[#f5c451] text-sm">— Alexander the Great</div>
+                </div>
+                <div class="bg-[#0a0a2a] p-8 rounded-3xl border border-white/10">
+                    <p class="italic text-xl">"Fortune favors the bold."</p>
+                    <div class="mt-6 text-[#f5c451] text-sm">— Alexander the Great</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-black py-12 border-t border-[#f5c451]/10">
+        <div class="max-w-screen-2xl mx-auto px-8 text-white/60 text-sm">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div>© 2026 • Alexander the Great Digital Archive • Built as a tribute to one of history’s greatest leaders</div>
+                <div class="flex gap-x-8 mt-6 md:mt-0">
+                    <a href="https://en.wikipedia.org/wiki/Alexander_the_Great" target="_blank" class="hover:text-[#f5c451]">Wikipedia</a>
+                    <a href="#" class="hover:text-[#f5c451]">Historical Sources</a>
+                    <a href="#" class="hover:text-[#f5c451]">Military Tactics</a>
+                    <a href="#" class="hover:text-[#f5c451]">Contact the Curator</a>
+                </div>
+                <div class="mt-6 md:mt-0 text-xs font-mono">Made with passion for history • Fully animated &amp; responsive</div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- GALLERY MODAL -->
+    <div onclick="if(event.target===this)closeModal()" id="modal" class="hidden fixed inset-0 bg-black/90 z-[9999] flex items-center justify-center">
+        <div class="modal bg-[#11112b] max-w-4xl w-full mx-4 rounded-3xl overflow-hidden">
+            <div class="flex justify-end p-4">
+                <button onclick="closeModal()" class="text-3xl text-white/60 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div id="modalContent" class="px-8 pb-8">
+                <!-- Dynamic content injected by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Tailwind script initialization
+        function initializeTailwind() {
+            tailwind.config = {
+                content: [],
+                theme: {
+                    extend: {}
+                }
+            }
+        }
+        
+        // AOS initialization
+        function initializeAOS() {
+            AOS.init({
+                once: true,
+                duration: 800,
+                easing: 'ease-out-cubic'
+            })
+        }
+        
+        // Gallery images (public domain Wikimedia + high-quality historical)
+        const galleryImages = [
+            {
+                url: "https://upload.wikimedia.org/wikipedia/commons/4/4e/Alexander_the_Great_bust.jpg",
+                title: "Marble Bust • 2nd century BC",
+                desc: "Famous Hellenistic portrait from the Louvre, Paris. Captures Alexander’s intense gaze."
+            },
+            {
+                url: "https://upload.wikimedia.org/wikipedia/commons/e/e1/Alexander_the_Great_mosaic.jpg",
+                title: "Alexander Mosaic • Pompeii, 1st century BC",
+                desc: "Iconic mosaic showing Alexander facing Darius III at the Battle of Issus."
+            },
+            {
+                url: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Alexander%27s_empire_336-323_BC.png/1280px-Alexander%27s_empire_336-323_BC.png",
+                title: "Empire Map • 336–323 BC",
+                desc: "The vast territory Alexander conquered in just over a decade."
+            },
+            {
+                url: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Alexander_the_Great_in_Babylon.jpg/1280px-Alexander_the_Great_in_Babylon.jpg",
+                title: "Alexander in Babylon",
+                desc: "19th-century painting depicting the king’s triumphant entry into the ancient city."
+            },
+            {
+                url: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Alexander_and_Bucephalus.jpg/1280px-Alexander_and_Bucephalus.jpg",
+                title: "Alexander &amp; Bucephalus",
+                desc: "The famous taming of his beloved war horse at age 12."
+            },
+            {
+                url: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Alexander_the_Great_and_Hephaestion.jpg/1280px-Alexander_the_Great_and_Hephaestion.jpg",
+                title: "Alexander &amp; Hephaestion",
+                desc: "His closest companion and general, often called his second self."
+            }
+        ]
+        
+        // Render gallery
+        function renderGallery() {
+            const grid = document.getElementById('galleryGrid')
+            grid.innerHTML = ''
+            
+            galleryImages.forEach((img, index) => {
+                const item = document.createElement('div')
+                item.className = `relative overflow-hidden rounded-3xl cursor-pointer group`
+                item.innerHTML = `
+                    <img src="${img.url}" alt="${img.title}" 
+                         class="gallery-img w-full aspect-square object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 flex items-end p-6">
+                        <div>
+                            <div class="text-[#f5c451] text-xs uppercase tracking-widest">${img.title.split('•')[0]}</div>
+                            <div class="text-white font-medium text-lg leading-tight">${img.title}</div>
+                        </div>
+                    </div>
+                `
+                item.onclick = () => showModal(img)
+                grid.appendChild(item)
+            })
+        }
+        
+        // Modal
+        let currentModalIndex = 0
+        
+        function showModal(img) {
+            const modal = document.getElementById('modal')
+            const content = document.getElementById('modalContent')
+            
+            content.innerHTML = `
+                <img src="${img.url}" alt="${img.title}" class="w-full rounded-3xl mb-8 shadow-2xl">
+                <h3 class="text-4xl heading-font mb-2">${img.title}</h3>
+                <p class="text-white/80 text-xl">${img.desc}</p>
+                <div class="flex gap-x-4 mt-10">
+                    <button onclick="prevImage()" class="flex-1 py-6 border border-white/30 rounded-3xl hover:bg-white/10 flex items-center justify-center gap-x-3">
+                        <i class="fa-solid fa-chevron-left"></i> PREVIOUS
+                    </button>
+                    <button onclick="nextImage()" class="flex-1 py-6 border border-white/30 rounded-3xl hover:bg-white/10 flex items-center justify-center gap-x-3">
+                        NEXT <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+                </div>
+            `
+            modal.classList.remove('hidden')
+            modal.classList.add('flex')
+            currentModalIndex = galleryImages.findIndex(i => i.url === img.url)
+        }
+        
+        function closeModal() {
+            const modal = document.getElementById('modal')
+            modal.classList.add('hidden')
+            modal.classList.remove('flex')
+        }
+        
+        function nextImage() {
+            currentModalIndex = (currentModalIndex + 1) % galleryImages.length
+            showModal(galleryImages[currentModalIndex])
+        }
+        
+        function prevImage() {
+            currentModalIndex = (currentModalIndex - 1 + galleryImages.length) % galleryImages.length
+            showModal(galleryImages[currentModalIndex])
+        }
+        
+        function openAllGallery() {
+            // Scroll to top of gallery and highlight
+            document.getElementById('gallery').scrollIntoView({ behavior: 'smooth' })
+        }
+        
+        // Mobile menu
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu')
+            menu.classList.toggle('hidden')
+        }
+        
+        // Smooth scrolling for anchor links (already handled)
+        function addSmoothScroll() {
+            console.log('%c✅ Alexander the Great Professional Website loaded with full animations!', 'color:#f5c451; font-family:monospace; font-size:13px')
+        }
+        
+        // Initialize everything
+        window.onload = function() {
+            initializeTailwind()
+            initializeAOS()
+            renderGallery()
+            addSmoothScroll()
+            
+            console.log('%c🚀 Full professional animated website for Alexander the Great is ready!', 'background:#f5c451;color:#0a0a2a;font-weight:bold;padding:2px 6px;border-radius:4px')
+            console.log('Copy this entire HTML file and save as index.html — works offline with no dependencies except CDNs.')
+        }
+    </script>
+</body>
+</html>

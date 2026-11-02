@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VELOCITY • Premium Mobility</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap');
+        
+        :root {
+            --primary: 234 179 8;
+        }
+        
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+        
+        .heading-font {
+            font-family: 'Playfair Display', sans-serif;
+        }
+
+        .hero-bg {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-link {
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1.5px;
+            bottom: -6px;
+            left: 0;
+            background: rgb(var(--primary));
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .nav-link:hover:after {
+            width: 100%;
+        }
+
+        .service-card {
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        
+        .service-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 30px 60px -15px rgba(234, 179, 8, 0.2);
+        }
+
+        .vehicle-card {
+            transition: all 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        
+        .vehicle-card:hover {
+            transform: translateY(-20px) scale(1.03);
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1s cubic-bezier(0.25, 0.1, 0.25, 1);
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .hero-car {
+            animation: floatCar 25s linear infinite;
+        }
+
+        @keyframes floatCar {
+            0% { transform: translateX(-300px) rotate(-8deg); }
+            100% { transform: translateX(1800px) rotate(4deg); }
+        }
+
+        .section-title {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            width: 60%;
+            height: 3px;
+            background: linear-gradient(to right, rgb(var(--primary)), transparent);
+            bottom: -8px;
+            left: 0;
+        }
+    </style>
+</head>
+<body class="bg-zinc-950 text-white overflow-x-hidden">
+
+    <!-- NAVBAR -->
+    <nav class="fixed top-0 left-0 right-0 z-50 glass border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-8 py-6 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 bg-yellow-400 text-black rounded-2xl flex items-center justify-center text-2xl font-bold">V</div>
+                <div class="text-3xl font-semibold tracking-tighter heading-font">VELOCITY</div>
+            </div>
+            
+            <div class="hidden md:flex items-center gap-10 text-sm font-medium">
+                <a href="#services" class="nav-link">Services</a>
+                <a href="#fleet" class="nav-link">Fleet</a>
+                <a href="#journey" class="nav-link">The Journey</a>
+                <a href="#track" class="nav-link">Live Tracking</a>
+            </div>
+            
+            <div class="flex items-center gap-4">
+                <button onclick="toggleLogin()" class="px-7 py-3 text-sm font-medium hover:bg-white/10 rounded-2xl transition-all">Sign in</button>
+                <button onclick="bookRide()" class="px-8 py-3 bg-yellow-400 hover:bg-amber-300 text-black font-semibold rounded-2xl transition-all active:scale-95">Book Ride</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <header class="hero-bg min-h-screen flex items-center relative overflow-hidden">
+        <div class="absolute inset-0 bg-[radial-gradient(at_center,#ffffff08_0%,transparent_70%)]"></div>
+        
+        <!-- Elegant Moving Car -->
+        <div class="absolute bottom-32 left-0 text-[180px] opacity-10 hero-car">🏎️</div>
+        
+        <div class="max-w-7xl mx-auto px-8 pt-32 relative z-10">
+            <div class="max-w-2xl">
+                <div class="inline-flex items-center gap-2 px-5 py-2.5 bg-white/5 rounded-3xl text-sm mb-8 border border-white/10">
+                    <span class="text-emerald-400">●</span> Now in Peshawar &amp; 18 cities
+                </div>
+                
+                <h1 class="text-7xl md:text-8xl leading-none font-semibold heading-font tracking-tighter mb-6">
+                    Luxury in motion.<br>
+                    <span class="text-amber-300">Precision in every mile.</span>
+                </h1>
+                
+                <p class="text-xl text-zinc-400 mb-10">
+                    Premium rides, express delivery, and enterprise logistics — executed with excellence.
+                </p>
+
+                <!-- Booking Form -->
+                <div class="glass rounded-3xl p-2">
+                    <div class="flex flex-col lg:flex-row gap-2">
+                        <div class="flex-1 px-6 py-5">
+                            <label class="block text-xs tracking-widest text-zinc-400 mb-1">FROM</label>
+                            <input id="pickup" type="text" value="Peshawar University" 
+                                   class="w-full bg-transparent text-lg focus:outline-none">
+                        </div>
+                        <div class="flex-1 px-6 py-5 border-l border-white/10">
+                            <label class="block text-xs tracking-widest text-zinc-400 mb-1">TO</label>
+                            <input id="dropoff" type="text" value="Hayatabad" 
+                                   class="w-full bg-transparent text-lg focus:outline-none">
+                        </div>
+                        <button onclick="simulateBooking()" 
+                                class="lg:w-48 bg-yellow-400 hover:bg-amber-300 text-black font-semibold text-lg py-7 rounded-3xl transition-all">
+                            Go
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="absolute bottom-12 left-1/2 flex flex-col items-center gap-2 text-xs tracking-widest">
+            <span>SCROLL TO EXPLORE</span>
+            <div class="w-px h-12 bg-gradient-to-b from-transparent via-white/30 to-transparent"></div>
+        </div>
+    </header>
+
+    <!-- SERVICES -->
+    <section id="services" class="py-32 bg-black">
+        <div class="max-w-7xl mx-auto px-8">
+            <div class="text-center mb-20">
+                <span class="text-amber-300 text-sm tracking-widest font-medium">EXCELLENCE IN MOTION</span>
+                <h2 class="text-6xl heading-font font-semibold tracking-tighter mt-3">Choose your experience</h2>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="service-card glass rounded-3xl p-12 group cursor-pointer">
+                    <div class="text-6xl mb-10 text-amber-300">🚘</div>
+                    <h3 class="text-4xl font-semibold heading-font mb-4">Signature Rides</h3>
+                    <p class="text-zinc-400 text-lg">Mercedes, BMW &amp; luxury sedans with professional chauffeurs.</p>
+                    <div class="mt-12 text-amber-300 flex items-center gap-3 group-hover:gap-5 transition-all">
+                        Book Now <span class="text-2xl">→</span>
+                    </div>
+                </div>
+                
+                <div class="service-card glass rounded-3xl p-12 group cursor-pointer">
+                    <div class="text-6xl mb-10 text-amber-300">📦</div>
+                    <h3 class="text-4xl font-semibold heading-font mb-4">Velocity Express</h3>
+                    <p class="text-zinc-400 text-lg">Same-hour delivery with real-time tracking and insurance.</p>
+                    <div class="mt-12 text-amber-300 flex items-center gap-3 group-hover:gap-5 transition-all">
+                        Send Package <span class="text-2xl">→</span>
+                    </div>
+                </div>
+                
+                <div class="service-card glass rounded-3xl p-12 group cursor-pointer">
+                    <div class="text-6xl mb-10 text-amber-300">🚛</div>
+                    <h3 class="text-4xl font-semibold heading-font mb-4">Enterprise Logistics</h3>
+                    <p class="text-zinc-400 text-lg">Heavy freight, fleet management &amp; supply chain solutions.</p>
+                    <div class="mt-12 text-amber-300 flex items-center gap-3 group-hover:gap-5 transition-all">
+                        Get Quote <span class="text-2xl">→</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FLEET -->
+    <section id="fleet" class="py-32 bg-zinc-950">
+        <div class="max-w-7xl mx-auto px-8">
+            <h2 class="text-5xl heading-font font-semibold text-center mb-16">Our Fleet</h2>
+            
+            <div class="grid md:grid-cols-4 gap-8">
+                <div class="vehicle-card glass rounded-3xl overflow-hidden">
+                    <div class="h-64 bg-gradient-to-br from-zinc-800 to-black flex items-center justify-center text-8xl">S</div>
+                    <div class="p-8">
+                        <h4 class="font-semibold text-xl">Mercedes S-Class</h4>
+                        <p class="text-amber-300">PKR 450/km • Professional Chauffeur</p>
+                    </div>
+                </div>
+                
+                <div class="vehicle-card glass rounded-3xl overflow-hidden">
+                    <div class="h-64 bg-gradient-to-br from-zinc-800 to-black flex items-center justify-center text-8xl">🏍️</div>
+                    <div class="p-8">
+                        <h4 class="font-semibold text-xl">Premium Bike</h4>
+                        <p class="text-amber-300">PKR 65/km • Fastest option</p>
+                    </div>
+                </div>
+                
+                <div class="vehicle-card glass rounded-3xl overflow-hidden">
+                    <div class="h-64 bg-gradient-to-br from-zinc-800 to-black flex items-center justify-center text-8xl">🚐</div>
+                    <div class="p-8">
+                        <h4 class="font-semibold text-xl">Executive Van</h4>
+                        <p class="text-amber-300">PKR 280/km • Group travel</p>
+                    </div>
+                </div>
+                
+                <div class="vehicle-card glass rounded-3xl overflow-hidden">
+                    <div class="h-64 bg-gradient-to-br from-zinc-800 to-black flex items-center justify-center text-8xl">🚛</div>
+                    <div class="p-8">
+                        <h4 class="font-semibold text-xl">Heavy Hauler</h4>
+                        <p class="text-amber-300">Custom pricing • Nationwide</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Intersection Observer for smooth fade-ins
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.15 });
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+        function simulateBooking() {
+            const pickup = document.getElementById('pickup').value;
+            const notif = document.createElement('div');
+            notif.style.cssText = `
+                position: fixed; top: 40px; left: 50%; transform: translateX(-50%);
+                background: #111; color: white; padding: 18px 36px; border-radius: 9999px;
+                font-weight: 600; box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.5);
+                z-index: 99999; border: 1px solid #eab30840;
+            `;
+            notif.innerHTML = `Finding premium driver from <span class="text-amber-300">${pickup}</span>...`;
+            document.body.appendChild(notif);
+
+            setTimeout(() => {
+                notif.innerHTML = `✅ Driver confirmed • 1 min 38 sec away`;
+            }, 1800);
+
+            setTimeout(() => notif.remove(), 5200);
+        }
+
+        function bookRide() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            setTimeout(simulateBooking, 900);
+        }
+
+        function toggleLogin() {
+            alert("Welcome to Velocity.\n\nPremium experience awaits.");
+        }
+
+        // Keyboard support
+        document.addEventListener('keydown', e => {
+            if (e.key === '/' && document.getElementById('pickup')) {
+                document.getElementById('pickup').focus();
+                e.preventDefault();
+            }
+        });
+
+        console.log('%cVELOCITY — Premium Transport Experience Loaded', 'color:#eab308; font-family:monospace; font-size:13px;');
+    </script>
+</body>
+</html>
